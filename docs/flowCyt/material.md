@@ -4,23 +4,19 @@
 
 <!---
 [Download slides - morning](assets/pdf/Intro_to_R_day1_morning.pdf){: .md-button }
-
-[Download slides - afternoon](assets/pdf/Intro_to_R_day1_afternoon.pdf){: .md-button }
 --->
+
+[Download slides](assets/pdf/flowCyto_day1.pdf){: .md-button }
 
 ### Day 2
-<!---
 
-[Download slides - morning](assets/pdf/Intro_to_R_day2_morning_joao.pdf){: .md-button }
-
-[Download slides - afternoon](assets/pdf/Intro_to_R_day2_afternoon.pdf){: .md-button }
-
---->
+[Download slides](assets/pdf/flowCyto_day2.pdf){: .md-button }
 
 ## Data for exercises
-<!---
-[Download data](assets/exercises/data.zi){: .md-button }
---->
+
+Please note that the data size is very big: 2.3GB. It may take a while to download.
+
+Find the link [here](https://flowcourse.s3.eu-central-1.amazonaws.com/course_datasets.zip). 
 
 <!-- This is commented text -->
 <!-- [Download part 2](../assets/pdfs/EA_122021_TW.pdf){: .md-button } -->

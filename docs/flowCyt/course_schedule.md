@@ -1,8 +1,10 @@
 
+We will start every day at 9 am and end at 5pm.
+
 | start 	| end   	| topic   	|
 |-------	|-------	|---------	|
 | 10:30 	| 10:50 	| Coffee break! 	|
-| 12:00 	| 13:00 	| Lunch break!  	|
+| 12:30 	| 13:30 	| Lunch break!  	|
 | 15:30 	| 15:50 	| Coffee break! 	|
 
 

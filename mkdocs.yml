@@ -24,6 +24,8 @@ nav:
         - Exercises: flowCyt/day4/exercises_d4.md
       - Day 5:
         - Exercises: flowCyt/day5/exercises_d5.md
+      - Useful links: flowCyt/links.md  
+
    
 theme:
   name: material
