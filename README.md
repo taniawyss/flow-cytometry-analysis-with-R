@@ -31,3 +31,7 @@ mkdocs gh-deploy
 This will generate a webpage at:
 
 https://yourname.github.io/reponame
+
+Therefore, this website is found at
+https://taniawyss.github.io/flow-cytometry-analysis-with-R/ 
+

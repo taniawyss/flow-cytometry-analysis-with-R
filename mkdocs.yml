@@ -1,18 +1,38 @@
-site_name: My site
+site_name: Analysis of flow cytometry data with R
 nav:
     - Home: index.md
-    - Precourse preparations: precourse.md
-    - Course schedule: course_schedule.md
-    - Exercises: exercises.md
-
+    - Intro to R :
+      - Course schedule: introR/course_schedule.md
+      - Precourse preparations: introR/precourse.md
+      - Material: introR/material.md  
+      - Day 1:
+        -  Exercises: introR/day1/exercises_d1.md
+      - Day 2:
+        - Exercises: introR/day2/exercises_d2.md  
+      - Useful links: introR/links.md  
+    - Flow cytometry analysis:
+      - Course schedule: flowCyt/course_schedule.md
+      - Precourse preparations: flowCyt/precourse.md
+      - Material: flowCyt/material.md  
+      - Day 1:
+        - Exercises: flowCyt/day1/exercises_d1.md
+      - Day 2:
+        - Exercises: flowCyt/day2/exercises_d2.md 
+      - Day 3:
+        - Exercises: flowCyt/day3/exercises_d3.md
+      - Day 4:
+        - Exercises: flowCyt/day4/exercises_d4.md
+      - Day 5:
+        - Exercises: flowCyt/day5/exercises_d5.md
+   
 theme:
   name: material
-  logo: assets/images/SIB_logo.svg
-  favicon: assets/images/SIB_logo.svg
+  logo: assets/images/TDS_logo.svg
+  favicon: assets/images/TDS_logo.svg
 
 # Repository
-repo_name: sib-swiss/course_website_template
-repo_url: https://github.com/sib-swiss/course_website_template
+repo_name: taniawyss/flow-cytometry-analysis-with-R
+repo_url: https://github.com/taniawyss/flow-cytometry-analysis-with-R
 
 markdown_extensions:
   - abbr
