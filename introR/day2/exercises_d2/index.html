@@ -1,0 +1,1514 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../../day1/exercises_d1/">
+      
+      
+        <link rel="next" href="../../links/">
+      
+      
+      <link rel="icon" href="../../../assets/images/TDS_logo.svg">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.9">
+    
+    
+      
+        <title>Exercises - Analysis of flow cytometry data with R</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.78cf6014.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lets-practice-7" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Analysis of flow cytometry data with R" class="md-header__button md-logo" aria-label="Analysis of flow cytometry data with R" data-md-component="logo">
+      
+  <img src="../../../assets/images/TDS_logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Analysis of flow cytometry data with R
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Exercises
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/taniawyss/flow-cytometry-analysis-with-R" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    taniawyss/flow-cytometry-analysis-with-R
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Analysis of flow cytometry data with R" class="md-nav__button md-logo" aria-label="Analysis of flow cytometry data with R" data-md-component="logo">
+      
+  <img src="../../../assets/images/TDS_logo.svg" alt="logo">
+
+    </a>
+    Analysis of flow cytometry data with R
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/taniawyss/flow-cytometry-analysis-with-R" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    taniawyss/flow-cytometry-analysis-with-R
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Intro to R
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Intro to R
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../course_schedule/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Course schedule
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../precourse/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Precourse preparations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../material/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Material
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Day 1
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            Day 1
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../day1/exercises_d1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exercises
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Day 2
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            Day 2
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Exercises
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Exercises
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#lets-practice-7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Let's practice 7
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lets-practice-8" class="md-nav__link">
+    <span class="md-ellipsis">
+      Let's practice 8
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lets-practice-9" class="md-nav__link">
+    <span class="md-ellipsis">
+      Let's practice 9
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lets-practice-r-markdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      Let's practice - R markdown
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lets-practice-r-markdown-bis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Let's practice - R markdown bis
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lets-practice-introduction-to-statistics-with-r" class="md-nav__link">
+    <span class="md-ellipsis">
+      Let's practice - Introduction to statistics with R.
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../links/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Useful links
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Flow cytometry analysis
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Flow cytometry analysis
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../flowCyt/course_schedule/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Course schedule
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../flowCyt/precourse/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Precourse preparations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../flowCyt/material/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Material
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Day 1
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            Day 1
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../flowCyt/day1/exercises_d1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exercises
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Day 2
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            Day 2
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../flowCyt/day2/exercises_d2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exercises
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Day 3
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            Day 3
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../flowCyt/day3/exercises_d3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exercises
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_7" id="__nav_3_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Day 4
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_7">
+            <span class="md-nav__icon md-icon"></span>
+            Day 4
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../flowCyt/day4/exercises_d4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exercises
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_8" id="__nav_3_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Day 5
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8">
+            <span class="md-nav__icon md-icon"></span>
+            Day 5
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../flowCyt/day5/exercises_d5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exercises
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#lets-practice-7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Let's practice 7
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lets-practice-8" class="md-nav__link">
+    <span class="md-ellipsis">
+      Let's practice 8
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lets-practice-9" class="md-nav__link">
+    <span class="md-ellipsis">
+      Let's practice 9
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lets-practice-r-markdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      Let's practice - R markdown
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lets-practice-r-markdown-bis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Let's practice - R markdown bis
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lets-practice-introduction-to-statistics-with-r" class="md-nav__link">
+    <span class="md-ellipsis">
+      Let's practice - Introduction to statistics with R.
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+  <h1>Exercises</h1>
+
+<p>In this section, you will find the R code that we will use during the course. We will explain the code and output during correction of the exercises.</p>
+<p>R offers many options for creating graphics and figures. Two common ways to create graphics within R use &ldquo;base&rdquo; functions such as plot(), or functions of the package <a href="https://ggplot2.tidyverse.org/">ggplot2</a>. </p>
+<p>So many possible chart types exist, and some are better than others at representing different data types. The online tool <a href="https://www.data-to-viz.com/#explore">&ldquo;From Data to Viz&rdquo;</a> provides a nice decision tree to suggest a set of potentially appropriate graphics to visualize the dataset according to the input data format and type. Feel free to explore the decision tree! Most of the graphics suggested by &ldquo;Data to Viz&rdquo; are generated with ggplot2 functions and other packages providing extensions for ggplot2 functions. </p>
+<!-- This is commented text -->
+
+<p>In these exercises, we will create graphics using the &ldquo;base&rdquo; R functions, i.e. functions of the graphics package that is installed at the same time as R is installed.</p>
+<h2 id="lets-practice-7">Let&rsquo;s practice 7</h2>
+<p>Import the clinical data from the file clinical_data_mod.csv. This files contains the same data as clinical_data.csv and in addition, one more column.</p>
+<p>1) Run str() to check your data frame: did it load correctly?</p>
+<p>2) Convert gender and response_to_treatment to factor variables.</p>
+<p>3) Plot a histogram of patient weight and customize it with colours, labels, title.</p>
+<p>4) Make a scatter plot of height against patient weights using the function plot(). </p>
+<p>Function arguments:</p>
+<ul>
+<li>
+<p>use solid circles as plotting symbol</p>
+</li>
+<li>
+<p>add a title</p>
+</li>
+<li>
+<p>customize the axis labels (“Weight [kg]”, “Height [m]”)</p>
+</li>
+<li>
+<p>color the points by gender.</p>
+</li>
+</ul>
+<p>Add a legend for the gender. Fit a trend line using the function abline().</p>
+<p>5) Create a new column called “BMI” and compute the BMI of patients from their weight and height </p>
+<p>6) Make boxplots of BMI from patients with different responses to treatment. Customize with title, labels, colors. Add points to the boxplots to show the individual values.</p>
+<p>7) Optional: Repeat 6 with stage, instead of response to treatment. Hint: what kind of variable is stage?</p>
+<details class="done">
+<summary>Answer</summary>
+<div class="highlight"><pre><span></span><code><span class="n">clinical_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read.table</span><span class="p">(</span><span class="s">&quot;course_datasets/clinical_data_mod.csv&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s">&quot;,&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1"># define classes for columns</span>
+
+<span class="nf">str</span><span class="p">(</span><span class="n">clinical_data</span><span class="p">)</span>
+
+
+<span class="c1"># 2) Convert gender and response_to_treatment to factor variables</span>
+<span class="c1"># define the order of factor levels</span>
+<span class="n">clinical_data</span><span class="o">$</span><span class="n">gender</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">factor</span><span class="p">(</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">gender</span><span class="p">)</span>
+<span class="n">clinical_data</span><span class="o">$</span><span class="n">response_to_treatment</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">factor</span><span class="p">(</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">response_to_treatment</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;PD&quot;</span><span class="p">,</span><span class="s">&quot;SD&quot;</span><span class="p">,</span><span class="s">&quot;PR&quot;</span><span class="p">,</span><span class="s">&quot;CR&quot;</span><span class="p">))</span>
+
+<span class="c1"># 3) Plot an histogram of patient weight and customize it with colours, labels, title and represent the density line on top.</span>
+<span class="nf">hist</span><span class="p">(</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">weight</span><span class="p">,</span>
+<span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">breaks</span><span class="o">=</span><span class="m">8</span><span class="p">,</span>
+<span class="w"> </span><span class="n">main</span><span class="o">=</span><span class="s">&quot;Patient Weight&quot;</span><span class="p">,</span>
+<span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="s">&quot;orange&quot;</span><span class="w"> </span><span class="p">,</span>
+<span class="w"> </span><span class="n">xlab</span><span class="o">=</span><span class="s">&quot;Weight [kg]&quot;</span><span class="p">)</span>
+<span class="c1"># lines(density(clinical_data$weight), col=&#39;blue&#39;)</span>
+<span class="c1"># Note: freq=FALSE makes the histogram density based, which makes it scale well with the density line</span>
+
+<span class="c1"># 4) Make a scatter plot of height against patient weights using the function plot().</span>
+<span class="c1">#    Function arguments:</span>
+<span class="c1">#     - use solid circles as plotting symbol</span>
+<span class="c1">#     - add a title</span>
+<span class="c1">#     - customise the axis labels  (“Weight [kg]”, “Height [m]”)</span>
+<span class="c1">#     - colour the points by gender. </span>
+<span class="c1"># Add a legend for the gender.</span>
+
+<span class="nf">plot</span><span class="p">(</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">weight</span><span class="p">,</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">height</span><span class="p">,</span><span class="w"> </span>
+<span class="w"> </span><span class="n">pch</span><span class="o">=</span><span class="m">19</span><span class="p">,</span>
+<span class="w"> </span><span class="n">main</span><span class="o">=</span><span class="s">&quot;Weight vs Height in Patients&quot;</span><span class="p">,</span>
+<span class="w"> </span><span class="n">xlab</span><span class="o">=</span><span class="s">&quot;Weight [kg]&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ylab</span><span class="o">=</span><span class="s">&quot;Height [m]&quot;</span><span class="p">,</span>
+<span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;orange&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;blue&quot;</span><span class="p">)[</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">gender</span><span class="p">]</span>
+<span class="w"> </span><span class="p">)</span>
+
+<span class="nf">legend</span><span class="p">(</span><span class="s">&quot;bottomright&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="n">legend</span><span class="o">=</span><span class="nf">levels</span><span class="p">(</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">gender</span><span class="p">),</span>
+<span class="w">   </span><span class="n">col</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;orange&quot;</span><span class="p">,</span><span class="s">&quot;blue&quot;</span><span class="p">),</span>
+<span class="w">   </span><span class="n">pch</span><span class="o">=</span><span class="m">19</span><span class="p">)</span>
+
+<span class="nf">abline</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">height</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">clinical_data</span><span class="o">$</span><span class="n">weight</span><span class="p">),</span>
+<span class="w">   </span><span class="n">col</span><span class="o">=</span><span class="s">&quot;black&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">lwd</span><span class="o">=</span><span class="m">1.5</span><span class="p">)</span>
+
+<span class="c1"># 5) Compute the BMI = Weight / Height^2</span>
+<span class="n">clinical_data</span><span class="o">$</span><span class="n">BMI</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">clinical_data</span><span class="o">$</span><span class="n">weight</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">height</span><span class="o">^</span><span class="m">2</span><span class="p">)</span>
+
+<span class="c1"># 6) Make boxplots of BMIs from patients with different responses to treatment. Customize with title, labels, colors.</span>
+<span class="nf">boxplot</span><span class="p">(</span><span class="n">BMI</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">response_to_treatment</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="w"> </span><span class="n">clinical_data</span><span class="p">,</span>
+<span class="w">    </span><span class="n">col</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;red&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;orange&quot;</span><span class="p">,</span><span class="s">&quot;green&quot;</span><span class="p">,</span><span class="s">&quot;blue&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">main</span><span class="o">=</span><span class="s">&quot;BMI by level of Response to treatment&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">xlab</span><span class="o">=</span><span class="s">&quot;Response to treatment&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ylab</span><span class="o">=</span><span class="s">&quot;BMI&quot;</span>
+<span class="p">)</span>
+<span class="nf">points</span><span class="p">(</span><span class="n">BMI</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">response_to_treatment</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="w"> </span><span class="n">clinical_data</span><span class="p">)</span>
+
+<span class="c1"># 7) Optional: Repeat 6 with BMI and stage, instead of weight and gender.</span>
+<span class="n">clinical_data</span><span class="o">$</span><span class="n">stage</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">factor</span><span class="p">(</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">stage</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;I&quot;</span><span class="p">,</span><span class="s">&quot;II&quot;</span><span class="p">,</span><span class="s">&quot;III&quot;</span><span class="p">,</span><span class="s">&quot;IV&quot;</span><span class="p">))</span>
+<span class="nf">boxplot</span><span class="p">(</span><span class="n">BMI</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">stage</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="w"> </span><span class="n">clinical_data</span><span class="p">,</span>
+<span class="w">    </span><span class="n">col</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;blue&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;green&quot;</span><span class="p">,</span><span class="s">&quot;orange&quot;</span><span class="p">,</span><span class="s">&quot;red&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">main</span><span class="o">=</span><span class="s">&quot;Patient BMI by Stage&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">xlab</span><span class="o">=</span><span class="s">&quot;Stage&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ylab</span><span class="o">=</span><span class="s">&quot;BMI&quot;</span>
+<span class="p">)</span>
+<span class="nf">points</span><span class="p">(</span><span class="n">BMI</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">stage</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="w"> </span><span class="n">clinical_data</span><span class="p">)</span>
+
+<span class="nf">getwd</span><span class="p">()</span><span class="w"> </span><span class="c1"># check where you are. If you didn&#39;t change anything, you will be in the folder with the .Rproj file (rproject root)</span>
+</code></pre></div>
+</details>
+<h2 id="lets-practice-8">Let&rsquo;s practice 8</h2>
+<p>1) Create a multi-panel figure with the four graphics (3, 4, 6 and 7 from the previous exercise) on one page, exporting the figure to a pdf file with paper size A4. Set width and height arguments in the call to pdf() to make it look nice.</p>
+<p>2) Optional: Export the histogram (3 from previous exercise) to a png file. Set the width and height arguments in the call to png() to make it look nice.</p>
+<details class="done">
+<summary>Answer</summary>
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="c1"># 1) Make a multi-panel figure with the four graphics on one page, exporting the figure to a png file.</span>
+<span class="c1"># Set width and height arguments in the call to png() to make it look nice.</span>
+
+<span class="nf">pdf</span><span class="p">(</span><span class="s">&quot;clinical_data_plots.pdf&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="o">=</span><span class="m">7</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="o">=</span><span class="m">7</span><span class="p">,</span><span class="w"> </span><span class="n">paper</span><span class="o">=</span><span class="s">&quot;a4&quot;</span><span class="p">)</span><span class="w"> </span>
+
+<span class="c1"># we want to put 4 plots on the same panel -&gt; 2 rows and 2 columns</span>
+<span class="nf">par</span><span class="p">(</span><span class="n">mfrow</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">))</span>
+
+<span class="c1"># Plot 1</span>
+<span class="nf">hist</span><span class="p">(</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">weight</span><span class="p">,</span>
+<span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">breaks</span><span class="o">=</span><span class="m">8</span><span class="p">,</span>
+<span class="w"> </span><span class="n">main</span><span class="o">=</span><span class="s">&quot;Patient Weight&quot;</span><span class="p">,</span>
+<span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="s">&quot;orange&quot;</span><span class="w"> </span><span class="p">,</span>
+<span class="w"> </span><span class="n">xlab</span><span class="o">=</span><span class="s">&quot;Weight [kg]&quot;</span><span class="p">)</span>
+<span class="nf">lines</span><span class="p">(</span><span class="nf">density</span><span class="p">(</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">weight</span><span class="p">),</span><span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="s">&#39;blue&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plot 2</span>
+<span class="nf">plot</span><span class="p">(</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">weight</span><span class="p">,</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">height</span><span class="p">,</span><span class="w"> </span>
+<span class="w"> </span><span class="n">pch</span><span class="o">=</span><span class="m">19</span><span class="p">,</span>
+<span class="w"> </span><span class="n">main</span><span class="o">=</span><span class="s">&quot;Weight vs Height in Patients&quot;</span><span class="p">,</span>
+<span class="w"> </span><span class="n">xlab</span><span class="o">=</span><span class="s">&quot;Weight [kg]&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ylab</span><span class="o">=</span><span class="s">&quot;Height [m]&quot;</span><span class="p">,</span>
+<span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;orange&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;blue&quot;</span><span class="p">)[</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">gender</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="nf">legend</span><span class="p">(</span><span class="s">&quot;bottomright&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="n">legend</span><span class="o">=</span><span class="nf">levels</span><span class="p">(</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">gender</span><span class="p">),</span>
+<span class="w">   </span><span class="n">col</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;orange&quot;</span><span class="p">,</span><span class="s">&quot;blue&quot;</span><span class="p">),</span>
+<span class="w">   </span><span class="n">pch</span><span class="o">=</span><span class="m">19</span><span class="p">)</span>
+
+<span class="nf">abline</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">height</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">clinical_data</span><span class="o">$</span><span class="n">weight</span><span class="p">),</span>
+<span class="w">   </span><span class="n">col</span><span class="o">=</span><span class="s">&quot;black&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">lwd</span><span class="o">=</span><span class="m">1.5</span><span class="p">)</span>
+
+<span class="c1"># Plot 3</span>
+<span class="nf">boxplot</span><span class="p">(</span><span class="n">BMI</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">response_to_treatment</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="w"> </span><span class="n">clinical_data</span><span class="p">,</span>
+<span class="w">    </span><span class="n">col</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;red&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;orange&quot;</span><span class="p">,</span><span class="s">&quot;green&quot;</span><span class="p">,</span><span class="s">&quot;blue&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">main</span><span class="o">=</span><span class="s">&quot;BMI by level of Response to treatment&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">xlab</span><span class="o">=</span><span class="s">&quot;Response to treatment&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ylab</span><span class="o">=</span><span class="s">&quot;BMI&quot;</span>
+<span class="p">)</span>
+<span class="nf">points</span><span class="p">(</span><span class="n">BMI</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">response_to_treatment</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="w"> </span><span class="n">clinical_data</span><span class="p">)</span>
+
+
+<span class="c1"># Plot 4</span>
+<span class="nf">boxplot</span><span class="p">(</span><span class="n">BMI</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">stage</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="w"> </span><span class="n">clinical_data</span><span class="p">,</span>
+<span class="w">    </span><span class="n">col</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;blue&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;green&quot;</span><span class="p">,</span><span class="s">&quot;orange&quot;</span><span class="p">,</span><span class="s">&quot;red&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">main</span><span class="o">=</span><span class="s">&quot;Patient BMI by Stage&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">xlab</span><span class="o">=</span><span class="s">&quot;Stage&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ylab</span><span class="o">=</span><span class="s">&quot;BMI&quot;</span>
+<span class="p">)</span>
+<span class="nf">points</span><span class="p">(</span><span class="n">BMI</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">stage</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="w"> </span><span class="n">clinical_data</span><span class="p">)</span>
+
+<span class="nf">dev.off</span><span class="p">()</span>
+
+<span class="c1"># 2) Optional: Export the histogram (3 from previous exercise) to a png file. </span>
+<span class="c1"># Set width and height arguments in the call to png() to make it look nice.</span>
+
+<span class="c1"># png: width and height are in pixels by default</span>
+
+<span class="nf">png</span><span class="p">(</span><span class="s">&quot;hist_weight.png&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="o">=</span><span class="m">800</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="o">=</span><span class="m">600</span><span class="p">)</span>
+<span class="nf">hist</span><span class="p">(</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">weight</span><span class="p">,</span>
+<span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">breaks</span><span class="o">=</span><span class="m">8</span><span class="p">,</span>
+<span class="w"> </span><span class="n">main</span><span class="o">=</span><span class="s">&quot;Patient Weight&quot;</span><span class="p">,</span>
+<span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="s">&quot;orange&quot;</span><span class="w"> </span><span class="p">,</span>
+<span class="w"> </span><span class="n">xlab</span><span class="o">=</span><span class="s">&quot;Weight [kg]&quot;</span><span class="p">)</span>
+<span class="nf">lines</span><span class="p">(</span><span class="nf">density</span><span class="p">(</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">weight</span><span class="p">),</span><span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="s">&#39;blue&#39;</span><span class="p">)</span>
+<span class="nf">dev.off</span><span class="p">()</span>
+</code></pre></div>
+</details>
+<p><strong>Bonus</strong> Create plots with <a href="https://ggplot2.tidyverse.org/">ggplot2</a>.</p>
+<p>ggplot2 is a package that allows you to create graphics by adding customization &ldquo;layers&rdquo; one after the other. You first provide the data, tell ggplot2 how to map variables to aesthetics (i.e. the variables you want to have on the x and y coordinates), what plot type to use, and it provides some default colors for the categorical variables, and automatic legend positioning. Everything can then be further customized by the user by adding additional layers using ggplot2 functions.</p>
+<div class="highlight"><pre><span></span><code><span class="nf">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
+
+<span class="c1"># Import data:</span>
+<span class="n">clinical_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read.table</span><span class="p">(</span><span class="s">&quot;course_datasets/clinical_data_mod.csv&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s">&quot;,&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1"># define classes for columns</span>
+<span class="nf">str</span><span class="p">(</span><span class="n">clinical_data</span><span class="p">)</span>
+
+<span class="c1"># Convert gender  to factor variables</span>
+<span class="n">clinical_data</span><span class="o">$</span><span class="n">gender</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">factor</span><span class="p">(</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">gender</span><span class="p">)</span>
+
+<span class="c1"># Compute the BMI = Weight / Height^2</span>
+<span class="n">clinical_data</span><span class="o">$</span><span class="n">BMI</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">clinical_data</span><span class="o">$</span><span class="n">weight</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">height</span><span class="o">^</span><span class="m">2</span><span class="p">)</span>
+
+<span class="c1"># Simple boxplot of BMI vs stage</span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">clinical_data</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">stage</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">BMI</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">geom_boxplot</span><span class="p">()</span>
+
+<span class="c1"># Boxplot of BMI vs stage, coloring according to stage</span>
+<span class="c1"># With legend:</span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">clinical_data</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">stage</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">BMI</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">stage</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">geom_boxplot</span><span class="p">()</span><span class="w"> </span>
+
+<span class="c1"># Boxplot of BMI vs stage, coloring according to stage, flipping orientation</span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">clinical_data</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">stage</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">BMI</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">stage</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">geom_boxplot</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">coord_flip</span><span class="p">()</span><span class="w">  </span>
+
+<span class="c1"># Without legend:</span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">clinical_data</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">stage</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">BMI</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">stage</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">geom_boxplot</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;none&quot;</span><span class="p">)</span>
+
+<span class="c1"># Scatter plot of weight vs height, coloring by gender</span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">clinical_data</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">weight</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">height</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">gender</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_point</span><span class="p">()</span>
+
+<span class="c1"># Compare plot generated earlier with base R to the one with ggplot2:</span>
+<span class="c1"># Reproduce Plot 2 of exercise 8</span>
+<span class="nf">plot</span><span class="p">(</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">weight</span><span class="p">,</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">height</span><span class="p">,</span><span class="w"> </span>
+<span class="w">     </span><span class="n">pch</span><span class="o">=</span><span class="m">19</span><span class="p">,</span>
+<span class="w">     </span><span class="n">main</span><span class="o">=</span><span class="s">&quot;Weight vs Height in Patients&quot;</span><span class="p">,</span>
+<span class="w">     </span><span class="n">xlab</span><span class="o">=</span><span class="s">&quot;Weight [kg]&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ylab</span><span class="o">=</span><span class="s">&quot;Height [m]&quot;</span><span class="p">,</span>
+<span class="w">     </span><span class="n">col</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;orange&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;blue&quot;</span><span class="p">)[</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">gender</span><span class="p">])</span>
+<span class="nf">legend</span><span class="p">(</span><span class="s">&quot;bottomright&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="n">legend</span><span class="o">=</span><span class="nf">levels</span><span class="p">(</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">gender</span><span class="p">),</span>
+<span class="w">       </span><span class="n">col</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;orange&quot;</span><span class="p">,</span><span class="s">&quot;blue&quot;</span><span class="p">),</span>
+<span class="w">       </span><span class="n">pch</span><span class="o">=</span><span class="m">19</span><span class="p">)</span>
+<span class="nf">abline</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">height</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">clinical_data</span><span class="o">$</span><span class="n">weight</span><span class="p">),</span>
+<span class="w">       </span><span class="n">col</span><span class="o">=</span><span class="s">&quot;black&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">lwd</span><span class="o">=</span><span class="m">1.5</span><span class="p">)</span>
+
+<span class="c1"># Same plot with ggplot2</span>
+<span class="c1"># Scatter plot of weight vs height, coloring by gender</span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">clinical_data</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">weight</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">height</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">gender</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">scale_color_manual</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;female&quot;</span><span class="o">=</span><span class="s">&quot;orange&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;male&quot;</span><span class="o">=</span><span class="s">&quot;blue&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">ggtitle</span><span class="p">(</span><span class="s">&quot;Weight vs Height in Patients&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">xlab</span><span class="p">(</span><span class="s">&quot;Weight [kg]&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">ylab</span><span class="p">(</span><span class="s">&quot;Height [m]&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_bw</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_smooth</span><span class="p">(</span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;lm&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="n">formula</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">x</span><span class="p">,</span>
+<span class="w">              </span><span class="n">se</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="c1"># display confidence interval around smoothed curve</span>
+
+<span class="c1"># Create a separate plot for males and females:</span>
+<span class="c1"># Use Facet wrap: separate the plots according to a categorical (factor) variable</span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">clinical_data</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">weight</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">height</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">gender</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">scale_color_manual</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;female&quot;</span><span class="o">=</span><span class="s">&quot;orange&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;male&quot;</span><span class="o">=</span><span class="s">&quot;blue&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">ggtitle</span><span class="p">(</span><span class="s">&quot;Weight vs Height in Patients&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">xlab</span><span class="p">(</span><span class="s">&quot;Weight [kg]&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">ylab</span><span class="p">(</span><span class="s">&quot;Height [m]&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_bw</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_smooth</span><span class="p">(</span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;lm&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="n">formula</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">x</span><span class="p">,</span>
+<span class="w">              </span><span class="n">se</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">gender</span><span class="p">)</span><span class="w">  </span>
+
+
+<span class="c1">### Multi panel figures with ggplot2</span>
+<span class="c1"># save each plot in an object, create 2 plots that are the same except for the color of the dots</span>
+<span class="n">p1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">clinical_data</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">weight</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">height</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">gender</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">scale_color_manual</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;female&quot;</span><span class="o">=</span><span class="s">&quot;orange&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;male&quot;</span><span class="o">=</span><span class="s">&quot;blue&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">ggtitle</span><span class="p">(</span><span class="s">&quot;Weight vs Height in Patients&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">xlab</span><span class="p">(</span><span class="s">&quot;Weight [kg]&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">ylab</span><span class="p">(</span><span class="s">&quot;Height [m]&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_bw</span><span class="p">()</span><span class="w"> </span>
+
+<span class="n">p2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">clinical_data</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">weight</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">height</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">gender</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">scale_color_manual</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;female&quot;</span><span class="o">=</span><span class="s">&quot;turquoise&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;male&quot;</span><span class="o">=</span><span class="s">&quot;plum&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">ggtitle</span><span class="p">(</span><span class="s">&quot;Weight vs Height in Patients&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">xlab</span><span class="p">(</span><span class="s">&quot;Weight [kg]&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">ylab</span><span class="p">(</span><span class="s">&quot;Height [m]&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_bw</span><span class="p">()</span><span class="w"> </span>
+
+<span class="c1"># install the cowplot package to arrange several plots on a single page</span>
+<span class="c1"># install.packages(&quot;cowplot&quot;)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">cowplot</span><span class="p">)</span>
+<span class="nf">plot_grid</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="w"> </span><span class="n">p2</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w">  </span>
+</code></pre></div>
+<h2 id="lets-practice-9">Let&rsquo;s practice 9</h2>
+<p>In this exercise we will use a 36-color spectral flow cytometry dataset from a study performed in the context of Covid-19 research. Only a subset from 4 healthy donors will be used. For each healthy donor, there are three time points, as indicated in the FCS file names (day 0, day 7, day 14). Data was downloaded through the Flow Repository database, <a href="https://flowrepository.org/id/FR-FCM-Z3WR">FR-FCM-Z3WR</a>. FCS files were pre-gated on live CD3+CD19-T cells in FlowJo.</p>
+<p>Create a new script in which you will:</p>
+<p>1) Import the FCS files (located in course_datasets/FR_FCM_Z3WR/). Do not transform or truncate the values.</p>
+<p>2) Create a data frame with the list of channels and corresponding antigens, and plot it. Hint: get the antigens from the parameters of one of the flowFrame in the set</p>
+<p>3) Convert the channel names in the expression matrices to the corresponding antigen names (where applicable)</p>
+<p>4) Add a new column to the phenotypic data with the time point of the sample. Plot the phenotypic data</p>
+<p>5) Create a bivariate density plot showing «FSC-H» againts «HLA-DR» for all samples from day 0. Apply a flowJo inverse hyperbolic sine scale to the y axis («HLA-DR»)</p>
+<details class="done">
+<summary>Answer</summary>
+<div class="highlight"><pre><span></span><code><span class="c1"># load packages</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">flowCore</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">ggcyto</span><span class="p">)</span>
+
+<span class="c1"># 1) Import the FCS files (course_datasets/FR_FCM_Z3WR/). </span>
+<span class="c1"># Do not transform or truncate the values. </span>
+
+<span class="c1"># path to the directory with the fcs files</span>
+<span class="n">fcs.dir</span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">file.path</span><span class="p">(</span><span class="w"> </span><span class="s">&quot;course_datasets/FR_FCM_Z3WR/&quot;</span><span class="p">)</span>
+
+<span class="c1"># read fcs files into a flowSet</span>
+<span class="n">fcs_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read.flowSet</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">fcs.dir</span><span class="p">,</span><span class="w"> </span><span class="n">pattern</span><span class="o">=</span><span class="s">&quot;*.fcs&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">transformation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">truncate_max_range</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span>
+
+<span class="c1">#2) Create a data frame with the list of channels and corresponding antigens, and plot it.</span>
+<span class="c1">#Hint: get the antigens from the parameters of one of the flowFrame in the set</span>
+<span class="n">channels</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">colnames</span><span class="p">(</span><span class="n">fcs_data</span><span class="p">)</span>
+<span class="n">antigen</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">pData</span><span class="p">(</span><span class="nf">parameters</span><span class="p">(</span><span class="n">fcs_data</span><span class="p">[[</span><span class="m">1</span><span class="p">]]))</span><span class="o">$</span><span class="n">desc</span>
+<span class="n">panel</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">channels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">channels</span><span class="p">,</span><span class="w"> </span><span class="n">antigen</span><span class="o">=</span><span class="w"> </span><span class="n">antigen</span><span class="p">)</span>
+
+<span class="c1"># View the panel in the console</span>
+<span class="n">panel</span>
+
+<span class="c1">#3) Convert the channel names in the expression matrices to the </span>
+<span class="c1"># corresponding antigen names (where applicable)</span>
+
+<span class="nf">colnames</span><span class="p">(</span><span class="n">fcs_data</span><span class="p">)[</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">antigen</span><span class="p">)]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">antigen</span><span class="p">[</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">antigen</span><span class="p">)]</span><span class="w"> </span>
+
+<span class="c1"># check</span>
+<span class="nf">head</span><span class="p">(</span><span class="nf">exprs</span><span class="p">(</span><span class="n">fcs_data</span><span class="p">[[</span><span class="m">1</span><span class="p">]])[,</span><span class="nf">c</span><span class="p">(</span><span class="m">5</span><span class="o">:</span><span class="m">10</span><span class="p">)])</span>
+
+<span class="c1">#4) Add a new column to the phenotypic data with the time point of the sample</span>
+<span class="c1"># check sample names</span>
+<span class="nf">sampleNames</span><span class="p">(</span><span class="n">fcs_data</span><span class="p">)</span>
+<span class="c1"># [1] &quot;0E1F8E_0.fcs&quot;  &quot;0E1F8E_14.fcs&quot; &quot;0E1F8E_7.fcs&quot;  &quot;180E1A_0.fcs&quot;  &quot;180E1A_14.fcs&quot; &quot;180E1A_7.fcs&quot; </span>
+<span class="c1"># [7] &quot;1A9B20_0.fcs&quot;  &quot;1A9B20_14.fcs&quot; &quot;1A9B20_7.fcs&quot;  &quot;61BBAD_0.fcs&quot;  &quot;61BBAD_14.fcs&quot; &quot;61BBAD_7.fcs&quot; </span>
+
+<span class="c1"># add column with time point</span>
+<span class="nf">pData</span><span class="p">(</span><span class="n">fcs_data</span><span class="p">)</span><span class="o">$</span><span class="n">time_point</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;D0&quot;</span><span class="p">,</span><span class="s">&quot;D14&quot;</span><span class="p">,</span><span class="s">&quot;D7&quot;</span><span class="p">),</span><span class="m">4</span><span class="p">)</span>
+
+<span class="c1"># View the phenotypic data</span>
+<span class="nf">pData</span><span class="p">(</span><span class="n">fcs_data</span><span class="p">)</span>
+
+<span class="c1"># 5) Create a bivariate density plot showing &quot;FSC-H&quot; against &quot;HLA-DR&quot; for all samples from day 0. </span>
+<span class="c1"># Apply a flowJO inverse hyperbolic sine scale to the y axis (&quot;HLA-DR&quot;)</span>
+
+<span class="c1"># split by time point </span>
+<span class="n">fcs_data.split</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">split</span><span class="p">(</span><span class="n">fcs_data</span><span class="p">,</span><span class="w"> </span><span class="nf">pData</span><span class="p">(</span><span class="n">fcs_data</span><span class="p">)</span><span class="o">$</span><span class="n">time_point</span><span class="p">)</span>
+
+<span class="c1"># create the bivariate density plot</span>
+<span class="nf">autoplot</span><span class="p">(</span><span class="n">fcs_data.split</span><span class="o">$</span><span class="n">D0</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="s">&quot;FSC-H&quot;</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s">&quot;HLA-DR&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">bins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">64</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="nf">scale_x_flowjo_biexp</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="nf">scale_y_flowjo_fasinh</span><span class="p">()</span>
+</code></pre></div>
+</details>
+<h2 id="lets-practice-r-markdown">Let&rsquo;s practice - R markdown</h2>
+<p>If a data analysis project involves many steps and generation of various plots, one of the easy and very practical ways to bundle and organize all steps of analysis together is to use R markdown files to generate PDF or html reports. These reports both display the R code used as well as the output generated, such as graphics, tables, statistical test results, &hellip;</p>
+<p>The difference between an R script and an R markdown file, is that the code is organized within chunks in the R markdown file. In between the chunks, the user can write text that contains information about the analysis.</p>
+<p>To create an R markdown file, go to File &gt; New File &gt; R markdown. Add a name.
+This will create a new file that already has some example content. As you can see, the R code is organized in chunks highlighed in grey, with details written as free text in between the chunks. 
+We can see that the pound sign (#) is used outside of the R code chunks. In this case, the # symbol does not correspond to a comment, but will indicate header levels for the titles and subtitles within your final document obtained after report generation.</p>
+<p>Once the Rmd is ready, the report can be generated by hitting the &ldquo;Knit&rdquo; button at the top of the window. </p>
+<figure>
+  <img src="../../assets/images/example_Rmd.png" width="800"/>
+</figure>
+
+<p>The example Rmd generates the following html report (saved in the same folder as the Rmd file by default), that shows both the code and the resulting output:</p>
+<figure>
+  <img src="../../assets/images/example_html.png" width="800"/>
+</figure>
+
+<p>You can find a short video that introduces some of the principles of R markdown on <a href="https://www.youtube.com/watch?v=2YZSDGGoQzQ">Youtube</a>, from the beginning up to minute 23:30. Starting at minute 23:30, this video also introduces ggplot2.</p>
+<p>If you would like to practice creating your own R markdown, modify the one that is generated with the example content when you select File &gt; New File &gt; R Markdown.</p>
+<p>1) Create a new Rmd file with the following options at the top (in the top YAML instructions within the 2 dash sequences &ldquo;- - -&ldquo;)</p>
+<ul>
+<li>Title: «Let’s practice»</li>
+<li>Author: your name</li>
+<li>Select the «use current date when rendering object» option</li>
+<li>Default output format: HTML</li>
+</ul>
+<p>2) We will repeat exercise 7, but this time by creating a report:
+Within an R code chunk, import the data from the file clinical_data_mod.csv, convert gender and response to treatment to factors and compute the BMI of patients in a separate code chunk called “prepare_data”. Change the chunk options so that code will not appear in the output.</p>
+<p>Then, create a new code chunk for each plot. Make sure the plot is centered.
+Add a header (preceded by the # symbols outside of the code chunks) before each plot with some suggestive plot title.</p>
+<p>3) Save the Rmd file and produce the html document by «knitting» it.</p>
+<p><a class="md-button" href="../../assets/pdf/R_practice_Rmd_solution.Rmd">Download solution Rmd file</a></p>
+<p>For tweaking your reports, such as chosing different output formats, or hiding or showing the code within the report, we recommend that you consult the R markdown documentation provided in this <a href="https://bookdown.org/yihui/rmarkdown/">Definite guide eBook</a>.</p>
+<p>Another useful resource is <a href="https://rmarkdown.rstudio.com/lesson-1.html">RStudio&rsquo;s R Markdown tutorial</a>. </p>
+<h2 id="lets-practice-r-markdown-bis">Let&rsquo;s practice - R markdown bis</h2>
+<p>Create an R markdown file and knit to an html report the flow cytometry data analysis performed in Exercise number 9. 
+Proceed similarly, creating a code chunk where you load the libraries, import and pre-process the data, and create a separate code chunk for every plot.</p>
+<p><a class="md-button" href="../../assets/pdf/R_practice_Rmdbis_solution.Rmd">Download solution Rmd file</a></p>
+<h2 id="lets-practice-introduction-to-statistics-with-r">Let&rsquo;s practice - Introduction to statistics with R.</h2>
+<p>The SIB course &ldquo;First Steps with R in life sciences&rdquo; provides additional material to perform statistics with R.</p>
+<p>The slides introducing statistics with R can be found <a href="https://github.com/sib-swiss/first-steps-with-R-training/blob/master/slides/First-steps-with-R_day2_afternoon.pdf">here</a> on the <a href="https://github.com/sib-swiss/first-steps-with-R-training">course material github page</a>. </p>
+<p>The R code to run Wilcoxon or T tests can be found <a href="https://github.com/sib-swiss/first-steps-with-R-training/blob/master/solutions/R_practice9_solution.R">here (ex.9)</a> using source data that can be found <a href="https://github.com/sib-swiss/first-steps-with-R-training/tree/master/course_datasets">here</a>. The R code to run a linear model can be found <a href="https://github.com/sib-swiss/first-steps-with-R-training/blob/master/solutions/R_practice10_solution.R">here (ex.10)</a>. Feel free to try it out!</p>
+<p><strong>End of Day 2, good job!</strong> <img alt="❇" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/2747.svg" title=":sparkle:" /></p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": [], "search": "../../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.6c14ae12.min.js"></script>
+      
+    
+  </body>
+</html>
