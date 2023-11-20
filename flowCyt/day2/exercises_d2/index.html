@@ -1119,6 +1119,7 @@
 
 <span class="c1"># 1) load the flowSet object from previous exercise</span>
 <span class="nf">load</span><span class="p">(</span><span class="s">&quot;course_datasets/FR_FCM_Z3WR/fcs_clean.RData&quot;</span><span class="p">)</span>
+<span class="n">fcs_clean</span>
 
 <span class="c1"># 2) Downsample to 2&#39;000 cells </span>
 
@@ -1130,7 +1131,6 @@
 <span class="n">fcs_small</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">Downsampling_flowSet</span><span class="p">(</span><span class="n">fcs_clean</span><span class="p">,</span><span class="n">samplesize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2000</span><span class="p">)</span>
 
 <span class="c1"># 3) Create a sce object from the downsampled flowSet</span>
-
 <span class="c1"># We need the panel data frame</span>
 <span class="n">panel</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read.csv</span><span class="p">(</span><span class="s">&quot;course_datasets/FR_FCM_Z3WR/panel_with_marker_classes.csv&quot;</span><span class="p">)</span>
 
@@ -1138,22 +1138,29 @@
 <span class="n">md</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">pData</span><span class="p">(</span><span class="n">fcs_small</span><span class="p">)</span>
 
 <span class="c1"># create sce</span>
-<span class="n">sce</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">prepData</span><span class="p">(</span><span class="n">fcs_small</span><span class="p">,</span><span class="w"> </span>
+<span class="n">sce</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">CATALYST</span><span class="o">::</span><span class="nf">prepData</span><span class="p">(</span><span class="n">fcs_small</span><span class="p">,</span><span class="w"> </span>
 <span class="w">            </span><span class="n">md</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">md</span><span class="p">,</span>
 <span class="w">            </span><span class="n">md_cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s">&quot;name&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;name&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">factors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;time_point&quot;</span><span class="p">),</span>
 <span class="w">            </span><span class="n">panel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">panel</span><span class="p">,</span>
-<span class="w">            </span><span class="n">panel_cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">channel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;channels&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">antigen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;antigen&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">class</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;marker_class&quot;</span><span class="p">),</span>
+<span class="w">            </span><span class="n">panel_cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">channel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;channels&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">antigen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;antigen&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">class</span><span class="w"> </span><span class="o">=</span><span class="w">    </span><span class="s">&quot;marker_class&quot;</span><span class="p">),</span>
 <span class="w">            </span><span class="n">transform</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span>
 <span class="w">            </span><span class="n">FACS</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span>
 <span class="w">            </span><span class="n">features</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">panel</span><span class="o">$</span><span class="n">channels</span><span class="p">[</span><span class="n">panel</span><span class="o">$</span><span class="n">marker_class</span><span class="o">!=</span><span class="s">&quot;none&quot;</span><span class="p">])</span>
-
-<span class="c1"># change the assay name to &quot;exprs&quot; </span>
+<span class="c1"># Overview of the object:</span>
+<span class="n">sce</span>
+<span class="c1"># change the assay name to &quot;exprs&quot; because it was already transformed</span>
 <span class="nf">assayNames</span><span class="p">(</span><span class="n">sce</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s">&quot;exprs&quot;</span>
+<span class="nf">head</span><span class="p">(</span><span class="nf">assays</span><span class="p">(</span><span class="n">sce</span><span class="p">)</span><span class="o">$</span><span class="n">exprs</span><span class="p">[,</span><span class="m">1</span><span class="o">:</span><span class="m">10</span><span class="p">])</span>
+
+<span class="c1"># Phenotypic data</span>
+<span class="nf">colData</span><span class="p">(</span><span class="n">sce</span><span class="p">)</span>
+<span class="c1"># Channel parameters</span>
+<span class="nf">rowData</span><span class="p">(</span><span class="n">sce</span><span class="p">)</span>
 
 <span class="c1"># save</span>
-<span class="nf">save</span><span class="p">(</span><span class="n">sce</span><span class="p">,</span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;course_datasets/FR_FCM_Z3WR/sce.RData&quot;</span><span class="w"> </span><span class="p">)</span>
+<span class="nf">save</span><span class="p">(</span><span class="n">sce</span><span class="p">,</span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;course_datasets/FR_FCM_Z3WR/sce.RData&quot;</span><span class="p">)</span>
 
-<span class="m">4</span><span class="p">)</span><span class="w"> </span><span class="n">UMAP</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">default</span><span class="w"> </span><span class="nf">parameters </span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="m">15</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">min_dist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.01</span><span class="p">)</span>
+<span class="c1"># 4) UMAP with default parameters (n_neighbors=15 and min_dist = 0.01)</span>
 <span class="nf">set.seed</span><span class="p">(</span><span class="m">1601</span><span class="p">)</span>
 <span class="n">sce</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">runDR</span><span class="p">(</span><span class="n">sce</span><span class="p">,</span><span class="w"> </span>
 <span class="w">         </span><span class="n">assay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;exprs&quot;</span><span class="p">,</span><span class="w"> </span>
@@ -1168,12 +1175,14 @@
 <span class="w">   </span><span class="n">color_by</span><span class="o">=</span><span class="s">&quot;CD3&quot;</span><span class="p">,</span><span class="w"> </span>
 <span class="w">   </span><span class="n">facet_by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;time_point&quot;</span><span class="w"> </span><span class="p">)</span>
 
+<span class="nf">reducedDims</span><span class="p">(</span><span class="n">sce</span><span class="p">)</span>
+<span class="c1"># List of length 1</span>
+<span class="c1"># names(1): UMAP </span>
+
 <span class="c1"># save</span>
 <span class="nf">save</span><span class="p">(</span><span class="n">sce</span><span class="p">,</span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;course_datasets/FR_FCM_Z3WR/sce_UMAP.RData&quot;</span><span class="w"> </span><span class="p">)</span>
 
-<span class="c1"># 5) Check the effect of changing parameters</span>
-
-<span class="c1"># UMAP with n_neighbors=15 (defaults) and min_dist = 0.5</span>
+<span class="c1"># 4) UMAP with n_neighbors=15 (defaults) and min_dist = 0.5</span>
 <span class="nf">set.seed</span><span class="p">(</span><span class="m">1601</span><span class="p">)</span>
 <span class="n">sce</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">runDR</span><span class="p">(</span><span class="n">sce</span><span class="p">,</span><span class="w"> </span>
 <span class="w">         </span><span class="n">assay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;exprs&quot;</span><span class="p">,</span><span class="w"> </span>
@@ -1181,14 +1190,17 @@
 <span class="w">         </span><span class="n">features</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;type&quot;</span><span class="p">,</span><span class="w"> </span>
 <span class="w">         </span><span class="n">cells</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span>
 <span class="w">         </span><span class="n">min_dist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">)</span>
+<span class="c1"># the previous UMAP coordinates are overwritten, we still have only 1 reducedDims element:</span>
+<span class="nf">reducedDims</span><span class="p">(</span><span class="n">sce</span><span class="p">)</span>
 
+<span class="c1"># plot</span>
 <span class="nf">plotDR</span><span class="p">(</span><span class="n">sce</span><span class="p">,</span>
 <span class="w">   </span><span class="n">dr</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="s">&quot;UMAP&quot;</span><span class="p">,</span>
 <span class="w">   </span><span class="n">assay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;exprs&quot;</span><span class="p">,</span><span class="w"> </span>
 <span class="w">   </span><span class="n">color_by</span><span class="o">=</span><span class="s">&quot;CD3&quot;</span><span class="p">,</span><span class="w"> </span>
 <span class="w">   </span><span class="n">facet_by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;time_point&quot;</span><span class="w"> </span><span class="p">)</span>
 
-<span class="c1"># UMAP with n_neighbors=5 and min_dist = 0.01 (default)</span>
+<span class="c1"># 4) UMAP with n_neighbors=5 and min_dist = 0.01 (default)</span>
 <span class="nf">set.seed</span><span class="p">(</span><span class="m">1601</span><span class="p">)</span>
 <span class="n">sce</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">runDR</span><span class="p">(</span><span class="n">sce</span><span class="p">,</span><span class="w"> </span>
 <span class="w">         </span><span class="n">assay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;exprs&quot;</span><span class="p">,</span><span class="w"> </span>
@@ -1197,6 +1209,7 @@
 <span class="w">         </span><span class="n">cells</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span>
 <span class="w">         </span><span class="n">n_neighbors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">)</span>
 
+<span class="c1"># plot</span>
 <span class="nf">plotDR</span><span class="p">(</span><span class="n">sce</span><span class="p">,</span>
 <span class="w">   </span><span class="n">dr</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="s">&quot;UMAP&quot;</span><span class="p">,</span>
 <span class="w">   </span><span class="n">assay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;exprs&quot;</span><span class="p">,</span><span class="w"> </span>
@@ -1204,7 +1217,7 @@
 <span class="w">   </span><span class="n">facet_by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;time_point&quot;</span><span class="w"> </span><span class="p">)</span>
 
 
-<span class="c1"># UMAP with n_neighbors=2 and min_dist = 0.5</span>
+<span class="c1"># 5) UMAP with n_neighbors=2 and min_dist = 0.5</span>
 <span class="nf">set.seed</span><span class="p">(</span><span class="m">1601</span><span class="p">)</span>
 <span class="n">sce</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">runDR</span><span class="p">(</span><span class="n">sce</span><span class="p">,</span><span class="w"> </span>
 <span class="w">         </span><span class="n">assay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;exprs&quot;</span><span class="p">,</span><span class="w"> </span>
@@ -1220,6 +1233,23 @@
 <span class="w">   </span><span class="n">assay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;exprs&quot;</span><span class="p">,</span><span class="w"> </span>
 <span class="w">   </span><span class="n">color_by</span><span class="o">=</span><span class="s">&quot;CD3&quot;</span><span class="p">,</span><span class="w"> </span>
 <span class="w">   </span><span class="n">facet_by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;time_point&quot;</span><span class="w"> </span><span class="p">)</span>
+
+<span class="c1"># Try tSNE! It is slower than UMAP</span>
+<span class="nf">set.seed</span><span class="p">(</span><span class="m">1601</span><span class="p">)</span>
+<span class="n">sce</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">runDR</span><span class="p">(</span><span class="n">sce</span><span class="p">,</span><span class="w"> </span>
+<span class="w">         </span><span class="n">assay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;exprs&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">         </span><span class="n">dr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;TSNE&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">         </span><span class="n">features</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;type&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">         </span><span class="n">cells</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">)</span>
+<span class="nf">reducedDims</span><span class="p">(</span><span class="n">sce</span><span class="p">)</span>
+<span class="c1"># List of length 2</span>
+<span class="c1"># names(2): UMAP TSNE</span>
+
+<span class="c1"># plot</span>
+<span class="nf">plotDR</span><span class="p">(</span><span class="n">sce</span><span class="p">,</span>
+<span class="w">   </span><span class="n">dr</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="s">&quot;TSNE&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="n">color_by</span><span class="o">=</span><span class="s">&quot;sample_id&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="n">facet_by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;time_point&quot;</span><span class="p">)</span>
 </code></pre></div>
 </details>
 <h2 id="lets-practice-5">Let&rsquo;s practice - 5</h2>
