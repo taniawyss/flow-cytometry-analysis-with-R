@@ -32,6 +32,7 @@ Create a new script in which you will:
 5) Create a bivariate density plot showing «FSC-H» againts «HLA-DR» for all samples from day 0. Apply a flowJo inverse hyperbolic sine scale to the y axis («HLA-DR»)
 
 
+
 ??? done "Answer"
 	```r
     # load libraries
@@ -57,11 +58,8 @@ Create a new script in which you will:
     #Hint: get the antigens from the parameters of one of the flowFrame in the set
     channels <- colnames(fcs_data)
     antigen <- pData(parameters(fcs_data[[1]]))$desc
-    # fcs_data@frames$`0BF51C_0.fcs`@parameters$desc
     panel <- data.frame(channels = channels, antigen= antigen)
-
-    fcs_data@frames$`0BF51C_0.fcs`@parameters@data
-
+    
     # show the panel
     panel
 
@@ -104,10 +102,10 @@ Create a new script in which you will:
        ggcyto::scale_x_flowjo_biexp() + 
        ggcyto::scale_y_flowjo_fasinh()
 
-# FSC-H = forward scatter height
-# FSC-A = forward  scatter area
-# SSC-H = side scatter height
-# SSC-A = side scatter area
+    # FSC-H = forward scatter height
+    # FSC-A = forward  scatter area
+    # SSC-H = side scatter height
+    # SSC-A = side scatter area
 
     ```
 
