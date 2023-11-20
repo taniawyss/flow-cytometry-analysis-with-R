@@ -6,6 +6,14 @@ We found inspiration for this course in this publication
 
 [den Braanker et al, 2021, Frontiers in Immunology](https://doi.org/10.3389/fimmu.2021.768113)
 
+## Comparative analysis of dimension reduction methods for cytometry by time-of-flight data
+
+From the abstract:
+
+" Here, we benchmark the performances of 21 DR methods on 110 real and 425 synthetic CyTOF samples. We find that less well-known methods like SAUCIE, SQuaD-MDS, and scvis are the overall best performers. In particular, SAUCIE and scvis are well balanced, SQuaD-MDS excels at structure preservation, whereas UMAP has great downstream analysis performance. We also find that t-SNE (along with SQuad-MDS/t-SNE Hybrid) possesses the best local structure preservation. Nevertheless, there is a high level of complementarity between these tools, so the choice of method should depend on the underlying data structure and the analytical needs. "
+
+[Wang et al, 2023](https://www.nature.com/articles/s41467-023-37478-w)
+
 ## Orchestrating single-cell analysis with Bioconductor
 
 Code mostly developed for single-cell RNA seq analysis, but some of the concepts explained apply to flow cytometry data analysis also, such as the singleCellExperiment object described in Chapter 4.
