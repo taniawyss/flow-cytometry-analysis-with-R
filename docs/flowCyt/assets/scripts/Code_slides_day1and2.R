@@ -53,9 +53,9 @@ library(diffcyt)
 # Starting to work with flow cytometry data #
 #############################################
 
-
+?read.FCS
 ## Read a FCS file into a flowFrame
-FCS_file <- read.FCS(filename = "course_datasets/FR_FCM_Z4KT/T_cells_REU270_alive_T cells.fcs",
+FCS_file <- flowCore::read.FCS(filename = "course_datasets/FR_FCM_Z4KT/T_cells_REU270_alive_T cells.fcs",
                      transformation = FALSE,
                      truncate_max_range = FALSE)
 
@@ -80,7 +80,6 @@ colnames(FCS_file)
 pData(FCS_file@parameters)
 pData(parameters(FCS_file))
 
-
 ## Replace channel names by antigen names
 
 # copy the metadata to a data frame
@@ -95,22 +94,19 @@ colnames(FCS_file)[!(is.na(panel$desc))] <- panel$desc[!is.na(panel$desc)]
 # check
 head(exprs(FCS_file))[,10:15]
 
-
-
 ## Read a list of FCS files into a flowSet
 
 
-fcs_data <- read.flowSet(path="course_datasets/FR_FCM_Z4KT/", 
+fcs_data <- flowCore::read.flowSet(path="course_datasets/FR_FCM_Z4KT/", 
                          pattern="*.fcs", 
                          transformation = FALSE, 
                          truncate_max_range = FALSE) 
-
+# Access 1 of the flowFrame
+fcs_data@frames$`T_cells_REU267_alive_T cells.fcs`
 
 ## Methods applied to a flowSet
-
 # list sample names
 sampleNames(fcs_data)
-
 
 # change sample names
 sampleNames(fcs_data) <- c("REU267","REU268","REU269","REU270",
@@ -120,39 +116,37 @@ sampleNames(fcs_data) <- c("REU267","REU268","REU269","REU270",
                            "REU272_13_april","REU272_14_april",
                            "REU272_7_apr","REU272_9_apri","REU272")
 
-## Access phenotypic data
+## Access phenotypic data of samples
 pData(fcs_data)
+class(pData(fcs_data)) # "data.frame"
 
 
 ## Add a new column to the phenotypic data
 pData(fcs_data)$gender <- c(rep("male",8), rep("female",8))
 
+gender<-c("male", "female", "female")
+
 # check
 pData(fcs_data)
 fcs_data@phenoData@data
-
 
 ## Manipulating a flowSet
 
 # extract a flowFrame from a flowSet using the [[ operator
 fcs_data[[1]]
 
-
 # create a new flowSet object by subsetting with the [ operator
 fcs_data[1:5]
-
 
 # subset a flowSet based on a condition
 fcs_data_males <- fcs_data[pData(fcs_data)$gender=="male"]
 fcs_data_females <- subset(fcs_data,pData(fcs_data)$gender=="female") # alternative
 
-
 # split a flowSet baed on a condition
-fcs_data_split <- split(fcs_data, pData(fcs_data)$gender)
+fcs_data_split <- flowCore::split(fcs_data, pData(fcs_data)$gender)
 
 # check
 names(fcs_data_split)
-
 
 # combine several flowSet objects (or flowSets and flowFrames)
 fcs_data_combined <- rbind2(fcs_data_split$female, fcs_data_split$male)
@@ -160,39 +154,37 @@ fcs_data_combined <- rbind2(fcs_data_split$female, fcs_data_split$male)
 # check
 pData(fcs_data_combined)
 
-
-
 ## Vizualizing a single flowFrame within a flowSet
-
+?autoplot
 # scatterplot
-autoplot(object = fcs_data[[5]], x="FSC-H", y="FJComp-BUV496-A", bins = 2^7)
-
+ggcyto::autoplot(object = fcs_data[[5]], x="FSC-H", y="FJComp-BUV496-A", bins = 2^7)
 
 # univariate density plot
-autoplot(object = fcs_data[[5]], x="FSC-H")
-
+ggcyto::autoplot(object = fcs_data[[5]], x="FSC-H")
 
 
 ## In-line transformation
-
 # univariate density plot
-autoplot(fcs_data[[5]], x="FJComp-BUV496-A") # original scale
-autoplot(fcs_data[[5]], x="FJComp-BUV496-A") + scale_x_flowjo_fasinh() # flowJo inverse hyperbolic sine
-autoplot(fcs_data[[5]], x="FJComp-BUV496-A") + scale_x_flowjo_fasinh(m=1/10) # example with a cofactor of 100
+ggcyto::autoplot(fcs_data[[5]], x="FJComp-BUV496-A") # original scale
+ggcyto::autoplot(fcs_data[[5]], x="FJComp-BUV496-A") + scale_x_flowjo_fasinh() # flowJo inverse hyperbolic sine
+ggcyto::autoplot(fcs_data[[5]], x="FJComp-BUV496-A") + scale_x_flowjo_fasinh(m=1/10) # example with a cofactor of 100
+
+# Customize using ggplot2 functions:
+ggcyto::autoplot(fcs_data[[5]], x="FJComp-BUV496-A") + ggtitle("original scale")
 
 # bivariate density plot
-autoplot(object=fcs_data[[5]], x="FSC-H", y="FJComp-BUV496-A", bins = 2^7) + 
+ggcyto::autoplot(object=fcs_data[[5]], x="FSC-H", y="FJComp-BUV496-A", bins = 2^7) + 
   scale_y_flowjo_fasinh()
-autoplot(object=fcs_data[[5]], x="FSC-H", y="FJComp-BUV496-A", bins = 2^7) + 
+ggcyto::autoplot(object=fcs_data[[5]], x="FSC-H", y="FJComp-BUV496-A", bins = 2^7) + 
   scale_y_flowjo_fasinh(m=1/10) # example with a cofactor of 100
 
 
 ## Visualizing a flowSet
 
-autoplot(object = fcs_data[10:15],
+ggcyto::autoplot(object = fcs_data[10:15],
          x="FSC-H",
          y="SSC-H",
-         bins=2^7)
+         bins=2^7) 
 
 
 
@@ -243,11 +235,12 @@ markerstotransf <- panel$fcs_colname[panel$marker_class!="none"]
 # Estimate cofactors based on the downsampled data
 # This takes very long to run
 # Please load the resulting vector instead 
-# cofactors <- estParamFlowVS(fcs_data_small, 
-#                             channels=markerstotransf)
-# 
-# save(cofactors, file="course_datasets/FR_FCM_Z4KT/cofactors.RData")
-load("course_datasets/FR_FCM_Z4KT/cofactors.RData")
+if(FALSE) {
+cofactors <- estParamFlowVS(fcs_data_small, 
+                             channels=markerstotransf)
+ 
+ save(cofactors, file="course_datasets/FR_FCM_Z4KT/cofactors.RData") } else {
+load("course_datasets/FR_FCM_Z4KT/cofactors.RData") }
 
 
 # check the cofactors
@@ -329,8 +322,8 @@ fcs_transform <- as(fcs_list, "flowSet")
 save(fcs_transform, file = "course_datasets/FR_FCM_Z4KT/fcs_transform_Logicle.RData")
 
 # Density plots
-densityplot(~`FJComp-BUV496-A`, fcs_data) # density plot before transformation
-densityplot(~`FJComp-BUV496-A`, fcs_transform) # density plot after transformation
+flowViz::densityplot(~`FJComp-BUV496-A`, fcs_data) # density plot before transformation
+flowViz::densityplot(~`FJComp-BUV496-A`, fcs_transform) # density plot after transformation
 
 
 #########################################
@@ -343,17 +336,15 @@ load("course_datasets/FR_FCM_Z4KT/fcs_transform.RData")
 # run flowAI
 # This step takes very long to run
 # Please load the resulting flowSet instead 
-# fcs_QC <- flow_auto_qc(fcs_transform, folder_results = "course_datasets/FR_FCM_Z4KT/flowAI_results/") 
-# save(fcs_QC,file = "course_datasets/FR_FCM_Z4KT/fcs_QC.RData")
-load("course_datasets/FR_FCM_Z4KT/fcs_QC.RData")
+if(FALSE) {
+  fcs_QC <- flow_auto_qc(fcs_transform, folder_results = "course_datasets/FR_FCM_Z4KT/flowAI_results/") 
+ save(fcs_QC,file = "course_datasets/FR_FCM_Z4KT/fcs_QC.RData") } else {
+load("course_datasets/FR_FCM_Z4KT/fcs_QC.RData") }
 
 
 # If pre-gated, skip FR step
 # Do not run
 # fcs_QC <- flow_auto_qc(fcs_transform, remove_from = "FS_FM")  
-
-
-
 
 ## Automated Quality control with peacoQC
 
@@ -380,7 +371,7 @@ for(i in 1:16){
 } 
 
 # construct new flowSet from the cleaned fcs files
-fcs_QC <- read.flowSet(path= "course_datasets/FR_FCM_Z4KT/PeacoQCresults", 
+fcs_QC <- read.flowSet(path= "course_datasets/FR_FCM_Z4KT/PeacoQCresults/PeacoQC_results/", 
                        transformation=FALSE,
                        truncate_max_range = FALSE)
 
@@ -412,9 +403,6 @@ fcs_QC <- read.flowSet(path= "course_datasets/FR_FCM_Z4KT/PeacoQCresults",
 ###############################
 # Dimensionality Reduction    #
 ###############################
-
-
-
 
 
 ## Example dataset from the CATALYST package
@@ -455,13 +443,18 @@ exprs_PBMC <- exprs_PBMC[,c(marker_type)]
 set.seed(1234)
 umap_PBMC <- umap(exprs_PBMC)
 
-
 # add UMAP coordinates to sce object
 reducedDim(sce_PBMC, "UMAP") <- umap_PBMC
 
 # Plot
 plotDR(sce_PBMC, 
        color_by="sample_id")
+
+plotDR(sce_PBMC,
+       dr = "UMAP",
+       assay = "exprs",
+       color_by = "CD3",
+       facet_by =  "sample_id")
 
 # try different values for parameters
 
