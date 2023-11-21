@@ -1235,6 +1235,8 @@
 <span class="w">   </span><span class="n">facet_by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;time_point&quot;</span><span class="w"> </span><span class="p">)</span>
 
 <span class="c1"># Try tSNE! It is slower than UMAP</span>
+<span class="nf">if</span><span class="p">(</span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="c1"># change this to FALSE after running it so you can just quickly</span>
+<span class="c1"># load the object with TSNE afterwards and save time</span>
 <span class="nf">set.seed</span><span class="p">(</span><span class="m">1601</span><span class="p">)</span>
 <span class="n">sce</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">runDR</span><span class="p">(</span><span class="n">sce</span><span class="p">,</span><span class="w"> </span>
 <span class="w">         </span><span class="n">assay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;exprs&quot;</span><span class="p">,</span><span class="w"> </span>
@@ -1244,12 +1246,32 @@
 <span class="nf">reducedDims</span><span class="p">(</span><span class="n">sce</span><span class="p">)</span>
 <span class="c1"># List of length 2</span>
 <span class="c1"># names(2): UMAP TSNE</span>
-
+<span class="nf">save</span><span class="p">(</span><span class="n">sce</span><span class="p">,</span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;course_datasets/FR_FCM_Z3WR/sce_TSNE.RData&quot;</span><span class="w"> </span><span class="p">)</span>
+<span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nf">load</span><span class="p">(</span><span class="s">&quot;course_datasets/FR_FCM_Z3WR/sce_TSNE.RData&quot;</span><span class="p">)</span>
+<span class="nf">reducedDims</span><span class="p">(</span><span class="n">sce</span><span class="p">)</span>
+<span class="c1"># List of length 2</span>
+<span class="c1"># names(2): UMAP TSNE</span>
+<span class="p">}</span>
 <span class="c1"># plot</span>
 <span class="nf">plotDR</span><span class="p">(</span><span class="n">sce</span><span class="p">,</span>
 <span class="w">   </span><span class="n">dr</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="s">&quot;TSNE&quot;</span><span class="p">,</span>
 <span class="w">   </span><span class="n">color_by</span><span class="o">=</span><span class="s">&quot;sample_id&quot;</span><span class="p">,</span>
-<span class="w">   </span><span class="n">facet_by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;time_point&quot;</span><span class="p">)</span>
+<span class="w">   </span><span class="n">facet_by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;time_point&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">ggtitle</span><span class="p">(</span><span class="s">&quot;TSNE&quot;</span><span class="p">)</span>
+
+<span class="c1"># Try PCA, using all features and a max number of components</span>
+<span class="nf">table</span><span class="p">(</span><span class="nf">rowData</span><span class="p">(</span><span class="n">sce</span><span class="p">)</span><span class="o">$</span><span class="n">marker_class</span><span class="p">)</span>
+
+<span class="n">sce</span><span class="o">&lt;-</span><span class="nf">runDR</span><span class="p">(</span><span class="n">sce</span><span class="p">,</span><span class="w"> </span>
+<span class="w">       </span><span class="n">dr</span><span class="o">=</span><span class="s">&quot;PCA&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="n">features</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span>
+<span class="w">       </span><span class="n">ncomponents</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">15</span><span class="p">)</span>
+<span class="nf">reducedDims</span><span class="p">(</span><span class="n">sce</span><span class="p">)</span>
+<span class="c1"># List of length 3</span>
+<span class="c1"># names(3): UMAP TSNE PCA</span>
+
+<span class="nf">plotDR</span><span class="p">(</span><span class="n">sce</span><span class="p">,</span><span class="w"> </span><span class="n">dr</span><span class="o">=</span><span class="s">&quot;PCA&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">color_by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;time_point&quot;</span><span class="p">)</span>
+<span class="nf">plotDR</span><span class="p">(</span><span class="n">sce</span><span class="p">,</span><span class="w"> </span><span class="n">dr</span><span class="o">=</span><span class="s">&quot;PCA&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">color_by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;CD3&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">facet_by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;time_point&quot;</span><span class="p">)</span>
 </code></pre></div>
 </details>
 <h2 id="lets-practice-5">Let&rsquo;s practice - 5</h2>
