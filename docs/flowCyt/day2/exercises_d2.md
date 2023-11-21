@@ -191,6 +191,16 @@ Create a new script in which you will:
 
     plotDR(sce, dr="PCA", color_by = "time_point")
     plotDR(sce, dr="PCA", color_by = "CD3", facet_by = "time_point")
+    
+    # ElbowPlot of the top 15 components, could be used as input for 
+    # the runDR function with dr = "UMAP" and pca = 10.
+    pcs <- SingleCellExperiment::reducedDim(x = sce, type = "PCA")
+    variance <- apply(X = pcs, MARGIN = 2, FUN = var)
+
+    plot(x = 1:15, 
+         y = variance, 
+         xlab = "Principal components", 
+         ylab = "Variance")
 
     ```
 
