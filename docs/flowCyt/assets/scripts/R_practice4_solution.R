@@ -14,7 +14,7 @@ library(flowCore)
 library(CATALYST)
 
 
-# 1) load the flowSet object from previous exercise
+# 1) load the flowSet object from previous exercise of flowAI output
 load("course_datasets/FR_FCM_Z3WR/fcs_clean.RData")
 fcs_clean
 
@@ -36,13 +36,13 @@ md <- pData(fcs_small)
 
 # create sce
 sce <- CATALYST::prepData(fcs_small, 
-                md = md,
-                md_cols = list(file="name", id = "name", factors = "time_point"),
-                panel = panel,
-                panel_cols = list(channel = "channels", antigen = "antigen", class = "marker_class"),
-                transform = FALSE,
-                FACS=TRUE,
-                features = panel$channels[panel$marker_class!="none"])
+                          md = md,
+                          md_cols = list(file="name", id = "name", factors = "time_point"),
+                          panel = panel,
+                          panel_cols = list(channel = "channels", antigen = "antigen", class = "marker_class"),
+                          transform = FALSE,
+                          FACS=TRUE,
+                          features = panel$channels[panel$marker_class!="none"])
 # Overview of the object:
 sce
 # change the assay name to "exprs" because it was already transformed
@@ -58,11 +58,12 @@ rowData(sce)
 save(sce,file = "course_datasets/FR_FCM_Z3WR/sce.RData")
 
 # 4) UMAP with default parameters (n_neighbors=15 and min_dist = 0.01)
-
 set.seed(1601)
+?runDR
 sce <- runDR(sce, 
              assay = "exprs", 
              dr = "UMAP", 
+             pca = 5,
              features = "type", 
              cells = NULL)
 
@@ -71,7 +72,7 @@ plotDR(sce,
        dr =  "UMAP",
        assay = "exprs", 
        color_by="CD3", 
-       facet_by = "time_point" )
+       facet_by = "time_point" ) + ggtitle("CD3, n=15, dist=0.01")
 
 reducedDims(sce)
 # List of length 1
@@ -89,7 +90,8 @@ sce <- runDR(sce,
              features = "type", 
              cells = NULL,
              min_dist = 0.5)
-# the previous UMAP coordinates are overwritten, we still have only 1 reducedDims element:
+# the previous UMAP coordinates are overwritten, we still have only 1 
+# reducedDims element:
 reducedDims(sce)
 
 # plot
@@ -97,7 +99,7 @@ plotDR(sce,
        dr =  "UMAP",
        assay = "exprs", 
        color_by="CD3", 
-       facet_by = "time_point" )
+       facet_by = "time_point" ) + ggtitle("CD3, n=15, dist=0.5")
 
 
 # 4) UMAP with n_neighbors=5 and min_dist = 0.01 (default)
@@ -114,7 +116,7 @@ plotDR(sce,
        dr =  "UMAP",
        assay = "exprs", 
        color_by="CD3", 
-       facet_by = "time_point" )
+       facet_by = "time_point" ) + ggtitle("CD3, n=5, dist=0.01")
 
 
 # 5) UMAP with n_neighbors=2 and min_dist = 0.5
@@ -133,9 +135,11 @@ plotDR(sce,
        dr =  "UMAP",
        assay = "exprs", 
        color_by="CD3", 
-       facet_by = "time_point" )
+       facet_by = "time_point" ) + ggtitle("CD3, n=2, dist=0.5")
 
 # Try tSNE! It is slower than UMAP
+if(TRUE) {  # change this to FALSE after running it so you can just quickly
+  # load the object with TSNE afterwards and save time
 set.seed(1601)
 sce <- runDR(sce, 
              assay = "exprs", 
@@ -145,14 +149,34 @@ sce <- runDR(sce,
 reducedDims(sce)
 # List of length 2
 # names(2): UMAP TSNE
-
+save(sce,file = "course_datasets/FR_FCM_Z3WR/sce_TSNE.RData" )
+} else {
+  load("course_datasets/FR_FCM_Z3WR/sce_TSNE.RData")
+  reducedDims(sce)
+  # List of length 2
+  # names(2): UMAP TSNE
+}
 # plot
 plotDR(sce,
        dr =  "TSNE",
        color_by="sample_id",
-       facet_by = "time_point")
+       facet_by = "time_point") + ggtitle("TSNE")
 
 
+# Try PCA, using all features and a max number of components
+table(rowData(sce)$marker_class)
+
+sce<-runDR(sce, 
+           dr="PCA",
+           features = NULL,
+           ncomponents = 15)
+reducedDims(sce)
+# List of length 3
+# names(3): UMAP TSNE PCA
+
+
+plotDR(sce, dr="PCA", color_by = "time_point")
+plotDR(sce, dr="PCA", color_by = "CD3", facet_by = "time_point")
 
 
 

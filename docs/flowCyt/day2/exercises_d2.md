@@ -154,6 +154,8 @@ Create a new script in which you will:
        facet_by = "time_point" )
 
     # Try tSNE! It is slower than UMAP
+    if(TRUE) {  # change this to FALSE after running it so you can just quickly
+    # load the object with TSNE afterwards and save time
     set.seed(1601)
     sce <- runDR(sce, 
              assay = "exprs", 
@@ -163,12 +165,32 @@ Create a new script in which you will:
     reducedDims(sce)
     # List of length 2
     # names(2): UMAP TSNE
-
+    save(sce,file = "course_datasets/FR_FCM_Z3WR/sce_TSNE.RData" )
+    } else {
+      load("course_datasets/FR_FCM_Z3WR/sce_TSNE.RData")
+    reducedDims(sce)
+    # List of length 2
+    # names(2): UMAP TSNE
+    }
     # plot
     plotDR(sce,
        dr =  "TSNE",
        color_by="sample_id",
-       facet_by = "time_point")
+       facet_by = "time_point") + ggtitle("TSNE")
+       
+    # Try PCA, using all features and a max number of components
+    table(rowData(sce)$marker_class)
+
+    sce<-runDR(sce, 
+           dr="PCA",
+           features = NULL,
+           ncomponents = 15)
+    reducedDims(sce)
+    # List of length 3
+    # names(3): UMAP TSNE PCA
+
+    plotDR(sce, dr="PCA", color_by = "time_point")
+    plotDR(sce, dr="PCA", color_by = "CD3", facet_by = "time_point")
 
     ```
 
