@@ -63,7 +63,7 @@ set.seed(1601)
 sce <- runDR(sce, 
              assay = "exprs", 
              dr = "UMAP", 
-             pca = 5,
+             pca = 10,
              features = "type", 
              cells = NULL)
 
@@ -162,7 +162,6 @@ plotDR(sce,
        color_by="sample_id",
        facet_by = "time_point") + ggtitle("TSNE")
 
-
 # Try PCA, using all features and a max number of components
 table(rowData(sce)$marker_class)
 
@@ -177,6 +176,16 @@ reducedDims(sce)
 
 plotDR(sce, dr="PCA", color_by = "time_point")
 plotDR(sce, dr="PCA", color_by = "CD3", facet_by = "time_point")
+
+# ElbowPlot of the top 15 components, could be used as input for 
+# the runDR function with dr = "UMAP" and pca = 10.
+pcs <- SingleCellExperiment::reducedDim(x = sce, type = "PCA")
+variance <- apply(X = pcs, MARGIN = 2, FUN = var)
+
+plot(x = 1:15, 
+     y = variance, 
+     xlab = "Principal components", 
+     ylab = "Variance")
 
 
 
