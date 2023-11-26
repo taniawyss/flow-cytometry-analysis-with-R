@@ -773,16 +773,18 @@
 <p><a href="https://bioconductor.org/packages/release/bioc/html/openCyto.html">openCyto</a> implements a hierachical gating pipeline for flow cytometry data. </p>
 <p><a href="https://bioconductor.org/packages/release/bioc/html/flowGate.html">flowGate</a> provides interactive cytometry gating in R, based on a shiny app (web application using R). It is especially geared toward wet-lab cytometerists looking to take advantage of R without having a lot of experience. </p>
 <h2 id="lets-practice-8">Let&rsquo;s practice - 8</h2>
-<p>1) Create a flowSet called fcs_data of all samples within the /course_dataset/FR_FCM_Z4KT folder</p>
-<p>2) Generate a panel data.frame using colnames(fcs_data) antigen names extracted with pData(parameters(fcs_data[[1]]))$desc. Create a new column called marker_class that will contain the type of markers: all that are not NA should be labeled as &ldquo;type&rdquo;, except PD-1 which should be labeled as &ldquo;state&rdquo;. Make sure that the antigen &ldquo;Zombie UV&rdquo; is labeled as &ldquo;none&rdquo; and not as &ldquo;type&rdquo;. Save the panel to an Excel file using write.xlsx2().</p>
-<p>3) Transform the data: extract a vector from the panel data.frame which are the channels to be transformed, which are not labeled with &ldquo;none&rdquo;. Perform asinh transformation with a cofactor of 3000 for all channels to be transformed, using transFlowVS() from the flowVS package.</p>
-<p>4) Split the flowSet resulting from transformation into a training flowSet containing all flowFrames from the sample &ldquo;REU271&rdquo;, and a flowSet with the rest of the flowFrames not corresponding to sample &ldquo;REU271&rdquo;.</p>
-<p>5) Perform pre-clustering with flowSOM with function prepareFlowSOM(), providing the flowSet with the training flowFrames, the vector of channels to transform, and FlowSOM.params =list(xdim=10, ydim=10,
-nClus=20, scale=FALSE)</p>
-<p>6) Test the coefficient of variation within clusters with the testCV() function.</p>
-<p>7) Import the metadata with the batch label of each sample contained in the excel file md.xlsx, using read.xlsx2(). Create 2 vectors using the column &ldquo;batch&rdquo; in the md.xlsx file. One vector contains the batch labels of the samples that correspond to sample &ldquo;REU271&rdquo;, and another vector contains the batch labels of the other samples (i.e. not &ldquo;REU271&rdquo;).</p>
-<p>8) Estimate quantiles from the training flowSet using CytoNorm.train(). Use FlowSOM.params = list(nCells = 6000, xdim = 10, ydim = 10, nClus = 5, scale = FALSE)</p>
-<p>9) Normalize the rest of the samples using CytoNorm.normalize(), and using outputDir = &ldquo;course_datasets/FR_FCM_Z4KT/Normalized&rdquo;  ; Make sure this is a new folder.</p>
+<p>In this exercise, we will perform normalization using CytoNorm, and estimating quantiles and splines using a technical replicate distributed across batches. The data comes from the FlowRepository accession .</p>
+<p>1) Create a flowSet called fcs_data of all samples within the <code>/course_dataset/FR_FCM_Z4KT</code> folder</p>
+<p>2) Generate a panel data.frame using <code>colnames(fcs_data)</code> and antigen names extracted with <code>pData(parameters(fcs_data[[1]]))$desc</code>. Create a new column called marker_class that will contain the type of markers: all the ones that are not NA should be labeled as &ldquo;type&rdquo;, except PD-1 which should be labeled as &ldquo;state&rdquo;. Make sure that the antigen &ldquo;Zombie UV&rdquo; is labeled as &ldquo;none&rdquo; and not as &ldquo;type&rdquo;. Save the panel to an Excel file using <code>write.xlsx2()</code>.</p>
+<p>3) Transform the data: extract a vector from the panel data.frame which are the channels to be transformed, which are the ones that are not labeled with &ldquo;none&rdquo;. Perform asinh transformation with a cofactor of 3000 for all channels to be transformed, using <code>transFlowVS()</code> from the flowVS package.</p>
+<p>4) Split the flowSet resulting from transformation into a training flowSet containing all flowFrames from the sample &ldquo;REU271&rdquo;, and a flowSet with the rest of the flowFrames not corresponding to sample &ldquo;REU271&rdquo;. Use the <code>grep()</code> function on the <code>sampleNames</code> of the flowSet.</p>
+<p>5) Perform pre-clustering with flowSOM with function <code>prepareFlowSOM()</code>, providing the flowSet with the training flowFrames, the vector of channels to transform, and <code>FlowSOM.params=list(xdim=10, ydim=10,
+nClus=20, scale=FALSE)</code>.</p>
+<p>6) Test the coefficient of variation within clusters with the <code>testCV()</code> function.</p>
+<p>7) Import the metadata with the batch label of each sample contained in the excel file <a href="https://github.com/taniawyss/flow-cytometry-analysis-with-R/tree/master/docs/flowCyt/assets/data">md.xlsx</a>, using <code>read.xlsx2()</code>. Create 2 vectors using the column &ldquo;batch&rdquo; in the md.xlsx file. One vector contains the batch labels of the samples that correspond to sample &ldquo;REU271&rdquo;, and another vector contains the batch labels of the other samples (i.e. not &ldquo;REU271&rdquo;).</p>
+<p>8) Estimate quantiles from the training flowSet using <code>CytoNorm.train()</code>. Use <code>FlowSOM.params = list(nCells = 6000, xdim = 10, ydim = 10, nClus = 5, scale = FALSE)</code>.</p>
+<p>9) Normalize the rest of the samples using <code>CytoNorm.normalize()</code>, and using <code>outputDir = "course_datasets/FR_FCM_Z4KT/Normalized"</code>  ; Make sure this is a new folder.</p>
+<p>10) Choosing one channel, create a ridge plot of its distribution within samples before normalization (without the training samples), and one for the normalized samples. For this, you need to create a new flowSet with the created &ldquo;Norm_&rdquo; fcs files within the newly created output folder. Use the <code>densityplot()</code> function for each flowSet, storing the output in 2 objects, then use the cowplot <code>plot_grid()</code> function to plot one ridge plot above the other.</p>
 <details class="done"><summary>Answer</summary><div class="highlight"><pre><span></span><code><span class="c1"># load libraries</span>
 <span class="nf">library</span><span class="p">(</span><span class="n">flowCore</span><span class="p">)</span>
 <span class="nf">library</span><span class="p">(</span><span class="n">CytoNorm</span><span class="p">)</span>
@@ -939,19 +941,204 @@ nClus=20, scale=FALSE)</p>
 </code></pre></div>
 </details>
 <h2 id="lets-practice-9">Let&rsquo;s practice - 9</h2>
-<p>1) Import a xml workspace from FlowJo</p>
-<p>2) Plot the gating hierarchy</p>
-<p>3) Plot the gates</p>
-<p>4) Add a gate</p>
-<p>5) Statistics</p>
-<p>6) Export flow data</p>
+<p>In this exercise we will do some gating using flowGate and data from the FR_FCM_Z3WR of the FlowRepository.</p>
+<p>Create a new script in which you will:</p>
+<p>1) Create a flowSet of all samples within the <code>/course_dataset/FR_FCM_Z3WR</code> folder</p>
+<p>2) Perform asinh transformation with a cofactor of 3000 for all channels not labeled with &ldquo;none&rdquo;, using <code>transFlowVS()</code> from the flowVS package. Use the csv file with the panel previously created <code>"/course_datasets/FR_FCM_Z3WR/panel_with_marker_classes.csv"</code>.</p>
+<p>3) Convert the flowSet to a GatingSet</p>
+<p>4) Using flowGate, create a gating hierarchy according to the scheme depicted below. Don&rsquo;t forget to check your gating with scatter or density plots.</p>
+<p>5) Do necessary adjustements so that your gating hierarchy looks like the one depicted below.</p>
+<p>6) What is the percentage of CD8+ T cells among T cells (&ldquo;CD3&rdquo;).</p>
+<p>Gating hierarchy:</p>
+<figure>
+  <img src="../../assets/images/gates9.png" width="700"/>
+</figure>
+
 <details class="done"><summary>Answer</summary><div class="highlight"><pre><span></span><code><span class="c1"># load libraries</span>
 <span class="nf">library</span><span class="p">(</span><span class="n">flowCore</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">flowWorkspace</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">flowGate</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">flowVS</span><span class="p">)</span>
+
+<span class="c1"># 1) Create a flowSet from the FCS files in &quot;course_datasets/FR_FCM_Z3WR/&quot;</span>
+
+<span class="n">fs</span> <span class="o">&lt;-</span> <span class="nf">read.flowSet</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s">&quot;course_datasets/FR_FCM_Z3WR/&quot;</span><span class="p">,</span>
+               <span class="n">pattern</span> <span class="o">=</span> <span class="s">&quot;*.fcs&quot;</span><span class="p">,</span>
+               <span class="n">transformation</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">,</span>
+               <span class="n">truncate_max_range</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span>
+
+<span class="c1"># 2 ) FlowVS Arcsinh transformation with fixed factors (3000). </span>
+<span class="c1"># Use the csv file containing the panel and marker classes previously created </span>
+<span class="c1"># (&quot;course_datasets/FR_FCM_Z3WR/panel_with_marker_classes.csv&quot;)</span>
+
+
+<span class="n">panel</span> <span class="o">&lt;-</span> <span class="nf">read.csv</span><span class="p">(</span><span class="s">&quot;course_datasets/FR_FCM_Z3WR/panel_with_marker_classes.csv&quot;</span><span class="p">)</span>
+<span class="n">markerstotransform</span> <span class="o">&lt;-</span> <span class="nf">as.character</span><span class="p">(</span><span class="n">panel</span><span class="o">$</span><span class="n">channels</span><span class="p">)[</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">panel</span><span class="o">$</span><span class="n">antigen</span><span class="p">)]</span>
+
+<span class="n">fs</span> <span class="o">&lt;-</span> <span class="nf">transFlowVS</span><span class="p">(</span><span class="n">fs</span><span class="p">,</span>
+              <span class="n">channels</span> <span class="o">=</span> <span class="n">markerstotransform</span><span class="p">,</span>
+              <span class="n">cofactors</span> <span class="o">=</span> <span class="nf">rep</span><span class="p">(</span><span class="m">3000</span><span class="p">,</span><span class="nf">length</span><span class="p">(</span><span class="n">markerstotransform</span><span class="p">)))</span>
+
+
+<span class="c1"># 3) Convert the flowSet to a GatingSet</span>
+
+<span class="n">gs</span> <span class="o">&lt;-</span> <span class="nf">GatingSet</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
+
+<span class="c1"># save for next exercise</span>
+<span class="c1">#save_gs(gs, path = &quot;course_datasets/FR_FCM_Z3WR/gs_preprocessed&quot;)</span>
+
+
+<span class="c1"># 4) Using flowGate, create the following gates</span>
+
+<span class="c1"># Polygon gate (&quot;Leukocytes&quot;)</span>
+<span class="nf">gs_gate_interactive</span><span class="p">(</span><span class="n">gs</span><span class="p">,</span>
+                <span class="n">filterId</span> <span class="o">=</span> <span class="s">&quot;Leukocytes&quot;</span><span class="p">,</span>
+                <span class="n">dims</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="s">&quot;FSC-H&quot;</span><span class="p">,</span> <span class="s">&quot;SSC-H&quot;</span><span class="p">))</span>
+
+<span class="nf">autoplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[[</span><span class="m">1</span><span class="p">]],</span> <span class="n">gate</span> <span class="o">=</span> <span class="s">&quot;Leukocytes&quot;</span><span class="p">)</span>
+<span class="nf">plot</span><span class="p">(</span><span class="n">gs</span><span class="p">)</span>
+
+<span class="c1"># span gate (&quot;CD3&quot;)</span>
+<span class="nf">gs_gate_interactive</span><span class="p">(</span><span class="n">gs</span><span class="p">,</span>
+                <span class="n">filterId</span> <span class="o">=</span> <span class="s">&quot;CD3&quot;</span><span class="p">,</span>
+                <span class="n">dims</span> <span class="o">=</span> <span class="s">&quot;BV510-A&quot;</span><span class="p">,</span>
+                <span class="n">subset</span> <span class="o">=</span> <span class="s">&quot;Leukocytes&quot;</span><span class="p">)</span>
+
+<span class="nf">autoplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[[</span><span class="m">1</span><span class="p">]],</span><span class="n">gate</span> <span class="o">=</span> <span class="s">&quot;CD3&quot;</span><span class="p">)</span>
+<span class="nf">plot</span><span class="p">(</span><span class="n">gs</span><span class="p">)</span>
+
+<span class="c1"># quadrant gate (&quot;CD4 CD8&quot;)</span>
+<span class="c1"># BUV615-A = CD4</span>
+<span class="c1"># BUV805-A = CD8</span>
+<span class="nf">gs_gate_interactive</span><span class="p">(</span><span class="n">gs</span><span class="p">,</span>
+                <span class="n">filterId</span> <span class="o">=</span> <span class="s">&quot;CD4 CD8&quot;</span><span class="p">,</span>
+                <span class="n">dims</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="s">&quot;BUV615-A&quot;</span><span class="p">,</span><span class="s">&quot;BUV805-A&quot;</span><span class="p">),</span>
+                <span class="n">subset</span> <span class="o">=</span> <span class="s">&quot;CD3&quot;</span><span class="p">)</span>
+
+<span class="nf">plot</span><span class="p">(</span><span class="n">gs</span><span class="p">)</span>
+<span class="nf">autoplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[[</span><span class="m">1</span><span class="p">]],</span><span class="n">gate</span> <span class="o">=</span> <span class="nf">gs_pop_get_children</span><span class="p">(</span><span class="n">gs</span><span class="p">,</span> <span class="s">&quot;CD3&quot;</span><span class="p">))</span>
+
+<span class="c1"># 5) Make the necessary adjustements so that the gate tree loks like the one depicted.</span>
+
+<span class="c1"># Check node names</span>
+<span class="nf">gs_get_pop_paths</span><span class="p">(</span><span class="n">gs</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="m">1</span><span class="p">)</span>
+
+<span class="c1"># Rename the CD4 CD8 gates to CD4+, CD8+, DNT and DPT</span>
+<span class="nf">gs_pop_set_name</span><span class="p">(</span><span class="n">gs</span><span class="p">,</span><span class="s">&quot;BUV615-A-BUV805-A+&quot;</span><span class="p">,</span><span class="s">&quot;CD8+&quot;</span><span class="p">)</span>
+<span class="nf">gs_pop_set_name</span><span class="p">(</span><span class="n">gs</span><span class="p">,</span><span class="s">&quot;BUV615-A+BUV805-A-&quot;</span><span class="p">,</span><span class="s">&quot;CD4+&quot;</span><span class="p">)</span>
+<span class="nf">gs_pop_set_name</span><span class="p">(</span><span class="n">gs</span><span class="p">,</span><span class="s">&quot;BUV615-A+BUV805-A+&quot;</span><span class="p">,</span><span class="s">&quot;DPT&quot;</span><span class="p">)</span>
+<span class="nf">gs_pop_set_name</span><span class="p">(</span><span class="n">gs</span><span class="p">,</span><span class="s">&quot;BUV615-A-BUV805-A-&quot;</span><span class="p">,</span><span class="s">&quot;DNT&quot;</span><span class="p">)</span>
+
+<span class="nf">plot</span><span class="p">(</span><span class="n">gs</span><span class="p">)</span>
+
+<span class="c1"># 6) What is the percentage of CD8+ T cells among T cells (&quot;CD3&quot;)</span>
+<span class="nf">gs_pop_get_stats</span><span class="p">(</span><span class="n">gs</span><span class="p">,</span> <span class="n">nodes</span> <span class="o">=</span> <span class="s">&quot;CD8+&quot;</span><span class="p">,</span> <span class="n">type</span> <span class="o">=</span> <span class="s">&quot;percent&quot;</span><span class="p">)</span>
 </code></pre></div>
 </details>
 <h2 id="lets-practice-10">Let&rsquo;s practice - 10</h2>
+<p>In this exercise we will repeat the gating previously done with flowGate on the data from FR_FCM_Z3WR of the FlowRepository, but this time using automated gating with openCyto.</p>
+<p>Create a new script in which you will:</p>
+<p>1) Repeat steps 1 to 4 from the previous exercise (loading data from fcs files and preprocessing). You can also load the preprocessed GatingSet from <code>/course_dataset/FR_FCM_Z3WR/gs_preprocessed/</code>.</p>
+<p>2) Using the <code>gs_add_gating_method()</code> function (i.e., without a template), create a gating hierarchy according to the scheme depicted below. Don&rsquo;t forget to check your gating with scatter or density plots.</p>
+<p>3) Do necessary adjustements so that your gating hierarchy looks like the one depicted below (hide the &ldquo;BUV805-A+&rdquo; and &ldquo;BUV615-A+&rdquo; nodes from the tree, and rename the CD4, CD8, DNT and DPT nodes).</p>
+<p>4) Create boxplots showing the percentage of CD8+ T cells among T cells (&ldquo;CD3&rdquo;) as a function of time points.</p>
+<p>Gating hierarchy:</p>
+<figure>
+  <img src="../../assets/images/gates10.png" width="700"/>
+</figure>
+
 <details class="done"><summary>Answer</summary><div class="highlight"><pre><span></span><code><span class="c1"># load libraries</span>
 <span class="nf">library</span><span class="p">(</span><span class="n">flowCore</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">flowWorkspace</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">openCyto</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">ggcyto</span><span class="p">)</span>
+
+<span class="c1"># 1) Repeat steps 1 to 4 from previous exercise (loading data, preprocessing)</span>
+
+<span class="c1"># load the preprocessed ungated data</span>
+<span class="n">gs</span> <span class="o">&lt;-</span> <span class="nf">load_gs</span><span class="p">(</span><span class="s">&quot;course_datasets/FR_FCM_Z3WR/gs_preprocessed&quot;</span><span class="p">)</span>
+
+<span class="c1"># 2) Apply the gating as in the scheme</span>
+
+<span class="c1"># gate &quot;Leukocytes&quot;</span>
+<span class="c1"># use flowClust</span>
+<span class="c1"># set a K=3, to split in three populations and select the one with the highest &quot;peak&quot;</span>
+<span class="nf">gs_add_gating_method</span><span class="p">(</span><span class="n">gs</span><span class="p">,</span>
+                 <span class="n">alias</span> <span class="o">=</span> <span class="s">&quot;Leukocytes&quot;</span><span class="p">,</span>
+                 <span class="n">parent</span> <span class="o">=</span> <span class="s">&quot;root&quot;</span><span class="p">,</span>
+                 <span class="n">dims</span> <span class="o">=</span> <span class="s">&quot;FSC-H,SSC-H&quot;</span><span class="p">,</span>
+                 <span class="n">gating_method</span> <span class="o">=</span> <span class="s">&quot;flowClust&quot;</span><span class="p">,</span>
+                 <span class="n">gating_args</span> <span class="o">=</span> <span class="s">&quot;K=3&quot;</span> <span class="p">)</span>
+
+<span class="c1"># check</span>
+<span class="nf">plot</span><span class="p">(</span><span class="n">gs</span><span class="p">)</span>
+
+<span class="nf">autoplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[[</span><span class="m">1</span><span class="p">]],</span> <span class="n">gate</span><span class="o">=</span><span class="s">&quot;Leukocytes&quot;</span><span class="p">)</span>
+
+<span class="c1"># gate &quot;CD3&quot;</span>
+<span class="c1"># use minDensity</span>
+<span class="nf">gs_add_gating_method</span><span class="p">(</span><span class="n">gs</span><span class="p">,</span>
+                 <span class="n">alias</span> <span class="o">=</span> <span class="s">&quot;CD3&quot;</span><span class="p">,</span>
+                 <span class="n">parent</span> <span class="o">=</span> <span class="s">&quot;Leukocytes&quot;</span><span class="p">,</span>
+                 <span class="n">dims</span> <span class="o">=</span> <span class="s">&quot;BV510-A&quot;</span><span class="p">,</span>
+                 <span class="n">gating_method</span> <span class="o">=</span> <span class="s">&quot;gate_mindensity&quot;</span><span class="p">,</span>
+                 <span class="n">pop</span> <span class="o">=</span> <span class="s">&quot;+&quot;</span><span class="p">)</span>
+
+<span class="c1"># check</span>
+<span class="nf">plot</span><span class="p">(</span><span class="n">gs</span><span class="p">)</span>
+
+<span class="nf">autoplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[[</span><span class="m">1</span><span class="p">]],</span> <span class="n">gate</span><span class="o">=</span><span class="s">&quot;CD3&quot;</span><span class="p">)</span>
+
+<span class="c1"># gate &quot;CD4 CD8&quot;</span>
+<span class="c1"># use minDensity</span>
+<span class="nf">gs_add_gating_method</span><span class="p">(</span><span class="n">gs</span><span class="p">,</span>
+                 <span class="n">alias</span> <span class="o">=</span> <span class="s">&quot;*&quot;</span><span class="p">,</span>
+                 <span class="n">parent</span> <span class="o">=</span> <span class="s">&quot;CD3&quot;</span><span class="p">,</span>
+                 <span class="n">dims</span> <span class="o">=</span> <span class="s">&quot;BUV615-A,BUV805-A&quot;</span><span class="p">,</span>
+                 <span class="n">gating_method</span> <span class="o">=</span> <span class="s">&quot;gate_mindensity&quot;</span><span class="p">,</span>
+                 <span class="n">pop</span> <span class="o">=</span> <span class="s">&quot;-/++/-&quot;</span><span class="p">)</span>
+
+<span class="c1"># check</span>
+<span class="nf">plot</span><span class="p">(</span><span class="n">gs</span><span class="p">)</span>
+
+<span class="nf">gs_pop_get_children</span><span class="p">(</span><span class="n">gs</span><span class="p">,</span><span class="s">&quot;CD3&quot;</span><span class="p">)</span>
+<span class="nf">autoplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[[</span><span class="m">1</span><span class="p">]],</span> <span class="n">gate</span><span class="o">=</span><span class="nf">gs_pop_get_children</span><span class="p">(</span><span class="n">gs</span><span class="p">,</span><span class="s">&quot;CD3&quot;</span><span class="p">))</span>
+<span class="nf">autoplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[[</span><span class="m">1</span><span class="p">]],</span> <span class="n">gate</span><span class="o">=</span><span class="nf">gs_pop_get_children</span><span class="p">(</span><span class="n">gs</span><span class="p">,</span><span class="s">&quot;CD3&quot;</span><span class="p">)[</span><span class="m">3</span><span class="o">:</span><span class="m">6</span><span class="p">])</span>
+
+<span class="c1"># 3) </span>
+
+<span class="c1"># Hide the &quot;BUV805-A+&quot; and &quot;BUV615-A+&quot; nodes from the tree</span>
+
+<span class="nf">gs_pop_set_visibility</span><span class="p">(</span><span class="n">gs</span><span class="p">,</span><span class="s">&quot;BUV805-A+&quot;</span><span class="p">,</span> <span class="kc">FALSE</span><span class="p">)</span>
+<span class="nf">gs_pop_set_visibility</span><span class="p">(</span><span class="n">gs</span><span class="p">,</span><span class="s">&quot;BUV615-A+&quot;</span><span class="p">,</span> <span class="kc">FALSE</span><span class="p">)</span>
+
+<span class="c1"># check</span>
+<span class="nf">plot</span><span class="p">(</span><span class="n">gs</span><span class="p">)</span>
+
+<span class="c1"># 4) Rename the CD4 CD8 gates to CD4+, CD8+, DNT and DPT</span>
+
+<span class="c1"># Rename the CD4 CD8 gates to CD4+, CD8+, DNT and DPT</span>
+<span class="nf">gs_pop_set_name</span><span class="p">(</span><span class="n">gs</span><span class="p">,</span><span class="s">&quot;BUV615-A-BUV805-A+&quot;</span><span class="p">,</span><span class="s">&quot;CD8+&quot;</span><span class="p">)</span>
+<span class="nf">gs_pop_set_name</span><span class="p">(</span><span class="n">gs</span><span class="p">,</span><span class="s">&quot;BUV615-A+BUV805-A-&quot;</span><span class="p">,</span><span class="s">&quot;CD4+&quot;</span><span class="p">)</span>
+<span class="nf">gs_pop_set_name</span><span class="p">(</span><span class="n">gs</span><span class="p">,</span><span class="s">&quot;BUV615-A+BUV805-A+&quot;</span><span class="p">,</span><span class="s">&quot;DPT&quot;</span><span class="p">)</span>
+<span class="nf">gs_pop_set_name</span><span class="p">(</span><span class="n">gs</span><span class="p">,</span><span class="s">&quot;BUV615-A-BUV805-A-&quot;</span><span class="p">,</span><span class="s">&quot;DNT&quot;</span><span class="p">)</span>
+
+<span class="c1"># check</span>
+<span class="nf">plot</span><span class="p">(</span><span class="n">gs</span><span class="p">)</span>
+
+<span class="c1"># 5) Create a boxplot showing the percentage of CD8+ T cells among T cells (&quot;CD3&quot;) as a function of time point</span>
+
+<span class="c1"># extract the proportions</span>
+<span class="n">my_proportions</span> <span class="o">&lt;-</span> <span class="nf">gs_pop_get_stats</span><span class="p">(</span><span class="n">gs</span><span class="p">,</span> <span class="n">nodes</span> <span class="o">=</span> <span class="s">&quot;CD8+&quot;</span><span class="p">,</span> <span class="n">type</span> <span class="o">=</span> <span class="s">&quot;percent&quot;</span><span class="p">)</span>
+
+<span class="c1"># add the timepoints</span>
+<span class="n">my_proportions</span><span class="o">$</span><span class="n">time_point</span> <span class="o">&lt;-</span> <span class="nf">rep</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">14</span><span class="p">,</span><span class="m">7</span><span class="p">),</span> <span class="m">5</span><span class="p">)</span>
+
+<span class="c1"># convert to factor (order in the plot)</span>
+<span class="n">my_proportions</span><span class="o">$</span><span class="n">time_point</span> <span class="o">&lt;-</span> <span class="nf">factor</span><span class="p">(</span><span class="n">my_proportions</span><span class="o">$</span><span class="n">time_point</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">7</span><span class="p">,</span><span class="m">14</span><span class="p">))</span>
+
+<span class="c1"># create the boxplot</span>
+<span class="nf">boxplot</span><span class="p">(</span><span class="n">percent</span> <span class="o">~</span> <span class="n">time_point</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">my_proportions</span><span class="p">)</span>
 </code></pre></div>
 </details>
 <p><strong>End of Day 3, good job!</strong></p>

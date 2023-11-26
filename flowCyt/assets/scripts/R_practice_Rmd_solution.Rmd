@@ -1,0 +1,90 @@
+---
+title: "Let's practice - 9"
+author: "Joao Lourenco"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+
+# Global options
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+
+
+```{r prepare_data, echo=FALSE}
+
+# Import the clinical data from the file clinical_data_mod.csv. 
+clinical_data <- read.table("course_datasets/clinical_data_mod.csv", header=TRUE, sep=",")
+
+# 2) Convert gender and response_to_treatment to factor variables
+# define the order of factor levels
+clinical_data$gender <- factor(clinical_data$gender)
+clinical_data$response_to_treatment <- factor(clinical_data$response_to_treatment, levels = c("PD","SD","PR","CR"))
+
+# 5) Compute the BMI = Weight / Height^2
+clinical_data$BMI <- clinical_data$weight / (clinical_data$height^2)
+
+
+```
+
+
+# Histogram of patient weight
+
+
+```{r histogram, fig.align='center'}
+
+# 3) Plot an histogram of patient weight and customize it with colours, labels, title and represent the density line on top.
+hist(clinical_data$weight,
+     freq=FALSE, breaks=8,
+     main="Patient Weight",
+     col="orange" ,
+     xlab="Weight [kg]")
+lines(density(clinical_data$weight), col='blue')
+# Note: freq=FALSE makes the histogram density based, which makes it scale well with the density line
+
+
+```
+
+
+
+# Scatter plot of height against patient weights
+
+
+```{r scatter_plot, fig.align='center'}
+
+plot(clinical_data$weight,clinical_data$height, 
+     pch=19,
+     main="Weight vs Height in Patients",
+     xlab="Weight [kg]", ylab="Height [m]",
+     col=c("orange", "blue")[clinical_data$gender]
+     )
+
+legend("bottomright",
+       legend=levels(clinical_data$gender),
+       col=c("orange","blue"),
+       pch=19)
+
+abline(lm(clinical_data$height ~ clinical_data$weight),
+       col="black", lwd=1.5)
+
+
+```
+
+
+# Boxplots of BMI
+
+
+
+```{r boxplots_bmi, fig.align='center'}
+
+boxplot(BMI ~ response_to_treatment, data= clinical_data,
+        col=c("red", "orange","green","blue"),
+        main="BMI by Revel of Response to treatment",
+        xlab="Response to treatment", ylab="BMI"
+)
+points(BMI ~ response_to_treatment, data= clinical_data)
+
+```
