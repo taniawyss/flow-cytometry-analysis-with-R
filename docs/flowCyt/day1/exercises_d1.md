@@ -241,7 +241,7 @@ Create a new script in which you will:
     ```
 
 
-**End of Day 1, good job!** :sparkle:
+**End of Day 1, good job!**
 
 <!--
 ## Feedback :sparkle:

@@ -59,7 +59,7 @@ install.packages("ggridges")
 install.packages("scales")
 BiocManager::install("ComplexHeatmap")
 install.packages("circlize")
-
+install.packages("cowplot")
 
 #################
 # Data handling #
@@ -121,6 +121,14 @@ devtools::install_github("RGLab/FAUST")
 install.packages("survival")
 install.packages("survminer")
 
+############################
+# Gating                   #
+############################
+
+BiocManager::install("flowClust")
+BiocManager::install("CytoML")
+BiocManager::install("openCyto")
+
 ```
 
 After installation, packages can be loaded using:
@@ -172,6 +180,7 @@ library(ggridges) # install.packages("ggridges")
 library(scales) # install.packages("scales")
 library(ComplexHeatmap) # BiocManager::install("ComplexHeatmap")
 library(circlize) # install.packages("circlize")
+library(cowplot) # install.packages("cowplot")
 
 
 #################
@@ -232,6 +241,14 @@ library(faust) # devtools::install_github("RGLab/FAUST")
 
 library(survival) # install.packages("survival")
 library(survminer) # install.packages("survminer")
+
+############################
+# Gating                   #
+############################
+
+library(flowClust) # BiocManager::install("flowClust")
+library(CytoML) # BiocManager::install("CytoML")
+library(openCyto) # BiocManager::install("openCyto")
 
 
 ```

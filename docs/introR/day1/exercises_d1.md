@@ -453,10 +453,10 @@ Hint : try some of the example in the help(table) page.
     ```
 
 
-**End of Day 1, good job!** :sparkle:
+**End of Day 1, good job!**
 
 <!--
-## Feedback :sparkle:
+## Feedback
 -->
 
 

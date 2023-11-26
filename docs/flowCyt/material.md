@@ -12,6 +12,18 @@
 
 [Download slides](assets/pdf/flowCyto_day2.pdf){: .md-button }
 
+### Day 3
+
+[Download slides](assets/pdf/flowCyto_day3.pdf){: .md-button }
+
+### Day 4
+
+[Download slides](assets/pdf/flowCyto_day4.pdf){: .md-button }
+
+### Day 5
+
+[Download slides](assets/pdf/flowCyto_day5.pdf){: .md-button }
+
 ## Data for exercises
 
 Please note that the data size is very big: 2.3GB. It may take a while to download.

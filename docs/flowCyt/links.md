@@ -20,6 +20,18 @@ Code mostly developed for single-cell RNA seq analysis, but some of the concepts
 
 [OSCA book](https://bioconductor.org/books/3.18/OSCA.intro/)
 
+## Understanding UMAP
+
+A website where you can play with the parameters and see how the 2D projection of an original data set changes
+
+[https://pair-code.github.io/understanding-umap/](https://pair-code.github.io/understanding-umap/)
+
+## Understanding tSNE
+
+A website where you can play with the parameters and see how the 2D projection of an original data set changes
+
+[https://distill.pub/2016/misread-tsne/](https://distill.pub/2016/misread-tsne/)
+
 ## R for Data Science Book
 
 Book (2nd edition) by Hadley Wickham (a very active R developer), Mine Çetinkaya-Rundel and Garrett Grolemund. The book makes heavy use of the [tidyverse](https://www.tidyverse.org/), which is a collection of R packages designed for data science. All packages share an underlying design philosophy, grammar, and data structures. ggplot2 is part of the tidyverse packages.

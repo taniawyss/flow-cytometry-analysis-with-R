@@ -426,7 +426,7 @@ The slides introducing statistics with R can be found [here](https://github.com/
 The R code to run Wilcoxon or T tests can be found [here (ex.9)](https://github.com/sib-swiss/first-steps-with-R-training/blob/master/solutions/R_practice9_solution.R) using source data that can be found [here](https://github.com/sib-swiss/first-steps-with-R-training/tree/master/course_datasets). The R code to run a linear model can be found [here (ex.10)](https://github.com/sib-swiss/first-steps-with-R-training/blob/master/solutions/R_practice10_solution.R). Feel free to try it out!
 
 
-**End of Day 2, good job!** :sparkle:
+**End of Day 2, good job!**
 
 
 

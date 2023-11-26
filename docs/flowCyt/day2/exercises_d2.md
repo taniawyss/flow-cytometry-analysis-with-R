@@ -238,6 +238,12 @@ Create a new script in which you will:
     names(cluster_codes(sce))
     # [1] "som100" "meta2"  "meta3"  "meta4"  "meta5"  "meta6"  "meta7"  "meta8"  "meta9"  "meta10"
     # [11] "meta11" "meta12" "meta13" "meta14" "meta15" "meta16" "meta17" "meta18" "meta19" "meta20"
+    
+    # Plot which shows the change in area under the Consensus Cumulative Distribution function (CDF) per k
+    sce@metadata$delta_area
+    # Based on this plot, after k=8, there is not much change anymore.
+    # We could select a k between 5 and 8.
+
 
     # 3) Plot UMAP with clusters, expression heatmap and ridge plots
 
@@ -274,6 +280,12 @@ Create a new script in which you will:
     plotDR(sce,
        dr = "UMAP",
        color_by = "Major_cell_populations")
+
+    # Heatmap of antigen (of marker class=="type") scaled expression per Major cell population
+    plotExprHeatmap(sce,row_clust = F, col_clust = F,
+                features = "type",
+                by="cluster_id",
+                k="Major_cell_populations")
 
     # save
     save(sce,file = "course_datasets/FR_FCM_Z3WR/sce_annotated.RData" )
@@ -387,9 +399,56 @@ Create a new script in which you will:
     # Are there any differentially expressed markers ?
 
     topTable(res_DS)
+    
+    
+    # Below is an example of performing a paired analysis, using block_id as a blocking factor:
+    # Adding a covariate such as patient id to perform paired analysis:
+    ?diffcyt
+    # method_DS = c("diffcyt-DS-limma", "diffcyt-DS-LMM"),
+    ?testDS_limma
+    # we can use the block_id argument which has to be a vector of patient IDs
+
+    # create a vector of patient IDs for block design:
+    patient_id <- ei(sce)$sample_id
+    patient_id <- gsub("_0.fcs", "", patient_id)
+    patient_id <- gsub("_14.fcs", "", patient_id)
+    patient_id <- gsub("_7.fcs", "", patient_id)
+
+    head(patient_id)
+    # [1] "0BF51C" "0BF51C" "0BF51C" "0E1F8E" "0E1F8E" "0E1F8E"
+
+    # 2) Set up design and contrast matrices
+
+    design <- createDesignMatrix(ei(sce), cols_design = c("time_point"))
+    contrast <- createContrast(c(0,0,1))
+
+    # 3) Compute differential state expression using a vector of patient IDs as block_id argument:
+
+    res_DS_paired <- diffcyt(sce, 
+                  clustering_to_use = "Major_cell_populations",
+                  analysis_type = "DS", 
+                  method_DS = "diffcyt-DS-limma",
+                  design = design, 
+                  contrast = contrast,
+                  block_id = patient_id)
+
+    # Are there any differentially expressed markers ?
+    # p-values are lower than with the un-paired analysis above
+
+    topTable(res_DS_paired)
+    
+    # Heatmap with time points re-ordered:
+    colData(sce)$sample_id <- factor(colData(sce)$sample_id, 
+                          levels=c(ei(sce)$sample_id[grep("_0", ei(sce)$sample_id)],
+                                   ei(sce)$sample_id[grep("_7", ei(sce)$sample_id)],
+                                   ei(sce)$sample_id[grep("_14", ei(sce)$sample_id)]))
+
+    plotDiffHeatmap(sce, rowData(res_DS_paired$res), all=T, sort_by = "lfc", col_anno ="time_point")
+    
     ```
 
-**End of Day 2, good job!** :medal:
+
+**End of Day 2, good job!**
 
 <!--
 ## Feedback :sparkle:
