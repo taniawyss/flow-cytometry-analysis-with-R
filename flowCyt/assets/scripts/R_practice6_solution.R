@@ -29,11 +29,7 @@ plotAbundances(sce,
 			         group_by = "time_point")
 
 
-
-
-
-
-# 3) Set up designand contrast  matrices.
+# 3) Set up design and contrast matrices.
 
 # Set design matrix
 design <- createDesignMatrix(ei(sce),
@@ -62,12 +58,14 @@ res_DA <- diffcyt(sce,
 
 
 # show top differentially abundant cell populations
-
-
 tbl_DA <- rowData(res_DA$res)
 
 tbl_DA
 
 topTable(res_DA, format_vals = T)
 
+plotAbundances(sce, 
+               k = "Major_cell_populations", 
+               by = "cluster_id", 
+               group_by = "time_point")
 

@@ -9,14 +9,8 @@
       
       
       
-        <link rel="prev" href="../../material/">
-      
-      
-        <link rel="next" href="../../day2/exercises_d2/">
-      
-      
       <link rel="icon" href="../../../assets/images/TDS_logo.svg">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.9">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.6">
     
     
       
@@ -24,42 +18,42 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.78cf6014.min.css">
-      
-      
-
-
-    
-    
-      
-    
-    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.875de78c.min.css">
       
         
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.f1a3b89f.min.css">
+        
+      
+    
+    
+    
+      
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
       
+    
     
     
       <link rel="stylesheet" href="../../../stylesheets/extra.css">
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
-
-    
     
     
   </head>
   
   
-    <body dir="ltr">
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
   
     
-    
-      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    <script>function __prefix(e){return new URL("../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -76,12 +70,7 @@
       
     </div>
     
-    
-      
-
-  
-
-<header class="md-header md-header--shadow" data-md-component="header">
+      <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../../.." title="Analysis of flow cytometry data with R" class="md-header__button md-logo" aria-label="Analysis of flow cytometry data with R" data-md-component="logo">
       
@@ -89,8 +78,7 @@
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
-      
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
@@ -112,28 +100,21 @@
     
     
       <label class="md-header__button md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
       </label>
-      <div class="md-search" data-md-component="search" role="dialog">
+      
+<div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
       <label class="md-search__icon md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
       </label>
-      <nav class="md-search__options" aria-label="Search">
-        
-        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
-          
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
-        </button>
-      </nav>
-      
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" data-md-scrollfix>
@@ -141,7 +122,7 @@
           <div class="md-search-result__meta">
             Initializing search
           </div>
-          <ol class="md-search-result__list" role="presentation"></ol>
+          <ol class="md-search-result__list"></ol>
         </div>
       </div>
     </div>
@@ -150,10 +131,11 @@
     
     
       <div class="md-header__source">
-        <a href="https://github.com/taniawyss/flow-cytometry-analysis-with-R" title="Go to repository" class="md-source" data-md-component="source">
+        
+<a href="https://github.com/taniawyss/flow-cytometry-analysis-with-R/" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
   </div>
   <div class="md-source__repository">
     taniawyss/flow-cytometry-analysis-with-R
@@ -162,14 +144,11 @@
       </div>
     
   </nav>
-  
 </header>
     
     <div class="md-container" data-md-component="container">
       
       
-        
-          
         
       
       <main class="md-main" data-md-component="main">
@@ -183,7 +162,6 @@
                     
 
 
-
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="../../.." title="Analysis of flow cytometry data with R" class="md-nav__button md-logo" aria-label="Analysis of flow cytometry data with R" data-md-component="logo">
@@ -195,10 +173,11 @@
   </label>
   
     <div class="md-nav__source">
-      <a href="https://github.com/taniawyss/flow-cytometry-analysis-with-R" title="Go to repository" class="md-source" data-md-component="source">
+      
+<a href="https://github.com/taniawyss/flow-cytometry-analysis-with-R/" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
   </div>
   <div class="md-source__repository">
     taniawyss/flow-cytometry-analysis-with-R
@@ -210,18 +189,14 @@
     
       
       
+      
+
   
   
   
     <li class="md-nav__item">
       <a href="../../.." class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Home
-  </span>
-  
-
+        Home
       </a>
     </li>
   
@@ -229,142 +204,90 @@
     
       
       
+      
+
   
   
     
   
   
-    
-    
-    
-    
     
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
-        
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
-        
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      <label class="md-nav__link" for="__nav_2">
+        Intro to R
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Intro to R" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Intro to R
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
             
-  
-  <span class="md-ellipsis">
-    Intro to R
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_2">
-            <span class="md-nav__icon md-icon"></span>
-            Intro to R
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
   
   
   
     <li class="md-nav__item">
       <a href="../../course_schedule/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Course schedule
-  </span>
-  
-
+        Course schedule
       </a>
     </li>
   
 
-              
+          
             
-              
-                
   
   
   
     <li class="md-nav__item">
       <a href="../../precourse/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Precourse preparations
-  </span>
-  
-
+        Precourse preparations
       </a>
     </li>
   
 
-              
+          
             
-              
-                
   
   
   
     <li class="md-nav__item">
       <a href="../../material/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Material
-  </span>
-  
-
+        Material
       </a>
     </li>
   
 
-              
+          
             
-              
-                
   
   
     
   
   
-    
-    
-    
-    
     
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
-        
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" checked>
-        
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_4" type="checkbox" id="__nav_2_4" checked>
+      
+      <label class="md-nav__link" for="__nav_2_4">
+        Day 1
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Day 1" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_4">
+          <span class="md-nav__icon md-icon"></span>
+          Day 1
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
           
-          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
             
-  
-  <span class="md-ellipsis">
-    Day 1
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_2_4">
-            <span class="md-nav__icon md-icon"></span>
-            Day 1
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
   
   
     
@@ -372,33 +295,20 @@
   
     <li class="md-nav__item md-nav__item--active">
       
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Exercises
-  </span>
-  
-
+          Exercises
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  <span class="md-ellipsis">
-    Exercises
-  </span>
-  
-
+        Exercises
       </a>
       
         
-
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
@@ -412,99 +322,77 @@
       
         <li class="md-nav__item">
   <a href="#first-exploration-of-r-using-rstudio" class="md-nav__link">
-    <span class="md-ellipsis">
-      First exploration of R using RStudio
-    </span>
+    First exploration of R using RStudio
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#working-directory" class="md-nav__link">
-    <span class="md-ellipsis">
-      Working directory
-    </span>
+    Working directory
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#workspace-environment-and-history" class="md-nav__link">
-    <span class="md-ellipsis">
-      Workspace - Environment and history
-    </span>
+    Workspace - Environment and history
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#lets-practice-2-create-a-script" class="md-nav__link">
-    <span class="md-ellipsis">
-      Let's practice 2 - Create a script
-    </span>
+    Let's practice 2 - Create a script
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#packages" class="md-nav__link">
-    <span class="md-ellipsis">
-      Packages
-    </span>
+    Packages
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#r-version-and-session-information" class="md-nav__link">
-    <span class="md-ellipsis">
-      R version and session information
-    </span>
+    R version and session information
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#lets-practice-3" class="md-nav__link">
-    <span class="md-ellipsis">
-      Let's practice - 3
-    </span>
+    Let's practice - 3
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#lets-practice-4" class="md-nav__link">
-    <span class="md-ellipsis">
-      Let's practice - 4
-    </span>
+    Let's practice - 4
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#lets-practice-5" class="md-nav__link">
-    <span class="md-ellipsis">
-      Let's practice - 5
-    </span>
+    Let's practice - 5
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#lets-practice-6" class="md-nav__link">
-    <span class="md-ellipsis">
-      Let's practice - 6
-    </span>
+    Let's practice - 6
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#lets-practice-6bis" class="md-nav__link">
-    <span class="md-ellipsis">
-      Let's practice 6bis
-    </span>
+    Let's practice 6bis
   </a>
   
 </li>
@@ -516,546 +404,339 @@
     </li>
   
 
-              
-            
-          </ul>
-        </nav>
-      
+          
+        </ul>
+      </nav>
     </li>
   
 
-              
+          
             
-              
-                
   
   
   
-    
-    
-    
-    
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
-        
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_5" type="checkbox" id="__nav_2_5" >
+      
+      <label class="md-nav__link" for="__nav_2_5">
+        Day 2
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Day 2" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_5">
+          <span class="md-nav__icon md-icon"></span>
+          Day 2
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
           
-          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
             
-  
-  <span class="md-ellipsis">
-    Day 2
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2_5">
-            <span class="md-nav__icon md-icon"></span>
-            Day 2
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
   
   
   
     <li class="md-nav__item">
       <a href="../../day2/exercises_d2/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Exercises
-  </span>
-  
-
+        Exercises
       </a>
     </li>
   
 
-              
-            
-          </ul>
-        </nav>
-      
+          
+        </ul>
+      </nav>
     </li>
   
 
-              
+          
             
-              
-                
   
   
   
     <li class="md-nav__item">
       <a href="../../links/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Useful links
-  </span>
-  
-
+        Useful links
       </a>
     </li>
   
 
-              
-            
-          </ul>
-        </nav>
-      
+          
+        </ul>
+      </nav>
     </li>
   
 
     
       
       
+      
+
   
   
   
-    
-    
-    
-    
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
-        
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
+        Flow cytometry analysis
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Flow cytometry analysis" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Flow cytometry analysis
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
             
-  
-  <span class="md-ellipsis">
-    Flow cytometry analysis
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3">
-            <span class="md-nav__icon md-icon"></span>
-            Flow cytometry analysis
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
   
   
   
     <li class="md-nav__item">
       <a href="../../../flowCyt/course_schedule/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Course schedule
-  </span>
-  
-
+        Course schedule
       </a>
     </li>
   
 
-              
+          
             
-              
-                
   
   
   
     <li class="md-nav__item">
       <a href="../../../flowCyt/precourse/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Precourse preparations
-  </span>
-  
-
+        Precourse preparations
       </a>
     </li>
   
 
-              
+          
             
-              
-                
   
   
   
     <li class="md-nav__item">
       <a href="../../../flowCyt/material/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Material
-  </span>
-  
-
+        Material
       </a>
     </li>
   
 
-              
+          
             
-              
-                
   
   
   
-    
-    
-    
-    
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
-        
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_4" type="checkbox" id="__nav_3_4" >
+      
+      <label class="md-nav__link" for="__nav_3_4">
+        Day 1
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Day 1" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_4">
+          <span class="md-nav__icon md-icon"></span>
+          Day 1
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
           
-          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
             
-  
-  <span class="md-ellipsis">
-    Day 1
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_4">
-            <span class="md-nav__icon md-icon"></span>
-            Day 1
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
   
   
   
     <li class="md-nav__item">
       <a href="../../../flowCyt/day1/exercises_d1/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Exercises
-  </span>
-  
-
+        Exercises
       </a>
     </li>
   
 
-              
-            
-          </ul>
-        </nav>
-      
+          
+        </ul>
+      </nav>
     </li>
   
 
-              
+          
             
-              
-                
   
   
   
-    
-    
-    
-    
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
-        
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_5" type="checkbox" id="__nav_3_5" >
+      
+      <label class="md-nav__link" for="__nav_3_5">
+        Day 2
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Day 2" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_5">
+          <span class="md-nav__icon md-icon"></span>
+          Day 2
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
           
-          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
             
-  
-  <span class="md-ellipsis">
-    Day 2
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_5">
-            <span class="md-nav__icon md-icon"></span>
-            Day 2
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
   
   
   
     <li class="md-nav__item">
       <a href="../../../flowCyt/day2/exercises_d2/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Exercises
-  </span>
-  
-
+        Exercises
       </a>
     </li>
   
 
-              
-            
-          </ul>
-        </nav>
-      
+          
+        </ul>
+      </nav>
     </li>
   
 
-              
+          
             
-              
-                
   
   
   
-    
-    
-    
-    
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" >
-        
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_6" type="checkbox" id="__nav_3_6" >
+      
+      <label class="md-nav__link" for="__nav_3_6">
+        Day 3
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Day 3" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_6">
+          <span class="md-nav__icon md-icon"></span>
+          Day 3
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
           
-          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
             
-  
-  <span class="md-ellipsis">
-    Day 3
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_6">
-            <span class="md-nav__icon md-icon"></span>
-            Day 3
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
   
   
   
     <li class="md-nav__item">
       <a href="../../../flowCyt/day3/exercises_d3/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Exercises
-  </span>
-  
-
+        Exercises
       </a>
     </li>
   
 
-              
-            
-          </ul>
-        </nav>
-      
+          
+        </ul>
+      </nav>
     </li>
   
 
-              
+          
             
-              
-                
   
   
   
-    
-    
-    
-    
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_7" >
-        
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_7" type="checkbox" id="__nav_3_7" >
+      
+      <label class="md-nav__link" for="__nav_3_7">
+        Day 4
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Day 4" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_7">
+          <span class="md-nav__icon md-icon"></span>
+          Day 4
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
           
-          <label class="md-nav__link" for="__nav_3_7" id="__nav_3_7_label" tabindex="0">
             
-  
-  <span class="md-ellipsis">
-    Day 4
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_7">
-            <span class="md-nav__icon md-icon"></span>
-            Day 4
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
   
   
   
     <li class="md-nav__item">
       <a href="../../../flowCyt/day4/exercises_d4/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Exercises
-  </span>
-  
-
+        Exercises
       </a>
     </li>
   
 
-              
-            
-          </ul>
-        </nav>
-      
+          
+        </ul>
+      </nav>
     </li>
   
 
-              
+          
             
-              
-                
   
   
   
-    
-    
-    
-    
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8" >
-        
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_8" type="checkbox" id="__nav_3_8" >
+      
+      <label class="md-nav__link" for="__nav_3_8">
+        Day 5
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Day 5" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_8">
+          <span class="md-nav__icon md-icon"></span>
+          Day 5
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
           
-          <label class="md-nav__link" for="__nav_3_8" id="__nav_3_8_label" tabindex="0">
             
-  
-  <span class="md-ellipsis">
-    Day 5
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_8_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8">
-            <span class="md-nav__icon md-icon"></span>
-            Day 5
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
   
   
   
     <li class="md-nav__item">
       <a href="../../../flowCyt/day5/exercises_d5/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Exercises
-  </span>
-  
-
+        Exercises
       </a>
     </li>
   
 
-              
-            
-          </ul>
-        </nav>
-      
+          
+        </ul>
+      </nav>
     </li>
   
 
-              
+          
             
-              
-                
   
   
   
     <li class="md-nav__item">
       <a href="../../../flowCyt/links/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Useful links
-  </span>
-  
-
+        Useful links
       </a>
     </li>
   
 
-              
-            
-          </ul>
-        </nav>
-      
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -1072,7 +753,6 @@
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
-
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
@@ -1086,99 +766,77 @@
       
         <li class="md-nav__item">
   <a href="#first-exploration-of-r-using-rstudio" class="md-nav__link">
-    <span class="md-ellipsis">
-      First exploration of R using RStudio
-    </span>
+    First exploration of R using RStudio
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#working-directory" class="md-nav__link">
-    <span class="md-ellipsis">
-      Working directory
-    </span>
+    Working directory
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#workspace-environment-and-history" class="md-nav__link">
-    <span class="md-ellipsis">
-      Workspace - Environment and history
-    </span>
+    Workspace - Environment and history
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#lets-practice-2-create-a-script" class="md-nav__link">
-    <span class="md-ellipsis">
-      Let's practice 2 - Create a script
-    </span>
+    Let's practice 2 - Create a script
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#packages" class="md-nav__link">
-    <span class="md-ellipsis">
-      Packages
-    </span>
+    Packages
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#r-version-and-session-information" class="md-nav__link">
-    <span class="md-ellipsis">
-      R version and session information
-    </span>
+    R version and session information
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#lets-practice-3" class="md-nav__link">
-    <span class="md-ellipsis">
-      Let's practice - 3
-    </span>
+    Let's practice - 3
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#lets-practice-4" class="md-nav__link">
-    <span class="md-ellipsis">
-      Let's practice - 4
-    </span>
+    Let's practice - 4
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#lets-practice-5" class="md-nav__link">
-    <span class="md-ellipsis">
-      Let's practice - 5
-    </span>
+    Let's practice - 5
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#lets-practice-6" class="md-nav__link">
-    <span class="md-ellipsis">
-      Let's practice - 6
-    </span>
+    Let's practice - 6
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#lets-practice-6bis" class="md-nav__link">
-    <span class="md-ellipsis">
-      Let's practice 6bis
-    </span>
+    Let's practice 6bis
   </a>
   
 </li>
@@ -1191,19 +849,18 @@
               </div>
             
           
-          
-            <div class="md-content" data-md-component="content">
-              <article class="md-content__inner md-typeset">
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
                 
-                  
-
-  
-  
-
-
-  <h1>Exercises</h1>
-
-<p>In this section, you will find the R code that we will use during the course. We will explain the code and output during correction of the exercises.</p>
+                  <a href="https://github.com/taniawyss/flow-cytometry-analysis-with-R/edit/master/docs/introR/day1/exercises_d1.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                  <h1>Exercises</h1>
+                
+                <p>In this section, you will find the R code that we will use during the course. We will explain the code and output during correction of the exercises.</p>
 <!-- This is commented text -->
 
 <!-- ## Source of data -->
@@ -1215,10 +872,10 @@
 </figure>
 
 <p>Type the following commands within the console (bottom left window in RStudio) at the prompt (&ldquo;&gt;&rdquo;), followed by the &ldquo;Enter&rdquo; key after each one to view the output printed on the console.</p>
-<p><div class="highlight"><pre><span></span><code><span class="m">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span>
+<p><div class="highlight"><pre><span></span><code><span class="m">1</span> <span class="o">+</span> <span class="m">1</span>
 </code></pre></div>
 The first command (1 + 1) prints &ldquo;2&rdquo; in the console. 
-<div class="highlight"><pre><span></span><code><span class="n">x</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">128.5</span>
+<div class="highlight"><pre><span></span><code><span class="n">x</span>   <span class="o">&lt;-</span> <span class="m">128.5</span>
 </code></pre></div>
 The second command does not print anything in the console, but a new variable called &ldquo;x&rdquo; and that contains the value 128.5 is created and listed in the Workspace (top right window in RStudio).
 <div class="highlight"><pre><span></span><code><span class="n">x</span>
@@ -1261,9 +918,9 @@ Add a comment symbol (#, the pound or hash sign) at the beginning of the first l
 <p>Can you understand each line? What do you expect it to print to the console? Next, run the script and explore RStudio features such as the Workspace (Environment). Run the script line by line. Try both the &ldquo;Run&rdquo; button and the keyboard shortcut.  Watch variables appear in the Environment window (top right).
 Watch what is printed to the console (bottom left window). Does it match your expectation?</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># First Steps and commands, ex. 1  </span>
-<span class="n">w</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">3</span>
-<span class="n">h</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.5</span>
-<span class="n">area</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">w</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">h</span><span class="w"> </span>
+<span class="n">w</span> <span class="o">&lt;-</span> <span class="m">3</span>
+<span class="n">h</span> <span class="o">&lt;-</span> <span class="m">0.5</span>
+<span class="n">area</span> <span class="o">&lt;-</span> <span class="n">w</span> <span class="o">*</span> <span class="n">h</span> 
 <span class="n">area</span>
 </code></pre></div>
 <h2 id="packages">Packages</h2>
@@ -1272,9 +929,9 @@ Watch what is printed to the console (bottom left window). Does it match your ex
 <p>Install packages from <a href="https://cran.r-project.org/web/packages/available_packages_by_name.html">CRAN</a> with the install.packages() function.</p>
 <p>To install packages hosted on <a href="https://bioconductor.org/">Bioconductor</a>, we need 2 steps. First, we install a package called BiocManager, that will allow us to have access to the install() function to download Bioconductor packages.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Install packages hosted on CRAN: use a function from the utils package:</span>
-<span class="nf">install.packages</span><span class="p">(</span><span class="s">&quot;stringi&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1"># stringi is a package for character string manipulations</span>
+<span class="nf">install.packages</span><span class="p">(</span><span class="s">&quot;stringi&quot;</span><span class="p">)</span> <span class="c1"># stringi is a package for character string manipulations</span>
 
-<span class="nf">install.packages</span><span class="p">(</span><span class="s">&quot;rmarkdown&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1"># rmarkdown package that allows to create pdf reports (see day 2)</span>
+<span class="nf">install.packages</span><span class="p">(</span><span class="s">&quot;rmarkdown&quot;</span><span class="p">)</span> <span class="c1"># rmarkdown package that allows to create pdf reports (see day 2)</span>
 
 <span class="c1"># Install packages hosted on bioconductor: first install the BiocManager package that is available on CRAN:</span>
 <span class="nf">install.packages</span><span class="p">(</span><span class="s">&quot;BiocManager&quot;</span><span class="p">)</span>
@@ -1291,25 +948,23 @@ Watch what is printed to the console (bottom left window). Does it match your ex
 It is good practice to load all needed packages at the top of a script.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># My Script</span>
 
-<span class="nf">library</span><span class="p">(</span><span class="n">limma</span><span class="p">)</span><span class="w">  </span>
-<span class="nf">library</span><span class="p">(</span><span class="n">DESeq2</span><span class="p">)</span><span class="w">  </span>
-<span class="nf">library</span><span class="p">(</span><span class="n">MASS</span><span class="p">)</span><span class="w">  </span>
+<span class="nf">library</span><span class="p">(</span><span class="n">limma</span><span class="p">)</span>  
+<span class="nf">library</span><span class="p">(</span><span class="n">DESeq2</span><span class="p">)</span>  
+<span class="nf">library</span><span class="p">(</span><span class="n">MASS</span><span class="p">)</span>  
 <span class="nf">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
 
 <span class="c1"># Here my data analysis begins</span>
 </code></pre></div>
 <p>If you run the above code, what is the output on the Console? What does it mean?</p>
-<details class="done">
-<summary>Answer</summary>
-<p>Packages such as limma or DESeq2 are not installed as base packages. They are hosted on Bioconductor and provide functions for RNAseq or microarray data analysis. The error message indicates that these packages were not installed and need to be installed before being able to load them.</p>
+<details class="done"><summary>Answer</summary><p>Packages such as limma or DESeq2 are not installed as base packages. They are hosted on Bioconductor and provide functions for RNAseq or microarray data analysis. The error message indicates that these packages were not installed and need to be installed before being able to load them.</p>
 </details>
 <h2 id="r-version-and-session-information">R version and session information</h2>
 <p>R is constantly upgraded by developers, which release a new version of R about every 6 months. Along with R upgrades, packages also get upgrades. From one version to the other of a package, it may happen that the default parameters of functions change. Therefore, it is important to always have in mind which current version of R and packages have been used for any analysis. Print the current R version and versions of attached or loaded packages using:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Prints the currently used R version</span>
-<span class="n">R.version.string</span><span class="w">    </span>
+<span class="n">R.version.string</span>    
 
 <span class="c1"># Print version information about R and all attached or loaded packages</span>
-<span class="nf">sessionInfo</span><span class="p">()</span><span class="w"> </span>
+<span class="nf">sessionInfo</span><span class="p">()</span> 
 
 <span class="c1"># Print the version of a specific package:</span>
 <span class="nf">packageVersion</span><span class="p">(</span><span class="s">&quot;stringi&quot;</span><span class="p">)</span>
@@ -1320,25 +975,23 @@ It is good practice to load all needed packages at the top of a script.</p>
 <p>3) Find out how to compute the square root of variables. Compute the square roots of a and b and of the ratio a/b.</p>
 <p>4) a) Calculate the logarithm to the base 2 of x (i.e., log2 x).
    b) Calculate the natural logarithm of x (i.e., loge x).</p>
-<details class="done">
-<summary>Answer</summary>
-<div class="highlight"><pre><span></span><code><span class="c1"># 1) Assign the values 6.7 and 56.3 to variables &quot;a&quot; and &quot;b&quot;, respectively.</span>
-<span class="n">a</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">6.7</span>
-<span class="n">b</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">56.3</span>
+<details class="done"><summary>Answer</summary><div class="highlight"><pre><span></span><code><span class="c1"># 1) Assign the values 6.7 and 56.3 to variables &quot;a&quot; and &quot;b&quot;, respectively.</span>
+<span class="n">a</span> <span class="o">&lt;-</span> <span class="m">6.7</span>
+<span class="n">b</span> <span class="o">&lt;-</span> <span class="m">56.3</span>
 
 <span class="c1"># 2) Calculate (2*a)/b + (a*b) and assign the result to variable &quot;x&quot;. Display the content of &quot;x&quot;.</span>
-<span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="p">(</span><span class="m">2</span><span class="o">*</span><span class="n">a</span><span class="p">)</span><span class="o">/</span><span class="n">b</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">a</span><span class="o">*</span><span class="n">b</span>
+<span class="n">x</span> <span class="o">&lt;-</span> <span class="p">(</span><span class="m">2</span><span class="o">*</span><span class="n">a</span><span class="p">)</span><span class="o">/</span><span class="n">b</span> <span class="o">+</span> <span class="n">a</span><span class="o">*</span><span class="n">b</span>
 <span class="n">x</span>
 
 <span class="c1"># 3) Find out how to compute the square root of variables. Compute the square roots of &quot;a&quot; and &quot;b&quot; and of the ratio &quot;a/b&quot;.</span>
-<span class="nf">sqrt</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="c1">#using function sqrt()</span>
-<span class="n">b</span><span class="o">^</span><span class="m">0.5</span><span class="w"> </span><span class="c1"># power 0.5 is the square root</span>
-<span class="p">(</span><span class="n">a</span><span class="o">/</span><span class="n">b</span><span class="p">)</span><span class="o">**</span><span class="m">0.5</span><span class="w"> </span><span class="c1"># another way of specifying power</span>
+<span class="nf">sqrt</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1">#using function sqrt()</span>
+<span class="n">b</span><span class="o">^</span><span class="m">0.5</span> <span class="c1"># power 0.5 is the square root</span>
+<span class="p">(</span><span class="n">a</span><span class="o">/</span><span class="n">b</span><span class="p">)</span><span class="o">**</span><span class="m">0.5</span> <span class="c1"># another way of specifying power</span>
 
 <span class="c1"># 4) a) Calculate the logarithm to the base 2 of &quot;x&quot;.</span>
 <span class="c1">#   b) Calculate the natural logarithm of &quot;x&quot;.</span>
-<span class="nf">log2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="c1"># Function specifically for Log 2. Alternatively: log(x, base=2)</span>
-<span class="nf">log</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">  </span><span class="c1"># If we don&#39;t specify the base, default is the natural logarithm. </span>
+<span class="nf">log2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1"># Function specifically for Log 2. Alternatively: log(x, base=2)</span>
+<span class="nf">log</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># If we don&#39;t specify the base, default is the natural logarithm. </span>
 </code></pre></div>
 </details>
 <h2 id="lets-practice-4">Let&rsquo;s practice - 4</h2>
@@ -1350,28 +1003,26 @@ It is good practice to load all needed packages at the top of a script.</p>
    b) among both vector_a and vector_b.</p>
 <p>5) Compute the overall mean of the values among both vector_a and vector_b.</p>
 <p>Hint: Each task in exercises 1-5 can be performed in a single statement per  vector (the minimum and maximum count as 2 tasks)</p>
-<details class="done">
-<summary>Answer</summary>
-<div class="highlight"><pre><span></span><code><span class="c1"># 1) Create two vectors, &quot;vector_a&quot; and &quot;vector_b&quot;, containing the values from −5 to 5 and from 10 down to 0, respectively.</span>
-<span class="n">vector_a</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">-5</span><span class="o">:</span><span class="m">5</span>
-<span class="n">vector_b</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">seq</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="c1"># alternatively: vector_b &lt;- c(10,9,8,7,6,5,4,3,2,1,0)</span>
+<details class="done"><summary>Answer</summary><div class="highlight"><pre><span></span><code><span class="c1"># 1) Create two vectors, &quot;vector_a&quot; and &quot;vector_b&quot;, containing the values from −5 to 5 and from 10 down to 0, respectively.</span>
+<span class="n">vector_a</span> <span class="o">&lt;-</span> <span class="m">-5</span><span class="o">:</span><span class="m">5</span>
+<span class="n">vector_b</span> <span class="o">&lt;-</span> <span class="nf">seq</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="m">0</span><span class="p">)</span> <span class="c1"># alternatively: vector_b &lt;- c(10,9,8,7,6,5,4,3,2,1,0)</span>
 
 <span class="c1"># 2) Calculate the (elementwise) sum, difference and product between the elements of &quot;vector_a&quot; and &quot;vector_b&quot;. </span>
-<span class="n">vector_a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">vector_b</span><span class="w"> </span><span class="c1">#sum</span>
-<span class="n">vector_a</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">vector_b</span><span class="w"> </span><span class="c1">#difference</span>
-<span class="n">vector_a</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">vector_b</span><span class="w"> </span><span class="c1">#product</span>
+<span class="n">vector_a</span> <span class="o">+</span> <span class="n">vector_b</span> <span class="c1">#sum</span>
+<span class="n">vector_a</span> <span class="o">-</span> <span class="n">vector_b</span> <span class="c1">#difference</span>
+<span class="n">vector_a</span> <span class="o">*</span> <span class="n">vector_b</span> <span class="c1">#product</span>
 
 <span class="c1"># 3) a) Calculate the sum of elements in &quot;vector_a&quot;</span>
 <span class="c1">#    b) Calculate the overall sum of elements in both  &quot;vector_a&quot; and &quot;vector_b&quot;.</span>
 <span class="nf">sum</span><span class="p">(</span><span class="n">vector_a</span><span class="p">)</span>
-<span class="nf">sum</span><span class="p">(</span><span class="n">vector_a</span><span class="p">,</span><span class="w"> </span><span class="n">vector_b</span><span class="p">)</span><span class="w"> </span><span class="c1"># alternatively : sum(vector_a + vector_b)</span>
+<span class="nf">sum</span><span class="p">(</span><span class="n">vector_a</span><span class="p">,</span> <span class="n">vector_b</span><span class="p">)</span> <span class="c1"># alternatively : sum(vector_a + vector_b)</span>
 
 <span class="c1"># 4) Identify the smallest and the largest value among both &quot;vector_a&quot; and &quot;vector_b&quot;.</span>
-<span class="nf">min</span><span class="p">(</span><span class="n">vector_a</span><span class="p">,</span><span class="w"> </span><span class="n">vector_b</span><span class="p">)</span>
-<span class="nf">max</span><span class="p">(</span><span class="n">vector_a</span><span class="p">,</span><span class="w"> </span><span class="n">vector_b</span><span class="p">)</span>
+<span class="nf">min</span><span class="p">(</span><span class="n">vector_a</span><span class="p">,</span> <span class="n">vector_b</span><span class="p">)</span>
+<span class="nf">max</span><span class="p">(</span><span class="n">vector_a</span><span class="p">,</span> <span class="n">vector_b</span><span class="p">)</span>
 
 <span class="c1"># 5) Compute the overall mean of the values among both &quot;vector_a&quot; and &quot;vector_b&quot;</span>
-<span class="nf">mean</span><span class="p">(</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="w"> </span><span class="n">vector_a</span><span class="p">,</span><span class="w"> </span><span class="n">vector_b</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="c1"># mean() works only on a single vector, unlike sum, min and max! </span>
+<span class="nf">mean</span><span class="p">(</span> <span class="nf">c</span><span class="p">(</span> <span class="n">vector_a</span><span class="p">,</span> <span class="n">vector_b</span><span class="p">)</span> <span class="p">)</span> <span class="c1"># mean() works only on a single vector, unlike sum, min and max! </span>
 <span class="c1"># Concatenate both vectors (using c() ) before computing the mean</span>
 </code></pre></div>
 </details>
@@ -1384,9 +1035,7 @@ data(bacteria) # loads the bacteria data set (from MASS)</p>
 <p>4) Use [ ] to select rows 100 to 119 of the column “ap” .</p>
 <p>5) Use $ to get the column &ldquo;week&rdquo; and check how many missing values it has.</p>
 <p>Optional : 6) Count how many rows correspond to a “placebo” treatment (“trt”  column) using the comparison operator &ldquo;==&rdquo;.</p>
-<details class="done">
-<summary>Answer</summary>
-<div class="highlight"><pre><span></span><code><span class="c1"># 1)Install and load the package MASS (or other CRAN packages).</span>
+<details class="done"><summary>Answer</summary><div class="highlight"><pre><span></span><code><span class="c1"># 1)Install and load the package MASS (or other CRAN packages).</span>
 <span class="c1"># install.packages(&quot;MASS&quot;)</span>
 <span class="nf">library</span><span class="p">(</span><span class="n">MASS</span><span class="p">)</span>
 
@@ -1398,20 +1047,20 @@ data(bacteria) # loads the bacteria data set (from MASS)</p>
 <span class="nf">names</span><span class="p">(</span><span class="n">bacteria</span><span class="p">)</span>
 
 <span class="c1"># 4) Use the [ ] , to select in bacteria rows 100 to 119 in the column &quot;ap&quot;.</span>
-<span class="n">bacteria</span><span class="p">[</span><span class="w"> </span><span class="m">100</span><span class="o">:</span><span class="m">119</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ap&quot;</span><span class="w"> </span><span class="p">]</span>
+<span class="n">bacteria</span><span class="p">[</span> <span class="m">100</span><span class="o">:</span><span class="m">119</span> <span class="p">,</span> <span class="s">&quot;ap&quot;</span> <span class="p">]</span>
 
 <span class="c1"># 5) Use $ to get the column &quot;week&quot; and check how many missing values it has.</span>
 <span class="nf">sum</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">bacteria</span><span class="o">$</span><span class="n">week</span><span class="p">))</span>
 
 <span class="c1"># Optional : 6) use comparison operators to count how many rows correspond to a “placebo” treatment (“trt” column).</span>
-<span class="nf">sum</span><span class="p">(</span><span class="n">bacteria</span><span class="o">$</span><span class="n">trt</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;placebo&quot;</span><span class="p">)</span>
+<span class="nf">sum</span><span class="p">(</span><span class="n">bacteria</span><span class="o">$</span><span class="n">trt</span> <span class="o">==</span> <span class="s">&quot;placebo&quot;</span><span class="p">)</span>
 </code></pre></div>
 </details>
 <h2 id="lets-practice-6">Let&rsquo;s practice - 6</h2>
 <p>A clinical dataset from patients with lung cancer is available in the file clinical_data2.csv.</p>
 <p>The clinical_data2.csv file was generated from the clinical_data.csv source file using the following code:</p>
 <div class="highlight"><pre><span></span><code><span class="c1">## !! Adapt the path to the path in your own system if you wish to import the data available in file &quot;clinical_data.csv&quot;</span>
-<span class="n">clinical_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read.csv</span><span class="p">(</span><span class="s">&quot;course_datasets/clinical_data.csv&quot;</span><span class="p">)</span>
+<span class="n">clinical_data</span> <span class="o">&lt;-</span> <span class="nf">read.csv</span><span class="p">(</span><span class="s">&quot;course_datasets/clinical_data.csv&quot;</span><span class="p">)</span>
 
 <span class="c1"># View the format of the data:</span>
 <span class="nf">head</span><span class="p">(</span><span class="n">clinical_data</span><span class="p">)</span>
@@ -1426,8 +1075,8 @@ data(bacteria) # loads the bacteria data set (from MASS)</p>
 <span class="nf">str</span><span class="p">(</span><span class="n">clinical_data</span><span class="p">)</span>
 
 <span class="c1"># Convert the gender to a factor and re-order the disease stage:</span>
-<span class="n">clinical_data</span><span class="o">$</span><span class="n">gender</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">factor</span><span class="p">(</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">gender</span><span class="p">)</span>
-<span class="n">clinical_data</span><span class="o">$</span><span class="n">stage</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">factor</span><span class="p">(</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">stage</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;I&quot;</span><span class="p">,</span><span class="s">&quot;II&quot;</span><span class="p">,</span><span class="s">&quot;III&quot;</span><span class="p">,</span><span class="s">&quot;IV&quot;</span><span class="p">))</span>
+<span class="n">clinical_data</span><span class="o">$</span><span class="n">gender</span> <span class="o">&lt;-</span> <span class="nf">factor</span><span class="p">(</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">gender</span><span class="p">)</span>
+<span class="n">clinical_data</span><span class="o">$</span><span class="n">stage</span> <span class="o">&lt;-</span> <span class="nf">factor</span><span class="p">(</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">stage</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;I&quot;</span><span class="p">,</span><span class="s">&quot;II&quot;</span><span class="p">,</span><span class="s">&quot;III&quot;</span><span class="p">,</span><span class="s">&quot;IV&quot;</span><span class="p">))</span>
 
 <span class="nf">str</span><span class="p">(</span><span class="n">clinical_data</span><span class="p">)</span>
 
@@ -1444,37 +1093,37 @@ data(bacteria) # loads the bacteria data set (from MASS)</p>
 <span class="n">clinical_data</span><span class="o">$</span><span class="n">stage</span><span class="p">[</span><span class="m">30</span><span class="p">]</span>
 
 <span class="c1"># View the data corresponding to patients with stage II disease</span>
-<span class="nf">subset</span><span class="p">(</span><span class="n">clinical_data</span><span class="p">,</span><span class="w"> </span><span class="n">stage</span><span class="o">==</span><span class="s">&quot;II&quot;</span><span class="p">)</span>
+<span class="nf">subset</span><span class="p">(</span><span class="n">clinical_data</span><span class="p">,</span> <span class="n">stage</span><span class="o">==</span><span class="s">&quot;II&quot;</span><span class="p">)</span>
 
 <span class="c1"># View the data corresponding to patients with stage II disease and that are female:</span>
-<span class="nf">subset</span><span class="p">(</span><span class="n">clinical_data</span><span class="p">,</span><span class="w"> </span><span class="n">stage</span><span class="o">==</span><span class="s">&quot;II&quot;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">gender</span><span class="o">==</span><span class="s">&quot;female&quot;</span><span class="p">)</span><span class="w"> </span>
+<span class="nf">subset</span><span class="p">(</span><span class="n">clinical_data</span><span class="p">,</span> <span class="n">stage</span><span class="o">==</span><span class="s">&quot;II&quot;</span> <span class="o">&amp;</span> <span class="n">gender</span><span class="o">==</span><span class="s">&quot;female&quot;</span><span class="p">)</span> 
 
 <span class="c1"># View the data corresponding to patients with stage I or II disease and that are female:</span>
-<span class="nf">subset</span><span class="p">(</span><span class="n">clinical_data</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">stage</span><span class="o">==</span><span class="s">&quot;I&quot;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">stage</span><span class="o">==</span><span class="s">&quot;II&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">gender</span><span class="o">==</span><span class="s">&quot;female&quot;</span><span class="p">)</span>
+<span class="nf">subset</span><span class="p">(</span><span class="n">clinical_data</span><span class="p">,</span> <span class="p">(</span><span class="n">stage</span><span class="o">==</span><span class="s">&quot;I&quot;</span> <span class="o">|</span> <span class="n">stage</span><span class="o">==</span><span class="s">&quot;II&quot;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">gender</span><span class="o">==</span><span class="s">&quot;female&quot;</span><span class="p">)</span>
 
-<span class="nf">tapply</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">age</span><span class="p">,</span><span class="w"> </span><span class="n">INDEX</span><span class="o">=</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">stage</span><span class="p">,</span><span class="w"> </span><span class="n">FUN</span><span class="o">=</span><span class="n">min</span><span class="p">)</span>
+<span class="nf">tapply</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">age</span><span class="p">,</span> <span class="n">INDEX</span><span class="o">=</span><span class="n">clinical_data</span><span class="o">$</span><span class="n">stage</span><span class="p">,</span> <span class="n">FUN</span><span class="o">=</span><span class="n">min</span><span class="p">)</span>
 
 <span class="c1"># Add a new patient by concatenating rows and assign the result to a new variable called &quot;clinical_updated&quot;:</span>
-<span class="n">clinical_updated</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rbind</span><span class="p">(</span><span class="n">clinical_data</span><span class="p">,</span>
-<span class="w">                          </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">sample_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;LC02&quot;</span><span class="p">,</span><span class="w"> </span>
-<span class="w">                                     </span><span class="n">collection_date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;18.02.2021&quot;</span><span class="p">,</span>
-<span class="w">                                     </span><span class="n">age</span><span class="o">=</span><span class="m">71</span><span class="p">,</span>
-<span class="w">                                     </span><span class="n">gender</span><span class="o">=</span><span class="w"> </span><span class="s">&quot;female&quot;</span><span class="p">,</span>
-<span class="w">                                     </span><span class="n">stage</span><span class="o">=</span><span class="s">&quot;I&quot;</span><span class="p">))</span>
+<span class="n">clinical_updated</span> <span class="o">&lt;-</span> <span class="nf">rbind</span><span class="p">(</span><span class="n">clinical_data</span><span class="p">,</span>
+                          <span class="nf">data.frame</span><span class="p">(</span><span class="n">sample_id</span> <span class="o">=</span> <span class="s">&quot;LC02&quot;</span><span class="p">,</span> 
+                                     <span class="n">collection_date</span> <span class="o">=</span> <span class="s">&quot;18.02.2021&quot;</span><span class="p">,</span>
+                                     <span class="n">age</span><span class="o">=</span><span class="m">71</span><span class="p">,</span>
+                                     <span class="n">gender</span><span class="o">=</span> <span class="s">&quot;female&quot;</span><span class="p">,</span>
+                                     <span class="n">stage</span><span class="o">=</span><span class="s">&quot;I&quot;</span><span class="p">))</span>
 
 <span class="c1"># Create a new treated variable:</span>
-<span class="n">treated</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;yes&quot;</span><span class="p">,</span><span class="s">&quot;no&quot;</span><span class="p">),</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">clinical_data</span><span class="p">)</span><span class="o">/</span><span class="m">2</span><span class="p">)</span>
-<span class="n">clinical_mod</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">cbind</span><span class="p">(</span><span class="n">treated</span><span class="p">,</span><span class="w"> </span><span class="n">clinical_data</span><span class="p">)</span>
+<span class="n">treated</span> <span class="o">&lt;-</span> <span class="nf">rep</span><span class="p">(</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;yes&quot;</span><span class="p">,</span><span class="s">&quot;no&quot;</span><span class="p">),</span> <span class="nf">nrow</span><span class="p">(</span><span class="n">clinical_data</span><span class="p">)</span><span class="o">/</span><span class="m">2</span><span class="p">)</span>
+<span class="n">clinical_mod</span> <span class="o">&lt;-</span> <span class="nf">cbind</span><span class="p">(</span><span class="n">treated</span><span class="p">,</span> <span class="n">clinical_data</span><span class="p">)</span>
 
 <span class="c1"># Remove the first column and view the format:</span>
-<span class="n">clinical_orig</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">clinical_mod</span><span class="p">[,</span><span class="m">-1</span><span class="p">]</span><span class="w"> </span>
+<span class="n">clinical_orig</span> <span class="o">&lt;-</span> <span class="n">clinical_mod</span><span class="p">[,</span><span class="m">-1</span><span class="p">]</span> 
 <span class="nf">head</span><span class="p">(</span><span class="n">clinical_orig</span><span class="p">)</span>
 
-<span class="n">clinical_orig</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">clinical_mod</span><span class="p">[,</span><span class="m">2</span><span class="o">:</span><span class="nf">dim</span><span class="p">(</span><span class="n">clinical_mod</span><span class="p">)[</span><span class="m">2</span><span class="p">]]</span><span class="w"> </span>
+<span class="n">clinical_orig</span> <span class="o">&lt;-</span> <span class="n">clinical_mod</span><span class="p">[,</span><span class="m">2</span><span class="o">:</span><span class="nf">dim</span><span class="p">(</span><span class="n">clinical_mod</span><span class="p">)[</span><span class="m">2</span><span class="p">]]</span> 
 
 <span class="c1"># Export to a new csv file:</span>
-<span class="nf">write.table</span><span class="p">(</span><span class="n">clinical_updated</span><span class="p">,</span><span class="w"> </span><span class="n">file</span><span class="o">=</span><span class="s">&quot;course_datasets/clinical_updated.csv&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="n">quote</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s">&quot;,&quot;</span><span class="p">,</span><span class="n">row.names</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span>
+<span class="nf">write.table</span><span class="p">(</span><span class="n">clinical_updated</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="s">&quot;course_datasets/clinical_updated.csv&quot;</span><span class="p">,</span>
+            <span class="n">quote</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s">&quot;,&quot;</span><span class="p">,</span><span class="n">row.names</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span>
 </code></pre></div>
 <p>Let&rsquo;s explore the dataset to see  what it contains.
 1) Optional: Open a new script file in R studio, comment it and save it.</p>
@@ -1484,9 +1133,7 @@ data(bacteria) # loads the bacteria data set (from MASS)</p>
 <p>5) What is the structure of the dataset? What are the names and classes of the variables?</p>
 <p>6) Which variables appear to be categorical? Convert them to factors.</p>
 <p>7) Get the summary statistics of &ldquo;clinical_data2&rdquo;</p>
-<details class="done">
-<summary>Answer</summary>
-<div class="highlight"><pre><span></span><code><span class="c1"># A clinical dataset from patients with lung cancer is available in the file clinical_data2.csv. </span>
+<details class="done"><summary>Answer</summary><div class="highlight"><pre><span></span><code><span class="c1"># A clinical dataset from patients with lung cancer is available in the file clinical_data2.csv. </span>
 <span class="c1"># Let&#39;s explore the dataset to see  what it contains.</span>
 
 <span class="c1"># 1) Open a new script file in R studio, comment it and save it.</span>
@@ -1494,7 +1141,7 @@ data(bacteria) # loads the bacteria data set (from MASS)</p>
 
 <span class="c1"># 3) Read the file into R, assign its content to object &quot;clinical_data2&quot;. Examine the object.</span>
 <span class="c1"># Adapt the path to the path in your own system!</span>
-<span class="n">clinical_data2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read.csv</span><span class="p">(</span><span class="s">&quot;course_datasets/clinical_data2.csv&quot;</span><span class="p">)</span>
+<span class="n">clinical_data2</span> <span class="o">&lt;-</span> <span class="nf">read.csv</span><span class="p">(</span><span class="s">&quot;course_datasets/clinical_data2.csv&quot;</span><span class="p">)</span>
 
 <span class="c1"># 4) How many observations and variables does the dataset have?</span>
 <span class="nf">dim</span><span class="p">(</span><span class="n">clinical_data2</span><span class="p">)</span>
@@ -1504,10 +1151,10 @@ data(bacteria) # loads the bacteria data set (from MASS)</p>
 
 <span class="c1"># 6) Which variables appear to be categorical? Convert them to factors.</span>
 
-<span class="n">clinical_data2</span><span class="o">$</span><span class="n">gender</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">factor</span><span class="p">(</span><span class="n">clinical_data2</span><span class="o">$</span><span class="n">gender</span><span class="p">)</span>
-<span class="n">clinical_data2</span><span class="o">$</span><span class="n">stage</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">factor</span><span class="p">(</span><span class="n">clinical_data2</span><span class="o">$</span><span class="n">stage</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;I&quot;</span><span class="p">,</span><span class="s">&quot;II&quot;</span><span class="p">,</span><span class="s">&quot;III&quot;</span><span class="p">,</span><span class="s">&quot;IV&quot;</span><span class="p">))</span>
-<span class="n">clinical_data2</span><span class="o">$</span><span class="n">treatment_status</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">factor</span><span class="p">(</span><span class="n">clinical_data2</span><span class="o">$</span><span class="n">treatment_status</span><span class="p">)</span>
-<span class="n">clinical_data2</span><span class="o">$</span><span class="n">response_to_treatment</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">factor</span><span class="p">(</span><span class="n">clinical_data2</span><span class="o">$</span><span class="n">response_to_treatment</span><span class="p">,</span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;PD&quot;</span><span class="p">,</span><span class="s">&quot;SD&quot;</span><span class="p">,</span><span class="s">&quot;PR&quot;</span><span class="p">,</span><span class="s">&quot;CR&quot;</span><span class="p">))</span>
+<span class="n">clinical_data2</span><span class="o">$</span><span class="n">gender</span> <span class="o">&lt;-</span> <span class="nf">factor</span><span class="p">(</span><span class="n">clinical_data2</span><span class="o">$</span><span class="n">gender</span><span class="p">)</span>
+<span class="n">clinical_data2</span><span class="o">$</span><span class="n">stage</span> <span class="o">&lt;-</span> <span class="nf">factor</span><span class="p">(</span><span class="n">clinical_data2</span><span class="o">$</span><span class="n">stage</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;I&quot;</span><span class="p">,</span><span class="s">&quot;II&quot;</span><span class="p">,</span><span class="s">&quot;III&quot;</span><span class="p">,</span><span class="s">&quot;IV&quot;</span><span class="p">))</span>
+<span class="n">clinical_data2</span><span class="o">$</span><span class="n">treatment_status</span> <span class="o">&lt;-</span> <span class="nf">factor</span><span class="p">(</span><span class="n">clinical_data2</span><span class="o">$</span><span class="n">treatment_status</span><span class="p">)</span>
+<span class="n">clinical_data2</span><span class="o">$</span><span class="n">response_to_treatment</span> <span class="o">&lt;-</span> <span class="nf">factor</span><span class="p">(</span><span class="n">clinical_data2</span><span class="o">$</span><span class="n">response_to_treatment</span><span class="p">,</span><span class="n">levels</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;PD&quot;</span><span class="p">,</span><span class="s">&quot;SD&quot;</span><span class="p">,</span><span class="s">&quot;PR&quot;</span><span class="p">,</span><span class="s">&quot;CR&quot;</span><span class="p">))</span>
 
 <span class="c1"># 7) Get the summary statistics of &quot;clinical_data2&quot;</span>
 <span class="nf">summary</span><span class="p">(</span><span class="n">clinical_data2</span><span class="p">)</span>
@@ -1518,9 +1165,7 @@ data(bacteria) # loads the bacteria data set (from MASS)</p>
 Hint : try some of the example in the help(table) page.</p>
 <p>9) Isolate the samples from male patients using subset(). Compute a summary statistics just for the weights of the  subset. Then do the same for the samples from female patients. Export the data of each subgroup to a csv file.</p>
 <p>10) Compute the means and standard deviations for male and  female patient weights using tapply(). Then do the same by level of response to treatment.</p>
-<details class="done">
-<summary>Answer</summary>
-<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="c1"># 8) Use the function table() to compute the number of samples in  different patient groups.</span>
+<details class="done"><summary>Answer</summary><div class="highlight"><pre><span></span><code>  <span class="c1"># 8) Use the function table() to compute the number of samples in  different patient groups.</span>
 <span class="c1"># Hint : try some of the example in the help(table) page.</span>
 
 <span class="c1"># a) How many samples are included of each gender (male, female)? </span>
@@ -1538,72 +1183,104 @@ Hint : try some of the example in the help(table) page.</p>
 <span class="c1"># Export the data of each subgroup to a csv file.</span>
 
 <span class="c1"># Isolate the samples from male patients</span>
-<span class="n">clinical_data2_male</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">subset</span><span class="p">(</span><span class="n">clinical_data2</span><span class="p">,</span><span class="w"> </span><span class="n">gender</span><span class="o">==</span><span class="s">&quot;male&quot;</span><span class="p">)</span>
+<span class="n">clinical_data2_male</span> <span class="o">&lt;-</span> <span class="nf">subset</span><span class="p">(</span><span class="n">clinical_data2</span><span class="p">,</span> <span class="n">gender</span><span class="o">==</span><span class="s">&quot;male&quot;</span><span class="p">)</span>
 
 <span class="c1"># Compute a summary statistics just for the weights of the  subset</span>
 <span class="nf">summary</span><span class="p">(</span><span class="n">clinical_data2_male</span><span class="o">$</span><span class="n">weight</span><span class="p">)</span>
 
 <span class="c1"># Export the data to a csv file.</span>
-<span class="nf">write.table</span><span class="p">(</span><span class="n">clinical_data2_male</span><span class="p">,</span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;course_datasets/clinical_data2_male.csv&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="n">quote</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span>
-<span class="w">      </span><span class="n">sep</span><span class="o">=</span><span class="s">&quot;,&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="n">row.names</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span>
+<span class="nf">write.table</span><span class="p">(</span><span class="n">clinical_data2_male</span><span class="p">,</span><span class="n">file</span> <span class="o">=</span> <span class="s">&quot;course_datasets/clinical_data2_male.csv&quot;</span><span class="p">,</span>
+      <span class="n">quote</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span> 
+      <span class="n">sep</span><span class="o">=</span><span class="s">&quot;,&quot;</span><span class="p">,</span>
+      <span class="n">row.names</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span>
 
 <span class="c1"># Isolate the samples from female patients</span>
-<span class="n">clinical_data2_female</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">subset</span><span class="p">(</span><span class="n">clinical_data2</span><span class="p">,</span><span class="w"> </span><span class="n">gender</span><span class="o">==</span><span class="s">&quot;female&quot;</span><span class="p">)</span>
+<span class="n">clinical_data2_female</span> <span class="o">&lt;-</span> <span class="nf">subset</span><span class="p">(</span><span class="n">clinical_data2</span><span class="p">,</span> <span class="n">gender</span><span class="o">==</span><span class="s">&quot;female&quot;</span><span class="p">)</span>
 
 <span class="c1"># Compute a summary statistics just for the weights of the subset</span>
 <span class="nf">summary</span><span class="p">(</span><span class="n">clinical_data2_female</span><span class="o">$</span><span class="n">weight</span><span class="p">)</span>
 
 <span class="c1"># Export the data to a csv file.</span>
-<span class="nf">write.table</span><span class="p">(</span><span class="n">clinical_data2_female</span><span class="p">,</span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;course_datasets/clinical_data2_female.csv&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="n">quote</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span>
-<span class="w">        </span><span class="n">sep</span><span class="o">=</span><span class="s">&quot;,&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="n">row.names</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span>
+<span class="nf">write.table</span><span class="p">(</span><span class="n">clinical_data2_female</span><span class="p">,</span><span class="n">file</span> <span class="o">=</span> <span class="s">&quot;course_datasets/clinical_data2_female.csv&quot;</span><span class="p">,</span>
+        <span class="n">quote</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span> 
+        <span class="n">sep</span><span class="o">=</span><span class="s">&quot;,&quot;</span><span class="p">,</span>
+        <span class="n">row.names</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span>
 
 <span class="c1"># 10) Compute the means and standard deviations for male and female patient weights using tapply(). </span>
 <span class="c1"># Then do the same by level of response to treatment.</span>
 
 <span class="c1"># by gender</span>
-<span class="nf">tapply</span><span class="p">(</span><span class="n">clinical_data2</span><span class="o">$</span><span class="n">weight</span><span class="p">,</span><span class="w"> </span><span class="n">clinical_data2</span><span class="o">$</span><span class="n">gender</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="p">)</span><span class="w"> </span><span class="c1"># mean: by gender</span>
-<span class="nf">tapply</span><span class="p">(</span><span class="n">clinical_data2</span><span class="o">$</span><span class="n">weight</span><span class="p">,</span><span class="w"> </span><span class="n">clinical_data2</span><span class="o">$</span><span class="n">gender</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="p">)</span><span class="w"> </span><span class="c1"># standard deviation by gender</span>
+<span class="nf">tapply</span><span class="p">(</span><span class="n">clinical_data2</span><span class="o">$</span><span class="n">weight</span><span class="p">,</span> <span class="n">clinical_data2</span><span class="o">$</span><span class="n">gender</span><span class="p">,</span> <span class="n">mean</span><span class="p">)</span> <span class="c1"># mean: by gender</span>
+<span class="nf">tapply</span><span class="p">(</span><span class="n">clinical_data2</span><span class="o">$</span><span class="n">weight</span><span class="p">,</span> <span class="n">clinical_data2</span><span class="o">$</span><span class="n">gender</span><span class="p">,</span> <span class="n">sd</span><span class="p">)</span> <span class="c1"># standard deviation by gender</span>
 
 <span class="c1"># by response to treatment</span>
-<span class="nf">tapply</span><span class="p">(</span><span class="n">clinical_data2</span><span class="o">$</span><span class="n">weight</span><span class="p">,</span><span class="w"> </span><span class="n">clinical_data2</span><span class="o">$</span><span class="n">response_to_treatment</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="p">)</span><span class="w"> </span><span class="c1"># mean: by level of response to treatment</span>
-<span class="nf">tapply</span><span class="p">(</span><span class="n">clinical_data2</span><span class="o">$</span><span class="n">weight</span><span class="p">,</span><span class="w"> </span><span class="n">clinical_data2</span><span class="o">$</span><span class="n">response_to_treatment</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="p">)</span><span class="w"> </span><span class="c1"># standard deviation by level of response to treatment</span>
+<span class="nf">tapply</span><span class="p">(</span><span class="n">clinical_data2</span><span class="o">$</span><span class="n">weight</span><span class="p">,</span> <span class="n">clinical_data2</span><span class="o">$</span><span class="n">response_to_treatment</span><span class="p">,</span> <span class="n">mean</span><span class="p">)</span> <span class="c1"># mean: by level of response to treatment</span>
+<span class="nf">tapply</span><span class="p">(</span><span class="n">clinical_data2</span><span class="o">$</span><span class="n">weight</span><span class="p">,</span> <span class="n">clinical_data2</span><span class="o">$</span><span class="n">response_to_treatment</span><span class="p">,</span> <span class="n">sd</span><span class="p">)</span> <span class="c1"># standard deviation by level of response to treatment</span>
 </code></pre></div>
 </details>
-<p><strong>End of Day 1, good job!</strong> <img alt="❇" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/2747.svg" title=":sparkle:" /></p>
+<p><strong>End of Day 1, good job!</strong></p>
 <!--
-## Feedback :sparkle:
+## Feedback
 -->
-
-
-
-
-
                 
-              </article>
-            </div>
-          
-          
+              
+              
+                
+
+
+              
+            </article>
+          </div>
         </div>
         
       </main>
       
-        <footer class="md-footer">
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        <a href="../../material/" class="md-footer__link md-footer__link--prev" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Material
+            </div>
+          </div>
+        </a>
+      
+      
+        <a href="../../day2/exercises_d2/" class="md-footer__link md-footer__link--next" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Exercises
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
-      <div class="md-copyright">
-  
-  
-    Made with
-    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-      Material for MkDocs
-    </a>
-  
-</div>
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
       
     </div>
   </div>
@@ -1613,12 +1290,10 @@ Hint : try some of the example in the help(table) page.</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
+    <script id="__config" type="application/json">{"base": "../../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../assets/javascripts/workers/search.d351de03.min.js", "version": null}</script>
     
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": [], "search": "../../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
-    
-    
-      <script src="../../../assets/javascripts/bundle.6c14ae12.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.34eae1b6.min.js"></script>
       
     
   </body>
