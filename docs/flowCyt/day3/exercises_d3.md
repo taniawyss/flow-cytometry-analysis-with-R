@@ -19,25 +19,28 @@ In this section, you will find the R code that we will use during the course. We
 
 ## Let's practice - 8
 
-1) Create a flowSet called fcs_data of all samples within the /course_dataset/FR_FCM_Z4KT folder
+In this exercise, we will perform normalization using CytoNorm, and estimating quantiles and splines using a technical replicate distributed across batches. The data comes from the FlowRepository accession .
 
-2) Generate a panel data.frame using colnames(fcs_data) antigen names extracted with pData(parameters(fcs_data[[1]]))$desc. Create a new column called marker_class that will contain the type of markers: all that are not NA should be labeled as "type", except PD-1 which should be labeled as "state". Make sure that the antigen "Zombie UV" is labeled as "none" and not as "type". Save the panel to an Excel file using write.xlsx2().
+1) Create a flowSet called fcs_data of all samples within the `/course_dataset/FR_FCM_Z4KT` folder
 
-3) Transform the data: extract a vector from the panel data.frame which are the channels to be transformed, which are not labeled with "none". Perform asinh transformation with a cofactor of 3000 for all channels to be transformed, using transFlowVS() from the flowVS package.
+2) Generate a panel data.frame using `colnames(fcs_data)` and antigen names extracted with `pData(parameters(fcs_data[[1]]))$desc`. Create a new column called marker_class that will contain the type of markers: all the ones that are not NA should be labeled as "type", except PD-1 which should be labeled as "state". Make sure that the antigen "Zombie UV" is labeled as "none" and not as "type". Save the panel to an Excel file using `write.xlsx2()`.
 
-4) Split the flowSet resulting from transformation into a training flowSet containing all flowFrames from the sample "REU271", and a flowSet with the rest of the flowFrames not corresponding to sample "REU271".
+3) Transform the data: extract a vector from the panel data.frame which are the channels to be transformed, which are the ones that are not labeled with "none". Perform asinh transformation with a cofactor of 3000 for all channels to be transformed, using `transFlowVS()` from the flowVS package.
 
-5) Perform pre-clustering with flowSOM with function prepareFlowSOM(), providing the flowSet with the training flowFrames, the vector of channels to transform, and FlowSOM.params =list(xdim=10, ydim=10,
-nClus=20, scale=FALSE)
+4) Split the flowSet resulting from transformation into a training flowSet containing all flowFrames from the sample "REU271", and a flowSet with the rest of the flowFrames not corresponding to sample "REU271". Use the `grep()` function on the `sampleNames` of the flowSet.
 
-6) Test the coefficient of variation within clusters with the testCV() function.
+5) Perform pre-clustering with flowSOM with function `prepareFlowSOM()`, providing the flowSet with the training flowFrames, the vector of channels to transform, and `FlowSOM.params=list(xdim=10, ydim=10,
+nClus=20, scale=FALSE)`.
 
-7) Import the metadata with the batch label of each sample contained in the excel file md.xlsx, using read.xlsx2(). Create 2 vectors using the column "batch" in the md.xlsx file. One vector contains the batch labels of the samples that correspond to sample "REU271", and another vector contains the batch labels of the other samples (i.e. not "REU271").
+6) Test the coefficient of variation within clusters with the `testCV()` function.
 
-8) Estimate quantiles from the training flowSet using CytoNorm.train(). Use FlowSOM.params = list(nCells = 6000, xdim = 10, ydim = 10, nClus = 5, scale = FALSE)
+7) Import the metadata with the batch label of each sample contained in the excel file [md.xlsx](https://github.com/taniawyss/flow-cytometry-analysis-with-R/tree/master/docs/flowCyt/assets/data), using `read.xlsx2()`. Create 2 vectors using the column "batch" in the md.xlsx file. One vector contains the batch labels of the samples that correspond to sample "REU271", and another vector contains the batch labels of the other samples (i.e. not "REU271").
 
-9) Normalize the rest of the samples using CytoNorm.normalize(), and using outputDir = "course_datasets/FR_FCM_Z4KT/Normalized"  ; Make sure this is a new folder.
+8) Estimate quantiles from the training flowSet using `CytoNorm.train()`. Use `FlowSOM.params = list(nCells = 6000, xdim = 10, ydim = 10, nClus = 5, scale = FALSE)`.
 
+9) Normalize the rest of the samples using `CytoNorm.normalize()`, and using `outputDir = "course_datasets/FR_FCM_Z4KT/Normalized"`  ; Make sure this is a new folder.
+
+10) Choosing one channel, create a ridge plot of its distribution within samples before normalization (without the training samples), and one for the normalized samples. For this, you need to create a new flowSet with the created "Norm_" fcs files within the newly created output folder. Use the `densityplot()` function for each flowSet, storing the output in 2 objects, then use the cowplot `plot_grid()` function to plot one ridge plot above the other.
 
 ??? done "Answer"
 	```r
@@ -199,36 +202,231 @@ nClus=20, scale=FALSE)
 
 ## Let's practice - 9
 
-1) Import a xml workspace from FlowJo
+In this exercise we will do some gating using flowGate and data from the FR_FCM_Z3WR of the FlowRepository.
 
-2) Plot the gating hierarchy
+Create a new script in which you will:
 
-3) Plot the gates
+1) Create a flowSet of all samples within the `/course_dataset/FR_FCM_Z3WR` folder
 
-4) Add a gate
+2) Perform asinh transformation with a cofactor of 3000 for all channels not labeled with "none", using `transFlowVS()` from the flowVS package. Use the csv file with the panel previously created `"/course_datasets/FR_FCM_Z3WR/panel_with_marker_classes.csv"`.
 
-5) Statistics
+3) Convert the flowSet to a GatingSet
 
-6) Export flow data
+4) Using flowGate, create a gating hierarchy according to the scheme depicted below. Don't forget to check your gating with scatter or density plots.
+
+5) Do necessary adjustements so that your gating hierarchy looks like the one depicted below.
+
+6) What is the percentage of CD8+ T cells among T cells ("CD3").
+
+Gating hierarchy:
+
+<figure>
+  <img src="../../assets/images/gates9.png" width="700"/>
+</figure>
+
 
 
 ??? done "Answer"
 	```r
     # load libraries
     library(flowCore)
+    library(flowWorkspace)
+    library(flowGate)
+    library(flowVS)
+
+    # 1) Create a flowSet from the FCS files in "course_datasets/FR_FCM_Z3WR/"
+
+    fs <- read.flowSet(path="course_datasets/FR_FCM_Z3WR/",
+                   pattern = "*.fcs",
+                   transformation = FALSE,
+                   truncate_max_range = FALSE)
+
+    # 2 ) FlowVS Arcsinh transformation with fixed factors (3000). 
+    # Use the csv file containing the panel and marker classes previously created 
+    # ("course_datasets/FR_FCM_Z3WR/panel_with_marker_classes.csv")
+
+
+    panel <- read.csv("course_datasets/FR_FCM_Z3WR/panel_with_marker_classes.csv")
+    markerstotransform <- as.character(panel$channels)[!is.na(panel$antigen)]
+
+    fs <- transFlowVS(fs,
+                  channels = markerstotransform,
+                  cofactors = rep(3000,length(markerstotransform)))
+
+
+    # 3) Convert the flowSet to a GatingSet
+
+    gs <- GatingSet(fs)
+
+    # save for next exercise
+    #save_gs(gs, path = "course_datasets/FR_FCM_Z3WR/gs_preprocessed")
+
+
+    # 4) Using flowGate, create the following gates
+
+    # Polygon gate ("Leukocytes")
+    gs_gate_interactive(gs,
+                    filterId = "Leukocytes",
+                    dims = list("FSC-H", "SSC-H"))
+
+    autoplot(gs[[1]], gate = "Leukocytes")
+    plot(gs)
+
+    # span gate ("CD3")
+    gs_gate_interactive(gs,
+                    filterId = "CD3",
+                    dims = "BV510-A",
+                    subset = "Leukocytes")
+
+    autoplot(gs[[1]],gate = "CD3")
+    plot(gs)
+
+    # quadrant gate ("CD4 CD8")
+    # BUV615-A = CD4
+    # BUV805-A = CD8
+    gs_gate_interactive(gs,
+                    filterId = "CD4 CD8",
+                    dims = list("BUV615-A","BUV805-A"),
+                    subset = "CD3")
+
+    plot(gs)
+    autoplot(gs[[1]],gate = gs_pop_get_children(gs, "CD3"))
+
+    # 5) Make the necessary adjustements so that the gate tree loks like the one depicted.
+
+    # Check node names
+    gs_get_pop_paths(gs, path = 1)
+
+    # Rename the CD4 CD8 gates to CD4+, CD8+, DNT and DPT
+    gs_pop_set_name(gs,"BUV615-A-BUV805-A+","CD8+")
+    gs_pop_set_name(gs,"BUV615-A+BUV805-A-","CD4+")
+    gs_pop_set_name(gs,"BUV615-A+BUV805-A+","DPT")
+    gs_pop_set_name(gs,"BUV615-A-BUV805-A-","DNT")
+
+    plot(gs)
+
+    # 6) What is the percentage of CD8+ T cells among T cells ("CD3")
+    gs_pop_get_stats(gs, nodes = "CD8+", type = "percent")
     
     ```
 
 ## Let's practice - 10
 
+In this exercise we will repeat the gating previously done with flowGate on the data from FR_FCM_Z3WR of the FlowRepository, but this time using automated gating with openCyto.
+
+Create a new script in which you will:
+
+1) Repeat steps 1 to 4 from the previous exercise (loading data from fcs files and preprocessing). You can also load the preprocessed GatingSet from `/course_dataset/FR_FCM_Z3WR/gs_preprocessed/`.
+
+2) Using the `gs_add_gating_method()` function (i.e., without a template), create a gating hierarchy according to the scheme depicted below. Don't forget to check your gating with scatter or density plots.
+
+3) Do necessary adjustements so that your gating hierarchy looks like the one depicted below (hide the "BUV805-A+" and "BUV615-A+" nodes from the tree, and rename the CD4, CD8, DNT and DPT nodes).
+
+4) Create boxplots showing the percentage of CD8+ T cells among T cells ("CD3") as a function of time points.
+
+Gating hierarchy:
+
+<figure>
+  <img src="../../assets/images/gates10.png" width="700"/>
+</figure>
+
+
 ??? done "Answer"
 	```r
     # load libraries
     library(flowCore)
+    library(flowWorkspace)
+    library(openCyto)
+    library(ggcyto)
+
+    # 1) Repeat steps 1 to 4 from previous exercise (loading data, preprocessing)
+
+    # load the preprocessed ungated data
+    gs <- load_gs("course_datasets/FR_FCM_Z3WR/gs_preprocessed")
+
+    # 2) Apply the gating as in the scheme
+
+    # gate "Leukocytes"
+    # use flowClust
+    # set a K=3, to split in three populations and select the one with the highest "peak"
+    gs_add_gating_method(gs,
+                     alias = "Leukocytes",
+                     parent = "root",
+                     dims = "FSC-H,SSC-H",
+                     gating_method = "flowClust",
+                     gating_args = "K=3" )
+
+    # check
+    plot(gs)
+
+    autoplot(gs[[1]], gate="Leukocytes")
+
+    # gate "CD3"
+    # use minDensity
+    gs_add_gating_method(gs,
+                     alias = "CD3",
+                     parent = "Leukocytes",
+                     dims = "BV510-A",
+                     gating_method = "gate_mindensity",
+                     pop = "+")
+
+    # check
+    plot(gs)
+
+    autoplot(gs[[1]], gate="CD3")
+
+    # gate "CD4 CD8"
+    # use minDensity
+    gs_add_gating_method(gs,
+                     alias = "*",
+                     parent = "CD3",
+                     dims = "BUV615-A,BUV805-A",
+                     gating_method = "gate_mindensity",
+                     pop = "-/++/-")
+
+    # check
+    plot(gs)
+
+    gs_pop_get_children(gs,"CD3")
+    autoplot(gs[[1]], gate=gs_pop_get_children(gs,"CD3"))
+    autoplot(gs[[1]], gate=gs_pop_get_children(gs,"CD3")[3:6])
+
+    # 3) 
+
+    # Hide the "BUV805-A+" and "BUV615-A+" nodes from the tree
+
+    gs_pop_set_visibility(gs,"BUV805-A+", FALSE)
+    gs_pop_set_visibility(gs,"BUV615-A+", FALSE)
+
+    # check
+    plot(gs)
+
+    # 4) Rename the CD4 CD8 gates to CD4+, CD8+, DNT and DPT
+
+    # Rename the CD4 CD8 gates to CD4+, CD8+, DNT and DPT
+    gs_pop_set_name(gs,"BUV615-A-BUV805-A+","CD8+")
+    gs_pop_set_name(gs,"BUV615-A+BUV805-A-","CD4+")
+    gs_pop_set_name(gs,"BUV615-A+BUV805-A+","DPT")
+    gs_pop_set_name(gs,"BUV615-A-BUV805-A-","DNT")
+
+    # check
+    plot(gs)
+
+    # 5) Create a boxplot showing the percentage of CD8+ T cells among T cells ("CD3") as a function of time point
+
+    # extract the proportions
+    my_proportions <- gs_pop_get_stats(gs, nodes = "CD8+", type = "percent")
+
+    # add the timepoints
+    my_proportions$time_point <- rep(c(0,14,7), 5)
+
+    # convert to factor (order in the plot)
+    my_proportions$time_point <- factor(my_proportions$time_point, levels = c(0,7,14))
+
+    # create the boxplot
+    boxplot(percent ~ time_point, data = my_proportions)
     
     ```
-
-
 
 
 **End of Day 3, good job!**
