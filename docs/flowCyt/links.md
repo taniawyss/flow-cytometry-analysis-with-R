@@ -57,6 +57,7 @@ A useful resource is [RStudio's R Markdown tutorial](https://rmarkdown.rstudio.c
 
 For tweaking your reports, such as chosing different output formats, or hiding or showing the code within the report, we recommend that you consult the R markdown documentation provided in this [Definite guide eBook](https://bookdown.org/yihui/rmarkdown/).
 
+Go further with the [R Markdown Cookbook](https://bookdown.org/yihui/rmarkdown-cookbook/).
 
 ## Cheatsheets
 

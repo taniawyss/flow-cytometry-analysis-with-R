@@ -3,7 +3,7 @@ In this section, you will find the R code that we will use during the course. We
 
 <!-- This is commented text -->
 
-## Let's practice 11 - R markdown
+## Reporting - R Markdown
 
 If a data analysis project involves many steps and generation of various plots, one easy and very practical way to bundle and organize all steps of analysis together is to use R markdown files to generate PDF or html reports. These reports both display the R code used as well as the output generated, such as graphics, tables, statistical test results, ...
 
@@ -27,42 +27,39 @@ The example Rmd generates the following html report (saved in the same folder as
 
 You can find a short video that introduces some of the principles of R markdown on [Youtube](https://www.youtube.com/watch?v=2YZSDGGoQzQ), from the beginning up to minute 23:30. Starting at minute 23:30, this video also introduces ggplot2.
 
-If you would like to practice creating your own R markdown, modify the one that is generated with the example content when you select File > New File > R Markdown.
+## Let's practice 11
 
-1) Create a new Rmd file with the following options at the top (in the top YAML instructions within the 2 dash sequences "- - -")
+To practice creating your own R markdown script, modify the one that is generated with the example content when you select File > New File > R Markdown.
+
+Create a new Rmd file with the following options at the top (in the top YAML instructions within the 2 dash sequences "- - -")
 
 * Title: «Let’s practice»
 * Author: your name
 * Select the «use current date when rendering object» option
 * Default output format: HTML
 
-2) We will perform a small flow cytometry analysis pipeline, but this time by creating a report:
-Within an R code chunk, import the data. Change the chunk options so that code will not appear in the output.
+We will perform a small flow cytometry analysis pipeline, but this time by creating a report.We will create an .Rmd file, and modify it to include the code for analysis and results of a small pipeline with dimensional reduction plots of the FR_FCM_Z3WR data.
 
-Then, create a new code chunk for each plot. Make sure the plot is centered.
-Add a header (preceded by the # symbols outside of the code chunks) before each plot with some suggestive plot title.
+Create a new .Rmd in which you will:
 
-3) Save the Rmd file and produce the html document by «knitting» it.
+1) Modify the YAML metadata section to include a table of content with numbered sections and code folding buttons.
 
-[Download solution Rmd file](../../assets/scripts/R_practice_Rmd_solution.Rmd){: .md-button }
+2) Write a paragraph with a level-1 header, that describes the content of the document.
 
-For tweaking your reports, such as chosing different output formats, or hiding or showing the code within the report, we recommend that you consult the R markdown documentation provided in this [Definite guide eBook](https://bookdown.org/yihui/rmarkdown/).
+3) Create code chunks that will run and print the output of the analysis listed below. Create a new code chunk for each plot. Make sure the plot is centered. Add a header (preceded by the # symbols outside of the code chunks) before each plot with some suggestive plot title.
+
+  a)
+  
+  b)
+  
+
+4) Save the Rmd file, knit it to an html report, and admire it in your web-browser!
+
+[Download solution Rmd file](../../assets/scripts/R_practice11_solution.Rmd){: .md-button }
+
+For tweaking your reports, such as choosing different output formats, or hiding or showing the code within the report, we recommend that you consult the R markdown documentation provided in this [Definite guide eBook](https://bookdown.org/yihui/rmarkdown/).
 
 Another useful resource is [RStudio's R Markdown tutorial](https://rmarkdown.rstudio.com/lesson-1.html). 
 
 
-## Let's practice - R markdown bis
-
-Create an R markdown file and knit to an html report the flow cytometry data analysis performed in Exercise number 9. 
-Proceed similarly, creating a code chunk where you load the libraries, import and pre-process the data, and create a separate code chunk for every plot.
-
-[Download solution Rmd file](../../assets/scripts/R_practice_Rmdbis_solution.Rmd){: .md-button }
-
-
-
-
-
-
-
-
-
+**End of Day 4, good job!**
