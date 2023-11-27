@@ -1,0 +1,143 @@
+---
+title: "Let's practice 11"
+date: "2023-11-27"
+output:
+ html_document:
+    toc: true
+    toc_depth: 2
+    number_sections: true
+    toc_float:
+      collapsed: true
+    code_folding: hide
+---
+
+```{r setup, include=TRUE}
+knitr::opts_chunk$set(echo = TRUE, include=TRUE, warning = FALSE, message=FALSE)
+```
+
+# Flow cytometry data analysis
+
+We perform analysis of flow cytometry data from the flowRepository accession FR_FCM_Z3WR. Data was analyzed with `r sessionInfo()$R.version$version.string`. Most analysis steps were performed using the following packages: flowCore (v`r packageVersion("flowCore")`), CATALYST (v`r packageVersion("CATALYST")`). 
+
+```{r libraries}
+
+# load libraries
+library(flowCore)
+library(CATALYST)
+library(cowplot)
+
+```
+
+## A clean flowSet output by flow AI is imported. 
+
+```{r import-flowSet-and-panel}
+
+# 1) load the flowSet object from exercise 3
+load("../course_datasets/FR_FCM_Z3WR/fcs_clean.RData")
+
+# 2) Downsample to 2'000 cells 
+
+# source downsampling function
+source("../course_datasets/function_for_downsampling_flowSets.R")
+
+# downsample
+set.seed(1234)
+fcs_small <- Downsampling_flowSet(fcs_clean,samplesize = 2000)
+
+
+# 3) Create a sce object from the downsampled flowSet
+# We need the panel data frame
+panel <- read.csv("../course_datasets/FR_FCM_Z3WR/panel_with_marker_classes.csv")
+
+# We also need a metadata dataframe
+md <- pData(fcs_small)
+
+# create sce
+sce <- prepData(fcs_small, 
+                md = md,
+                md_cols = list(file="name", id = "name", factors = "time_point"),
+                panel = panel,
+                panel_cols = list(channel = "channels", antigen = "antigen", class = "marker_class"),
+                transform = FALSE,
+                FACS=TRUE,
+                features = panel$channels[panel$marker_class!="none"])
+
+# change the assay name to "exprs" 
+assayNames(sce) <- "exprs"
+
+```
+
+## The UMAP is computed using default parameters 
+
+Parameters = n_neighbors=15 and min_dist = 0.01.
+
+```{r umap}
+# 4) UMAP with default parameters (n_neighbors=15 and min_dist = 0.01)
+set.seed(1601)
+sce <- runDR(sce, 
+             assay = "exprs", 
+             dr = "UMAP", 
+             features = "type", 
+             cells = NULL)
+
+
+```
+
+## UMAP of down-sampled cells
+
+### CD3 expression
+```{r umap-1, fig.align='center'}
+
+# plot
+plotDR(sce,
+       dr =  "UMAP",
+       assay = "exprs", 
+       color_by="CD3", 
+       facet_by = "time_point" )
+
+```
+
+## UMAP of down-sampled cells
+
+### CD8 and CD4 expression
+
+Using plot_grid()
+```{r umap-2, fig.align='center'}
+
+# plot CD4
+p1<-plotDR(sce,
+       dr =  "UMAP",
+       assay = "exprs", 
+       color_by="CD4")
+
+# plot CD4
+p2<-plotDR(sce,
+       dr =  "UMAP",
+       assay = "exprs", 
+       color_by="CD8")
+
+plot_grid(p1, p2, nrow = 1)
+
+```
+
+## UMAP of down-sampled cells
+
+### CD19 and CD56 expression.
+
+Providing a vector with several antigens to the plotDR() function, this also creates a grid.
+
+```{r umap-3, fig.align='center'}
+
+# provide 2 genes
+plotDR(sce,
+       dr =  "UMAP",
+       assay = "exprs", 
+       color_by=c("CD19", "CD56"))
+
+
+```
+
+# Information about R and package versions
+```{r, session-info, results='markup', warning=TRUE, message=TRUE}
+sessionInfo()
+```
