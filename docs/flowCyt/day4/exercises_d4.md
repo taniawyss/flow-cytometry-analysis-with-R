@@ -38,22 +38,29 @@ Create a new Rmd file with the following options at the top (in the top YAML ins
 * Select the «use current date when rendering object» option
 * Default output format: HTML
 
-We will perform a small flow cytometry analysis pipeline, but this time by creating a report.We will create an .Rmd file, and modify it to include the code for analysis and results of a small pipeline with dimensional reduction plots of the FR_FCM_Z3WR data.
+We will re-run the dimensional reduction exercise, but this time by creating a report. We will create an .Rmd file, and modify it to include the code for analysis and results of dimensional reduction of the FR_FCM_Z3WR data, using the code of Exercise 4 of Day 2.
 
-Create a new .Rmd in which you will:
+Now edit your .Rmd template:
 
-1) Modify the YAML metadata section to include a table of content with numbered sections and code folding buttons.
+1) Modify the YAML metadata section to include a table of content with numbered sections of 2 header levels, and buttons to hide the code.
 
 2) Write a paragraph with a level-1 header, that describes the content of the document.
 
-3) Create code chunks that will run and print the output of the analysis listed below. Create a new code chunk for each plot. Make sure the plot is centered. Add a header (preceded by the # symbols outside of the code chunks) before each plot with some suggestive plot title.
+3) Create a chunk with global options that will print the R source code, include chunk outputs, and hide warnings and messages.
 
-  a)
-  
-  b)
-  
+4) Create a chunk that will load the required libraries: flowCore, CATALYST, ggplot2, cowplot.
 
-4) Save the Rmd file, knit it to an html report, and admire it in your web-browser!
+5) Create a code chunk for each of the following steps, that will run and/or print the output of the following analysis:
+
+a) Import the cleaned flowSet generated after cleaning with flowAI during Exercise 3, as well as the panel from the csv file. **Important**: modify the path that becomes relative to the location of the .Rmd script. Eg: `load("../course_datasets/FR_FCM_Z3WR/fcs_clean.RData")`. Create a SingleCellExperiment object.
+
+b) Calculate the UMAP with default parameters, as in Exercise 4.
+
+c) Plot the UMAP, coloring the cells according to donor id and faceting according to time point. Set the chunk option to center the figure, using `fig.align = "center"` within the chunks option.
+
+d) Create additional chunks by playing with the plots: coloring according to some marker genes, etc. You can also arrange plots in grids using `plot_grid()` of the cowplot package. Have fun!
+
+6)  Save the Rmd file, knit the document to an html report and admire it in your web-browser!
 
 [Download solution Rmd file](../../assets/scripts/R_practice11_solution.Rmd){: .md-button }
 
