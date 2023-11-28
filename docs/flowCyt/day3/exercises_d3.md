@@ -322,7 +322,7 @@ Create a new script in which you will:
 
 3) Do necessary adjustements so that your gating hierarchy looks like the one depicted below (hide the "BUV805-A+" and "BUV615-A+" nodes from the tree, and rename the CD4, CD8, DNT and DPT nodes).
 
-4) Create boxplots showing the percentage of CD8+ T cells among T cells ("CD3") as a function of time points.
+4) Create a boxplot showing the percentage of CD8+ T cells among T cells ("CD3") per patient, as a function of time points.
 
 Gating hierarchy:
 

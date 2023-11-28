@@ -1,6 +1,6 @@
 ---
 title: "Let's practice 11"
-date: "2023-11-27"
+date: "`r Sys.Date()`"
 output:
  html_document:
     toc: true
@@ -44,11 +44,11 @@ source("../course_datasets/function_for_downsampling_flowSets.R")
 set.seed(1234)
 fcs_small <- Downsampling_flowSet(fcs_clean,samplesize = 2000)
 
-
 # 3) Create a sce object from the downsampled flowSet
 # We need the panel data frame
 panel <- read.csv("../course_datasets/FR_FCM_Z3WR/panel_with_marker_classes.csv")
 
+colnames(panel)<-c("dd")
 # We also need a metadata dataframe
 md <- pData(fcs_small)
 
@@ -85,8 +85,8 @@ sce <- runDR(sce,
 
 ## UMAP of down-sampled cells
 
-### CD3 expression
-```{r umap-1, fig.align='center'}
+### CD3 expression 
+```{r umap-1, fig.align='center', fig.width=10, fig.height=10}
 
 # plot
 plotDR(sce,
@@ -102,6 +102,7 @@ plotDR(sce,
 ### CD8 and CD4 expression
 
 Using plot_grid()
+
 ```{r umap-2, fig.align='center'}
 
 # plot CD4
@@ -116,13 +117,13 @@ p2<-plotDR(sce,
        assay = "exprs", 
        color_by="CD8")
 
-plot_grid(p1, p2, nrow = 1)
+plot_grid(p1, p2, nrow = 2)
 
 ```
 
 ## UMAP of down-sampled cells
 
-### CD19 and CD56 expression.
+### CD19 and CD56 expression {.unnumbered}
 
 Providing a vector with several antigens to the plotDR() function, this also creates a grid.
 
@@ -136,6 +137,18 @@ plotDR(sce,
 
 
 ```
+
+<!-- This section is an R Markdown comment
+
+here what eve
+
+You can comment out full parts and ignore them completely from your final knitted document
+
+```{r cars, include=TRUE, eval=TRUE, echo=TRUE}
+summary(cars)
+```
+
+-->
 
 # Information about R and package versions
 ```{r, session-info, results='markup', warning=TRUE, message=TRUE}

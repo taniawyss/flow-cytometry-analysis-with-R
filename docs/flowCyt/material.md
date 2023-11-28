@@ -1,26 +1,22 @@
 ## Slides of lectures
 
-### Day 1
-
-<!---
-[Download slides - morning](assets/pdf/Intro_to_R_day1_morning.pdf){: .md-button }
---->
+### Day 1 - Starting to work with flow cytometry data, Transformation, Quality control
 
 [Download slides](assets/pdf/flowCyto_day1.pdf){: .md-button }
 
-### Day 2
+### Day 2 - Dimensionality reduction, Clustering and annotation, Differential testing
 
 [Download slides](assets/pdf/flowCyto_day2.pdf){: .md-button }
 
-### Day 3
+### Day 3 - Normalization (batch correction), Manual gating, Automated gating, Phenotype discovery
 
 [Download slides](assets/pdf/flowCyto_day3.pdf){: .md-button }
 
-### Day 4
+### Day 4 - R Markdown
 
 [Download slides](assets/pdf/flowCyto_day4.pdf){: .md-button }
 
-### Day 5
+### Day 5 
 
 [Download slides](assets/pdf/flowCyto_day5.pdf){: .md-button }
 
