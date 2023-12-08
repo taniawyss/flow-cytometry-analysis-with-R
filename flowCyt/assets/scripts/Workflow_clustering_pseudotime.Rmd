@@ -1,0 +1,1343 @@
+---
+title: "Melsen et al. workflow for clustering and pseudotime analysis of flow cytometry data"
+subtitle: ""
+date: "2023-12-06"
+output:
+ html_document:
+    toc: true
+    toc_depth: 2
+    number_sections: true
+    toc_float:
+      collapsed: true
+    code_folding: hide
+---
+
+```{r setup, include=TRUE}
+knitr::opts_chunk$set(echo = TRUE, include=TRUE, warning = FALSE, message=FALSE)
+
+```
+
+# Introduction
+
+
+This in a adaptation of the workflow for clustering and pseudotime analysis of flow cytometry data presented in Melsen et al. (2020). The workflow consists of four main sections: data preprocessing (transformation and normalization), clustering, dimensionality reduction and trajectory / pseudotime analysis.  
+
+
+REFERENCE:  
+
+
+Melsen JE, van Ostaijen-Ten Dam MM, Lankester AC, Schilham MW, van den Akker EB. [A compreensive Workflow for Applying Single-Cell Clustering and Pseudotime Analysis to Flow Cytometry Data](https://journals.aai.org/jimmunol/article/205/3/864/60873/A-Comprehensive-Workflow-for-Applying-Single-Cell). J Immunol. 2020 Aug 1;205(3):864-871. doi: 10.4049/jimmunol.1901530. Epub 2020 Jun 26. PMID: 32591399. 
+
+  
+
+
+
+
+
+```{r libraries}
+
+# Clear the environment
+rm(list = ls())
+
+
+########################
+#### LOAD LIBRARIES ####
+########################
+
+
+# for R markdown
+library("knitr")
+library("rmarkdown")
+library("pander")
+
+# for visualization
+library(ggplot2) # for creating plots
+library(scales) # control the appearance of axis and legend labels.
+library(RColorBrewer) # manage colors with R. It offers several color palettes
+library(ggrepel) # geoms for ggplot2 to repel overlapping text labels
+library(ggcyto) # visualization for cytometry data
+library(ggforce) # extra funtionalities for ggplots
+library(grDevices) # support for Colours and Fonts.
+library(pheatmap) # heatmaps
+library(ggridges) # geoms for ggplot2 for ridgeplots
+library(gridExtra) # arrange multiple plots on a page
+
+
+# Flow cytometry (single cell) data analysis
+library(flowCore) # flowSets and Logicle transformation
+library(flowWorkspace) # gating
+library(flowVS) # Arcsinh transformation
+library(flowStats) # fdaNorm normalization
+library(FlowSOM) # flowSOM clustering and metaclustering
+library(openCyto) # gating
+library(CATALYST) # clustering, dimensionality reduction, ploting
+library(SingleCellExperiment) # sce objects
+library(scater) # pre-processing, quality control, normalisation and visualisation of single-cell RNA-seq data
+#library(uwot)
+
+# other general
+library(Biobase) # Base functions for Bioconductor
+library(reshape2) # function for conversion between wide-format and long-format data
+library(dplyr) # functions for data manipulation
+library(tidyr) # functions for "tidying up" data
+
+# Diffusion maps
+#BiocManager::install("destiny")
+library(destiny)
+
+# Pseudotime / trajectory analysis
+#BiocManager::install("slingshot")
+library(slingshot)
+
+# phenograph algorithm 
+#devtools::install_github("JinmiaoChenLab/cytofkit2", dependencies=TRUE)
+library(cytofkit2)
+
+
+
+```
+
+
+```{r functions}
+
+
+#########################################
+########## USEFULL FUNCTIONS ############
+#########################################
+
+# dowsampling a flowset
+Downsampling_FlowSet <- function(x, samplesize , replace=TRUE, prob=NULL, stratified = FALSE){
+  
+  
+  if(stratified) {
+    
+    total_size <- sum(fsApply(x, nrow)[,1])
+    
+    flowCore::fsApply(x, function(ff){
+      i <- sample(nrow(ff), size = nrow(ff)*samplesize/total_size, replace=replace, prob)
+      ff[i,]
+    })
+    
+    
+  } else {
+    
+    if(missing(samplesize))
+      samplesize <- min(flowCore::fsApply(x,nrow))
+    
+    flowCore::fsApply(x, function(ff){
+      i <- sample(nrow(ff), size = samplesize, replace=replace, prob)
+      ff[i,]
+    })
+    
+  }
+  
+  
+}
+
+# add labels to a ggplot
+add_label <- function(object, dimred, text_by = "label", text_size = 5, text_colour = "gray12", box_padding=5) {
+  text_out <- retrieveCellInfo(object, text_by, search = "colData")
+  text_out$val <- as.factor(text_out$val)
+  red_dim <- as.matrix(reducedDim(object, dimred))
+  df_to_plot <- data.frame(red_dim[, seq_len(2), drop = FALSE])
+  colnames(df_to_plot)[seq_len(2)] <- c("X", "Y")
+  by_text_x <- vapply(split(df_to_plot$X, text_out$val), median, FUN.VALUE = 0)
+  by_text_y <- vapply(split(df_to_plot$Y, text_out$val), median, FUN.VALUE = 0)
+  
+  ggrepel::geom_text_repel(data = data.frame(x = by_text_x, y = by_text_y, label = names(by_text_x)),
+                           mapping = aes(x = x, y = y, label = label),
+                           inherit.aes = FALSE, size = text_size, colour = text_colour, force = 1,
+                           box.padding = box_padding, max.overlaps = Inf, min.segment.length = 0, segment.color="gray12",
+                           segment.alpha=0.5)
+}
+
+
+# Scale values in a vector between 0 and 1
+scale_values <- function(x){(x-min(x, na.rm = TRUE))/(max(x, na.rm = TRUE)-min(x, na.rm = TRUE))}
+
+
+# Trim extreme values in a vector
+trim_values <- function(x, q) {
+  
+  x[x < quantile(x, q)] <- quantile(x, q)
+  x[x > quantile(x, 1-q)] <- quantile(x, 1-q)
+  
+  return(x)
+    
+}
+
+```
+
+
+# Data  
+
+
+We use the flow cytometry data from T cells of eight healthy bone marrow donors, which was originaly presented in the study by Oetjen et al. (2018). The raw flow cytometry data (no preprocessing) is available for download from the FlowRepository website (accession [FR-FCM-ZYQ9](http://flowrepository.org/id/FR-FCM-ZYQ9)). 
+
+
+REFERENCE:  
+
+
+Oetjen KA, Lindblad KE, Goswami M, Gui G, Dagur PK, Lai C, Dillon LW, McCoy JP, Hourigan CS. [Human bone marrow assessment by single-cell RNA sequencing, mass cytometry, and flow cytometry](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6328018/pdf/jciinsight-3-124928.pdf). JCI Insight. 2018 Dec 6;3(23):e124928. doi: 10.1172/jci.insight.124928. PMID: 30518681; PMCID: PMC6328018.  
+
+
+
+
+# Preprocessing  
+
+
+Before proceeding to the analyses in R, initial preprocessing steps are usually performed using conventional gating software (e.g. FlowJo). In Melsen et al. (2020), compensation, cleaning (exclusion of dead cells and doublets) and T cell gating was performed previously to analysis in R.
+
+
+## Load the FCS files and create a panel with marker classification
+
+
+The preprocessed FCS files are imported into R with the *flowCore* package. A data frame of the panel of markers is created, and markers are classified as "type" (if used for clustering and dimensionality reduction) or "none" (otherwise).
+
+
+```{r import-flowSet-and-panel, results='asis'}
+
+
+###############################
+##### LOAD FCS FILES ##########
+###############################
+
+
+# path to the directory with the fcs files
+fcs.dir<- file.path( "/cloud/project/course_datasets/FR_FCM_ZYQ9")
+
+# read fcs files into a flowSet
+dfs_fs <- read.flowSet(path=fcs.dir, pattern="*.fcs", transformation = FALSE, truncate_max_range = FALSE) 
+
+
+
+###############################
+##### PLOT THE PANEL ##########
+###############################
+
+# create the panel
+channels <- colnames(dfs_fs)
+antigen <- pData(parameters(dfs_fs[[1]]))$desc
+marker_class <- rep("none",length(antigen))
+marker_class[antigen %in% c("CD95","CD8","CD27","CCR7","CD45RA","CD3","CD49b","CD4","CD69","CD103")] <- "type"
+panel <- data.frame(channels = channels, antigen= antigen, marker_class = marker_class)
+
+# Plot the panel
+my_table <- panel
+rownames(my_table) <- NULL
+pandoc.table(my_table, 
+              style="multiline",
+              split.table=150,
+              split.cells=c(12,8,8), # width of columns
+              use.hyphening=TRUE,
+              caption="Panel", # the title of the table
+              justify = c('left',"right", 'right')) # how text is justified in table
+
+
+
+# change colnames to antigens
+colnames(dfs_fs)[!is.na(antigen)] <- antigen[!is.na(antigen)] 
+panel$channels <- colnames(dfs_fs)
+
+```
+
+
+According to the authors, CXCR4 was removed from the analysis because no reliable CXCR4 staining was observed, and CD14 was only used for the initial gating of T cells.  We classified both markers as "none", since we are not going to use them.  
+
+
+
+
+## Transformation
+
+
+
+In this step, we transform the data from the original to a scale in which positive and negative peaks are better identified. Because each fluorochrome has a distinct staining pattern, each requires an individual transformation, and manual inspection and adjustment of the transformations is essential. 
+
+We compare three methods: hyperbolic arcsine (arcsinh) transformation (as implemented in *FlowVS*) using selected cofactors; arcsinh transformation with cofactors estimated by *flowVS*; and Logicle transformation as implemented in *flowCore*.
+
+
+
+Data before the transformation:
+
+
+```{r before_transformation,fig.align='center', fig.height=24, fig.width=12}
+
+densityplot(~., channels = panel$channels[panel$marker_class=="type"], dfs_fs, main="Data before any transformation")
+
+```
+  
+  
+  
+### Arcsinh and Logicle transformation with estimated parameters
+
+
+FlowVS (arcsinh) and FlowCore (logicle) allow transformations with estimated parameters.  
+
+
+
+
+```{r transformation_arcsinh_auto, message=FALSE, fig.align='center', fig.height=24, fig.width=12}
+
+################################################################
+####### ARCSINH TRANSFORMATION WITH ESTIMATED COFACTORS ########
+################################################################
+
+# Automated arcsinh parameter optimized transformation
+# automatedcofactors <- estParamFlowVS(dfs_fs, panel$channels[panel$marker_class=="type"]) #this may take a while.
+
+# It is advised to save your cofactor data as an csv or excel file, this is for reproducibility purposes.
+# save(automatedcofactors, file = "/cloud/project/course_datasets/FR_FCM_ZYQ9/automatedcofactors.RData")
+load("/cloud/project/course_datasets/FR_FCM_ZYQ9/automatedcofactors.RData")
+dfs_fs_t_auto <- transFlowVS(dfs_fs, channels=panel$channels[panel$marker_class=="type"], cofactor=automatedcofactors)
+
+
+# density plots
+densityplot(~., channels = panel$channels[panel$marker_class=="type"], dfs_fs_t_auto, main="Data after arcsinh transformation with estimated factors (estParamFlowVs function from FlowVS)")
+
+```
+
+
+```{r transformation_logicle, fig.align='center', fig.height=24, fig.width=12}
+
+
+#######################################
+####### LOGICLE TRANSFORMATION ########
+#######################################
+
+
+# create an empty list
+fcs_list <- list()
+
+# iterate over flowFrames
+for(i in 1:length(dfs_fs)){
+  
+  # estimate parameters for transformation
+  algcl <- estimateLogicle(dfs_fs[[i]],
+                           channels = panel$channels[panel$marker_class=="type"])
+  # transform and add to list
+  fcs_list[[i]] <- transform(dfs_fs[[i]], algcl)
+  
+}
+
+# convert list of flowFrames to a a flowSet
+dfs_fs_t_logicle <- as(fcs_list, "flowSet")
+
+# make sure the sample names and the metadata are transfered to te new flowSet object
+sampleNames(dfs_fs_t_logicle) <- sampleNames(dfs_fs)
+pData(dfs_fs_t_logicle) <- pData(dfs_fs)
+
+
+# density plot
+densityplot(~., channels = panel$channels[panel$marker_class=="type"], dfs_fs_t_logicle, main="Data after Logicle transformation (FlowCore)")
+
+```
+
+  
+  
+Methods with estimated parameters work satisfactorily, except for markers that have low-intensity expression or are expressed at low frequency (in this case, CD103, CD49b and CCR7).  
+
+
+
+
+## Arcsinh transformation with adjusted ("manual") cofactors  
+
+
+
+
+The cofactor of the arcsinh transformation equals the size of the linear region on the positive or negative side of the zero. Manually adjusting the cofactors for each fluorochrome allows a better tuning of this linear region.  
+
+Manually adjusted cofactors can be deduced by adjusting the linear size of the axis on a biexponential scale, as plotted in conventional gating software. 
+
+If optimal cofactors differ (slightly) between samples, the highest cofactor should be chosen, as long as no false-negative peaks are observed.
+
+
+
+```{r transformation_arcsinh_manual, message=FALSE, fig.align='center', fig.height=24, fig.width=12}
+
+##############################################
+####### MANUAL ARCSINH TRANSFORMATION ########
+##############################################
+
+## Each parameter of interest needs to be arcsinh transformed with an individual cofactor. 
+# The cofactor can be deduced from the size of the linear region around zero on a biexponential scale, as plotted in a histogram (in conventional gating software).
+# Choose manual transformation or automated transformation (we prefer manual)
+# Define parameters and cofactors for transformations:
+
+
+# manual hyperbolic arcsinh transformation (from Melsen et al. 2020)
+manualcofactors <- c(CD95=524,CD8=262,CD27=263,CCR7=1787,CD45RA=524,CD3=678,CD49b=398,CD4=915,CD69=830,CD103=504)
+dfs_fs_t_manual <- transFlowVS(dfs_fs, channels=names(manualcofactors), cofactor=manualcofactors)
+
+
+
+# density plot
+densityplot(~., channels = panel$channels[panel$marker_class=="type"], dfs_fs_t_manual, main="Data after arcsinh transformation with manually adjusted cofactors (flowVS)")
+
+```
+
+
+
+After a visual inspection, the manual arcsinh transformation with adjusted cofactors resulted in the most optimal distributions, and was selected for downstream analyses.
+
+
+
+# Normalization  
+
+
+
+
+Technical inter-sample variation in the data ("batch effects") requires correction before the analysis ("normalization").
+
+For some of the markers (CD49b, CD4, CD27, CCR7, CD8 and CD3) we observe subtle differences in signal intensities between the donors.
+
+Here, we demonstrate the use of the fdaNorm method, as implemented in the *flowStats* package, to correct such differences. Compared to other methods, fdaNorm has the advantage of automatically detect the number of peaks from the data.
+
+
+
+
+```{r normalization_before, fig.align='center', fig.height=24, fig.width=12}
+
+##############################
+######## NORMALIZATION #######
+##############################
+
+
+## To correct for technical inter-sample variation we apply normalization by fdaNorm (which automatically detects the number of peaks)
+# This method is implemented in the flowStats package, a collection of algorithms for the statistical analysis of flow cytometry data.
+# The warpSet function can be used to normalize data according to a set of landmarks, which essentially are the peaks or high-density areas in the density estimates
+# Select the markers which require normalization (based on the densityplots you generated above). Be aware that you don't remove biological variation!
+dfs_fs_t_manual_normfda <- warpSet(dfs_fs_t_manual, stains=c('CD8','CD27','CCR7','CD3','CD49b','CD4'))
+
+
+# Data after normalization
+densityplot(~CD8+CD27+CCR7+CD3+CD49b+CD4, dfs_fs_t_manual_normfda, main="Data after normalization with fdaNorm (flowStats)")
+
+
+```
+
+# Gate CD4+ T cells
+
+
+In the workflow presented by Melsen et al. (2020), the normalized data was exported as FCS files and imported into *Cytosplore* software. Using *Cytosplore*, they performed a HSNE analysis (HSNE dimensionality reduction and GMS clustering) to select CD4+ T  cells. As these methods are not implemented in R, we instead performed automated gating of the CD4+ T cells using the *openCyto* package and a CD8 / CD4 quadrant gate.  
+
+
+```{r quadrant_gate, fig.align='center', fig.height=8, fig.width=8}
+
+
+#######################################
+######### Gate CD4+ T CELLS ###########
+#######################################
+
+# convert the flowSet to  a gatingSet
+gs <- GatingSet(dfs_fs_t_manual_normfda) 
+
+# apply automated quadrant gate with openCyto
+gs_add_gating_method(gs,
+                     parent = "root",
+                     alias = "*",
+                     dims = "CD4,CD8",
+                     gating_method = "gate_mindensity",
+                     pop = "-/++/-")
+
+
+# Verify the gating hierarchy
+# plot(gs)
+
+
+
+# OPTION 1: gate the "CD4+CD8-" cells (2D gate)
+autoplot(gs[[1]], gate=gs_pop_get_children(gs,"root")[3:6], bins = 256)
+cs <- gs_pop_get_data(gs, "CD4+CD8-")
+dfs_fs_t_manual_normfda_CD4 <- cytoset_to_flowSet(cs)
+
+# OPTION 2: gate the "CD4+" cells (1D gate)
+# autoplot(gs[[1]], gate=gs_pop_get_children(gs,"root")[1:2],y = "SSC.A")
+# cs <- gs_pop_get_data(gs, "CD4+")
+# dfs_fs_t_manual_normfda_CD4 <- cytoset_to_flowSet(cs)
+
+```
+
+# Downsample (optional step)
+
+
+Optional step to reduce the computational load. Two options: random sampling (random selection of n cells per sample) or density-dependent sampling (random selection of same proportion of cells per sample).  
+
+For this demonstration, and in order to reduce the computational load, we perform density-dependent downsampling to a total of 40'000 cells, 
+
+
+
+```{r before_downsampling, fig.align='center', fig.width=8, fig.height=6}
+
+
+# Check numer of cells per sample
+my_pData <- pData(dfs_fs_t_manual_normfda_CD4)
+my_pData$sample_id <- gsub(".fcs","",my_pData$name)
+my_pData$sample_id <- gsub("CD3_","",my_pData$sample_id)
+my_pData$ncells <- as.vector(fsApply(dfs_fs_t_manual_normfda_CD4, nrow)) 
+
+barplot(height=my_pData$ncells, 
+        names=my_pData$sample_id,
+        ylab = "Nr of cells", main = "Nr of cells per sample before downsampling" )
+
+```
+
+```{r after_downsampling, fig.align='center', fig.width=8, fig.height=6}
+
+######################################
+######## OPTIONAL: DOWNSAMPLE ########
+######################################
+
+
+## OPTION 1 : 
+
+# downsample to 5'000 cells per sample (random downsample)
+# set.seed(1234)
+# dfs_fs_t_manual_normfda_small <- Downsampling_FlowSet(dfs_fs_t_manual_normfda_CD4, samplesize = 5000, replace = FALSE, stratified = FALSE)
+
+
+## OPTION 2 : proportional to sample size (density-dependent downsampling)
+
+# downsample to 40'000 cells in total
+set.seed(1234)
+dfs_fs_t_manual_normfda_small <- Downsampling_FlowSet(dfs_fs_t_manual_normfda_CD4, samplesize = 40004, replace = FALSE, stratified=TRUE)
+
+
+my_pData$ncells <- as.vector(fsApply(dfs_fs_t_manual_normfda_small, nrow)) 
+
+barplot(height=my_pData$ncells, 
+        names=my_pData$sample_id,
+        ylab = "Nr of cells" ,main = "Nr of cells per sample after downsampling")
+
+```
+
+
+# Clustering
+
+
+The aim of this step, is to identify groups of phenotypically similar cells. Clustering can be achieved by applying general clustering methods (such as hierarchical clustering or K-means) or methods specifically developed for cytometry data, such as FlowSOM (as implemented in the *CATALYST* package) and Phenograph (implemented in the *cytofkit2* package (<https://github.com/JinmiaoChenLab/cytofkit2>). 
+
+We demonstrate the use of FlowSom and Phenograph for clustering. Both methods allow tuning of the number of clusters, which were set to 14, as in Melsen et al. (2020).
+
+After clustering, phenotypes can be assigned to clusters by inspection of heatmaps and ridgeplots showing the expression of markers in each cluster (annotation). 
+
+
+```{r create_sce, results='hide'}
+
+###################################
+######## CREATE SCE OBJECT ########
+###################################
+
+
+# Create a SingleCellExperiment (sce) object for CATALYST
+# If 'md' is unspecified, the flowFrame/Set identifier(s) will be used as sample IDs with no additional metadata factors.
+sce <- prepData(x = dfs_fs_t_manual_normfda_small, 
+                panel = panel,
+                panel_cols = list(channel = "channels", antigen = "antigen", class = "marker_class"),
+                md = my_pData, 
+                md_cols = list(file = "name",id = "sample_id", factors = "ncells"),
+                transform = FALSE,
+                FACS=TRUE,
+                features = panel$antigen[panel$marker_class!="none"])
+
+# change the assay name to "exprs" 
+assayNames(sce) <- "exprs"
+
+```
+
+
+## FlowSOM clusters
+
+
+```{r expression_heatmap_flowSOM, flowsom_clustering, fig.align='center', fig.width=8, fig.height=8}
+
+
+####################################
+######## FLowSOM CLUSTERING ########
+####################################
+
+
+
+# Generate clusters by FlowSOM
+sce <- cluster(sce,
+               features = "type",
+               maxK = 14,
+               verbose = FALSE,
+               seed = 100)
+
+# Get metaclustering per cell
+sce$clusters_flowsom <- cluster_ids(sce, k = "meta14")
+
+
+##################################################
+# Heatmap with expression of markers by cluster  #
+##################################################
+
+# OPTION 1: no scaling of values
+plotExprHeatmap(sce,features = type_markers(sce),
+                k = "meta14", by = "cluster",
+                scale = "never", q=0.01, col_clust = FALSE, row_anno = FALSE, bars = FALSE) +
+  ggtitle("Heatmap with expression of markers per FlowSom cluster")
+
+
+# OPTION 2: first aggregate values by cluster (median), then scale from 0 to 1
+# plotExprHeatmap(sce,features = type_markers(sce),
+#                 k = "meta14", by = "cluster",
+#                 scale = "first", q=0.01, col_clust = FALSE, row_anno = FALSE, bars = FALSE) +
+#  ggtitle("FlowSom clusters")
+
+
+# OPTION 3: first scale values from 0 to 1, then aggregate by cluster (median)
+# plotExprHeatmap(sce,features = type_markers(sce),
+#                 k = "meta14", by = "cluster",
+#                 scale = "last", q=0.01, col_clust = FALSE, row_anno = FALSE, bars = FALSE) +
+#  ggtitle("FlowSom clusters")
+
+
+```
+
+
+The heatmap shows median expression of markers per cluster.
+
+
+```{r ridgeplots_flowSOM, fig.align='center', fig.width=8, fig.height=12}
+
+#####################################################
+# Ridgeplots with expression of markers by cluster  #
+#####################################################
+
+plotClusterExprs(sce, 
+                 features = "type", 
+                 k = "meta14") +
+  ggtitle("Ridgeplots with expression of markers per FlowSOM clusters")
+
+
+```
+
+
+We can also plot the frequency of clusters per sample: 
+
+
+```{r abundances_flowSom, fig.align='center', fig.width=4, fig.height=12}
+
+###############################################
+# check frequency of each cluster per sample  #
+###############################################
+
+plotAbundances(sce, k="meta14", by="sample_id",group_by = "sample_id") +
+  ggtitle("Abundance of flowSOM clusters")
+
+
+
+```
+
+
+
+
+## Phenograph clusters
+
+
+```{r heatmap_phenograph, fig.align='center', fig.width=8, fig.height=8}
+
+
+#######################################
+######## Phenograpg CLUSTERING ########
+#######################################
+
+
+
+## Generate clusters by Phenograph (based on Louvain clustering)
+# the higher the K nearest neighbours, the lower the number of clusters
+
+# extract the expression matrix from the sce object
+df <- t(assay(sce,"exprs"))[,type_markers(sce)]
+
+# run phenograph
+phenograph <- Rphenograph(df, k=50)
+
+# add phenograp clusters to sce object
+sce$clusters_phenograph <- as.factor(phenograph$membership)
+
+
+# OPTIONAL: save the sce object
+#save(sce, file = "/cloud/project/course_datasets/FR_FCM_ZYQ9/sce_after_clustering.RData")
+#load("/cloud/project/course_datasets/FR_FCM_ZYQ9/sce_after_clustering.RData")
+
+
+##################################################
+# Heatmap with expression of markers by cluster  #
+##################################################
+
+
+# We define a custom function for creating heatmaps with expression values per cluster from a sce object
+plot_expression_heatmap <- function(my_sce, features,cell_clustering, scale = "never", q = 0.01, title = "") {
+  
+  # retrieve the expression
+  expression <- t(assay(sce,"exprs")[features,])
+  
+  
+  
+  # scale
+  # "first": scale & trim then aggregate
+  # "last": aggregate then scale & trim
+  # "never": aggregate only
+
+  
+  # scale = "first"
+  if(scale=="first") {
+    
+    # trim
+    expression <- apply(expression,2, function(x) trim_values(x, q))
+    
+    # scale
+    expression <- apply(expression,2, function(x) scale_values(x))
+    
+    
+  }
+  
+  # Calculate the median expression
+  expr_median <- aggregate(. ~ cell_clustering, 
+                           data= data.frame(expression, cell_clustering = my_sce@colData[,cell_clustering]), 
+                           FUN=median)
+  
+  
+  
+  
+  
+  expr_heat <- as.matrix(expr_median[, colnames(expression)])
+  rownames(expr_heat) <- expr_median$cell_clustering
+  
+  
+  if(scale=="last") {
+    
+    # trim
+    expr_heat <- apply(expr_heat,2, function(x) trim_values(x, q))
+    
+    # scale
+    expr_heat <- apply(expr_heat,2, function(x) scale_values(x))
+    
+    
+  }
+  
+  
+  # This clustering is based on the markers that were used for the main clustering
+  d <- dist(expr_median[, colnames(expression)], method = "euclidean")
+  cluster_rows <- hclust(d, method = "average")
+
+  
+  # Colors for the heatmap
+  color <- colorRampPalette(rev(brewer.pal(n = 9, name = "RdYlBu")))(100)
+  pheatmap(expr_heat, 
+          color = color,
+          cluster_cols = FALSE, 
+          cluster_rows = cluster_rows,
+          labels_col = colnames(expr_heat), 
+          labels_row = rownames(expr_heat),
+          display_numbers = TRUE, number_color = "black",
+          fontsize = 8, fontsize_number = 0.001, main = title)
+}
+
+
+# run the function
+plot_expression_heatmap(my_sce = sce,features = type_markers(sce), cell_clustering = "clusters_phenograph",scale = "never", q = 0.01, title = "Heatmap with expression of markers per Phenograph cluster")
+
+```
+
+
+```{r ridgeplot_phenograph, message=FALSE,fig.align='center', fig.width=16, fig.height=8}
+
+
+#####################################################
+# Ridgeplots with expression of markers by cluster  #
+#####################################################
+
+
+# custom function for creating a ridgeplot with expression values per cluster from a sce object
+ridge_plot <- function(my_sce, features, cell_clustering, col_palette=NULL ){
+  
+  
+  # retrieve the expression
+  expression <- as.data.frame(t(assay(sce,"exprs")[features,]))
+  expression$cluster <- my_sce@colData[, cell_clustering]
+  
+  
+  expression_long <- gather(expression, marker, expression, features, factor_key=TRUE)
+  
+  
+  p <- ggplot(expression_long, aes(x = expression, y = cluster)) +
+    geom_density_ridges(aes(fill = cluster)) +
+    theme_linedraw() +
+    theme(legend.position = "none") +
+    facet_wrap(~ marker,  nrow = 1, scales="free_x")
+  
+  if(!is.null(col_palette)) {
+    
+   p <- p + scale_fill_manual(values = col_palette)
+    
+  }
+  
+  return(p)
+  
+  
+}
+
+# run the function
+ridge_plot(my_sce = sce, features = type_markers(sce),cell_clustering = "clusters_phenograph",col_palette = NULL ) +
+  ggtitle("Ridgeplots with expression of markers per Phenograph cluster")
+
+
+```
+
+
+
+```{r abundances_phenograph, fig.align='center', fig.width=12, fig.height=6}
+
+
+###############################################
+# check frequency of each cluster per sample  #
+###############################################
+
+
+cluster_abundances <- as.data.frame(table(sce$sample_id,sce$clusters_flowsom))
+colnames(cluster_abundances) <- c("sample_id","cluster","Freq")
+ggplot(cluster_abundances, aes(fill=cluster, y=Freq, x=sample_id)) + 
+  geom_bar(position="fill", stat="identity") +
+  xlab("") +
+  ylab("Proportion of cells") +
+  ggtitle("Abundance of Phenograph clusters") +
+  theme_classic()
+
+
+```
+
+
+
+
+
+# Dimensionality reduction (DR)
+
+
+For visualization purposes, we need to reduce the number of dimensions in the high-dimensional data to two, in such a way that the original cellular heterogeneity in the dataset is still comprehensively represented.
+
+
+A wide range of dedicated dimensionality reduction methods are available in R, but t-stochastic neighbor embedding (tSNE), uniform manifold approximation and projection (UMAP) and diffusion maps are often used. Each of this method has its own limitations and strengths. Both UMAPs and diffusion maps better preserve the global structure of the data, and are more appropriate for pseudotime analysis.
+
+Here, we demonstrate the dimensionality reduction using UMAP (as implemented in the *CATALYST* package) and diffusion maps (as implemented in the *destiny* package ( <https://bioconductor.org/packages/release/bioc/vignettes/destiny/inst/doc/Diffusion-Maps.html>). 
+
+We will use the same "type" markers as we did for clustering.
+
+We plot the cells in DR space with clusters and expression of markers superimposed, in order to help assign phenotypes to clusters.
+
+
+```{r dimensionality_reduction, message=FALSE, fig.align='center', fig.width=12, fig.height=12}
+
+
+##########################################
+######## DIMENSIONALITY REDUCTION ########
+##########################################
+
+## Diffusion map
+
+# WITHOUT DOWNSAMPLING (275'856 cells), THIS WILL TAKE APPROXIMATELY 2 HOURS
+
+# Reduce the K, if computational load is too high (or downsample !)
+# If downsampled to 40'000 cells, it will take approximately 5 minutes
+
+# dm <- DiffusionMap(df,
+#                    k=1000,
+#                    suppress_dpt = TRUE,
+#                    verbose=TRUE)
+# 
+# # add the diffusion components to the reduced dimensions slot of the sce object
+# reducedDim(sce, "DiffusionMap") <- as.data.frame(dm)[,c("DC1","DC2")]
+
+
+
+
+
+## UMAP
+
+# check different n_neighbours (controls how UMAP balances local versus global structure in the data) for your UMAP plot
+# check min_dist (controls how tightly UMAP is allowed to pack points together, low values=clumpier embeddings) for your UMAP plot
+
+
+sce <- runDR(sce,
+             assay = "exprs",
+             dr = "UMAP",
+             features = "type",
+             cells = NULL,
+             n_neighbors = 30,
+             min_dist=0.001)
+
+# OPTIONAL: save the sce object after this step
+# save(sce, file = "/cloud/project/course_datasets/FR_FCM_ZYQ9/sce_after_clustering_and_dr.RData")
+# load("/cloud/project/course_datasets/FR_FCM_ZYQ9/sce_after_clustering_and_dr.RData")
+
+
+
+#####################
+# Vizualize results #
+#####################
+
+
+plot1 <- plotDR(sce,
+       dr =  "DiffusionMap",
+       assay = "exprs", 
+       color_by="clusters_flowsom") + 
+  add_label(sce,dimred =  "DiffusionMap",text_by = "clusters_flowsom",box_padding = 1) +
+  theme_linedraw() + 
+  theme(legend.position = "none") + 
+  xlab("DC 1") + 
+  ylab("DC 2") +
+  ggtitle("Diffusion Map with flowSOM clusters superimposed")
+
+
+plot2 <- plotDR(sce,
+       dr =  "DiffusionMap",
+       assay = "exprs", 
+       color_by="clusters_phenograph") + 
+  add_label(sce,dimred =  "DiffusionMap",text_by = "clusters_phenograph",box_padding = 1) +
+  theme_linedraw() + 
+  theme(legend.position = "none") + 
+  xlab("DC 1") + 
+  ylab("CD 2") +
+  ggtitle("Diffusion Map with Phenograph clusters superimposed")
+
+
+plot3 <- plotDR(sce,
+       dr =  "UMAP",
+       assay = "exprs", 
+       color_by="clusters_flowsom")  +
+  add_label(sce,dimred =  "UMAP",text_by = "clusters_flowsom",box_padding = 1) +
+  theme_linedraw() + 
+  theme(legend.position = "none") + 
+  xlab("UMAP 1") + 
+  ylab("UMAP 2") +
+  ggtitle("UMAP with flowSOM clusters superimposed")
+
+
+plot4 <- plotDR(sce,
+                dr =  "UMAP",
+                assay = "exprs", 
+                color_by="clusters_phenograph") +
+  add_label(sce,dimred =  "UMAP",text_by = "clusters_phenograph",box_padding = 1) +
+  theme_linedraw() + 
+  theme(legend.position = "none") + 
+  xlab("UMAP 1") + 
+  ylab("UMAP 2") +
+  ggtitle("UMAP with Phenograph clusters superimposed")
+
+
+grid.arrange(plot1,plot2,plot3,plot4, ncol=2, nrow=2)
+
+```
+
+
+
+```{r UMAP_expression,  fig.align='center', fig.width=9, fig.height=10}
+
+# UMAP 
+plotDR(sce,dr = "UMAP", color_by = type_markers(sce), ncol = 3) + 
+  theme_linedraw() +
+  xlab("UMAP 1") +
+  ylab("UMAP 2") +
+  ggtitle("UMAP")
+
+```
+
+
+```{r DiffusionMap_expression,  fig.align='center', fig.width=9, fig.height=10}
+
+# UMAP 
+plotDR(sce,dr = "DiffusionMap", color_by = type_markers(sce), ncol = 3) + 
+  theme_linedraw() +
+  xlab("DC 1") +
+  ylab("Dc 2") +
+  ggtitle("Diffusion Map")
+
+```
+
+
+# Assign phenotypes to clusters
+
+
+
+
+As in Melsen et al. (2020), we manually merge phenotypically similar clusters to avoid overclustering. After a visual inspection of the DR, heatmaps and ridge plots, we decide to proceed with the Phenograph clusters, because these correspond better to clusters used in Melsen et al. (2020). We identify most of the same phenotypes, with the exception of CD49b+ Naive and CD8dim cells, which seem to be absent in our data. This might be caused by a different gating of the CD4+ T cells, a different clustering or both.
+
+
+```{r annotation,   results='asis'}
+
+############################################
+#### ANNOTATION OF PHENOGRAPH CLUSTERS #####
+############################################
+
+
+# create a df for the annotation
+annotation <- data.frame(cluster_old = 1:14,
+                         cluster_new = c("Naive","CD27+ EM","CD69+CD103- EM",
+                                         "CD27+ EM","CD27+ EM","CD27+ CM",
+                                         "CD27- EM","CD27+ EM","Naive",
+                                         "CD27- EM","Naive","Naive",
+                                         "CD103+ EM","EMRA"))
+
+
+pandoc.table(setNames(annotation,c("Phenograph clusters","Merged clusters")) , 
+              style="multiline",
+              split.table=150,
+              split.cells=c(9,12), # width of columns
+              use.hyphening=TRUE,
+              caption="Annotation of clusters", # the title of the table
+              justify = c('left',"right")) # how text is justified in table
+
+
+```
+
+
+
+
+```{r merge_clusters,   fig.align='center', fig.width=9, fig.height=6}
+                           
+#########################################
+#### MERGING OF PHENOGRAPH CLUSTERS #####
+#########################################
+
+
+# create a slot for the merged clusters
+sce$merged_clusters <- annotation[as.numeric(sce$clusters_phenograph),"cluster_new"]
+
+
+# plot expression of markers
+plot_expression_heatmap(my_sce = sce, features = type_markers(sce),cell_clustering = "merged_clusters", scale = "never", q = 0.01, title = "Heatmap with expression of markers per phenotype") 
+
+
+```
+
+
+
+```{r DR_merged_clusters,  fig.align='center', fig.width=12, fig.height=6}
+
+
+# OPTION 1: create a random palette of colors for the phenotypes
+# We can change the palette by changing the seed
+# set.seed(1235)
+# color = grDevices::colors()[grep('gr(a|e)y', grDevices::colors(), invert = T)]
+# palette_clusters <- sample(color, length(unique(sce$merged_clusters)))
+# names(palette_clusters) <- unique(sce$merged_clusters)
+
+# OPTION 2: manually create a palette of colors for the phenotypes (ideal)
+palette_clusters <- c(
+  "indianred1",
+  "yellowgreen",
+  "chartreuse",
+  "turquoise4",
+  "royalblue",
+  "palegreen3",
+  "orange2"
+  )
+
+palette_clusters <- setNames(palette_clusters, c(
+  "CD27+ CM",
+  "CD27+ EM",
+  "CD69+CD103- EM",
+  "CD27- EM",
+  "Naive",
+  "CD103+ EM",
+  "EMRA" ))
+
+
+
+# Plot UMAP with phenotypes
+plot5 <- plotDR(sce,
+       dr =  "UMAP",
+       assay = "exprs", 
+       color_by="merged_clusters")  +
+  add_label(sce,dimred =  "UMAP",text_by = "merged_clusters",box_padding = 1) +
+  theme_linedraw() + 
+  theme(legend.position = "none") + 
+  xlab("UMAP 1") + 
+  ylab("UMAP 2") +
+  ggtitle("UMAP with phenotypes superimposed") +
+  scale_color_manual(values = palette_clusters)
+
+# Plot Diffusion Map
+plot6 <- plotDR(sce,
+                dr =  "DiffusionMap",
+                assay = "exprs", 
+                color_by="merged_clusters")  +
+  add_label(sce,dimred =  "DiffusionMap",text_by = "merged_clusters",box_padding = 1) +
+  theme_linedraw() + 
+  theme(legend.position = "none") + 
+  xlab("UMAP 1") + 
+  ylab("UMAP 2") +
+  ggtitle("Diffusion map with phenotypes superimposed") +
+  scale_color_manual(values = palette_clusters)
+
+grid.arrange(plot5,plot6, nrow=1)
+
+
+```
+
+
+
+
+```{r Abundances_merged_clusters,  fig.align='center', fig.width=8, fig.height=6}
+
+# PLot abundances
+
+# OPTION 1 : stacked barplot
+# cluster_abundances <- as.data.frame(table(sce$sample_id,sce$merged_clusters))
+# colnames(cluster_abundances) <- c("sample_id","cluster","Freq")
+# ggplot(cluster_abundances, aes(fill=cluster, y=Freq, x=sample_id)) + 
+#   geom_bar(position="fill", stat="identity") +
+#   scale_fill_manual(values = palette_clusters) +
+#   xlab("") +
+#   ylab("Proportion of cells") +
+#   theme_classic() +
+# ggtitle("Frequencies of CD4+ T cell phenotypes")
+
+
+# OPTION 2: box plots
+counts <- as.data.frame.matrix(table(sce$sample_id,sce$merged_clusters))
+counts_percofsample = counts/rowSums(counts)*100
+counts_percofsample$total <- rowSums(counts)
+counts_percofsample$sample_id <- row.names(counts_percofsample)
+counts_percofsample <- melt(counts_percofsample,  id.vars=c('sample_id', 'total'), variable.name='cluster', value.name='frequency')
+
+ggplot(counts_percofsample, aes(x=reorder(cluster, frequency, FUN=median), y=frequency)) + 
+  geom_boxplot(position='dodge2', outlier.shape=NA) + 
+  geom_jitter(aes(colour=sample_id), size=2) + 
+  xlab('cluster') +
+  theme_classic() +
+  theme(axis.ticks.x = element_blank(),
+        text = element_text(size=12),
+        axis.text.x = element_text(angle = 45, hjust=1)) +
+  ggtitle("Frequencies of CD4+ T cell phenotypes")
+
+
+# OPTION 3: barplots
+
+# ggplot(counts_percofsample, aes(x=cluster, y=frequency, fill=cluster)) + 
+#   geom_bar(stat='identity') +
+#   scale_fill_manual(values = palette_clusters) +
+#   facet_wrap(~ sample_id) +
+#   theme(axis.ticks.x = element_blank(),
+#         axis.text.x=element_text(angle=90, vjust=.9, hjust=1)) +
+# ggtitle("Frequencies of CD4+ T cell phenotypes")
+
+
+```
+
+
+We replicate the CD45RA / CCR7 scatter plot presented in supplementary Figure 6 A of Melsen et al. (2020), showing the distribution of phenotypes.
+
+
+```{r supplementary_6A, message=FALSE, warning=FALSE, fig.align='center', fig.width=8, fig.height=6}
+
+
+# Other plots
+
+my_data <- as.data.frame(t(assay(sce,"exprs")[c("CD45RA","CCR7"),]))
+my_data$cluster <- sce$merged_clusters
+
+
+ggplot(my_data,aes(x=CD45RA, y=CCR7, color=cluster)) +
+  geom_point(size=0.1, alpha=0.2) +
+  geom_density_2d(contour=T, h = c(0.5,0.5)) +
+  #stat_ellipse(show.legend = TRUE) +
+  ylim(-0.5,2) +
+  scale_color_manual(values = palette_clusters,  name = "Phenotypes") +
+  theme_classic() 
+
+
+
+```
+
+
+# Trajectory / pseudotime analysis
+
+
+In *trajectory* or *pseudotime analyses*, we assume a continuum of cellular states exists and we aim to reveal cellular progression between these states by inferring trajectories (continuous paths of differentiation).
+
+We demonstrate how to infer cell trajectories and reveal transitional cellular states from flow cytometry using *Slingshot* <https://bioconductor.org/packages/release/bioc/html/slingshot.html>. Slingshot uses the clustering to build a minimum spanning tree and determine trajectories. It then fits smooth curves in the DR space that corresponds to identified trajectories. Finally, a pseudotime value is assigned to each cell according to its progression along trajectories, given a starting cluster (naive CD4+ T cells ). Diffusion map is more appropriate for pseudotime analysis because it naturally reorders cells along potential trajectories.
+
+
+```{r pseudotime,  fig.align='center', fig.width=6, fig.height=12}
+
+##############################
+#### PSEUDOTIME ANALYSIS #####
+##############################
+
+# use only the same 8 markers as in the paper
+sce.slingshot <- sce[type_markers(sce),]
+
+# run slingshot in a single function
+sce.slingshot <- slingshot(sce.slingshot,
+                           clusterLabels = "clusters_phenograph",
+                           reducedDim = "DiffusionMap",
+                           start.clus = "Naive")
+
+
+# OPTION: save the sce object after pseudotime analysis
+# save(sce.slingshot, file = "/cloud/project/course_datasets/FR_FCM_ZYQ9/sce_after_slingshot.RData")
+# load("/cloud/project/course_datasets/FR_FCM_ZYQ9/sce_after_slingshot.RData")
+
+
+###################
+# VISUALIZATION   #
+###################
+
+
+op <- par(no.readonly = TRUE)
+par(mfrow = c(2,1))
+
+# palette for pseudotime
+colors <- rev(colorRampPalette(brewer.pal(11,'Spectral')[-6])(100))
+plotcol <- colors[cut(sce.slingshot$slingPseudotime_1, breaks=100)]
+
+# # Plot trajectories and pseudotime
+plot(reducedDims(sce.slingshot)$DiffusionMap, col =palette_clusters[sce.slingshot$merged_clusters], pch=16, main = "Minimum spaning tree")
+lines(SlingshotDataSet(sce.slingshot), lwd=2, col='black', type = "lineage")
+legend("topleft", names(palette_clusters), cex = 1,
+        pch=19,
+        col=palette_clusters, 
+       horiz=FALSE, title = "Phenotypes")
+
+# # Plot trajectories and pseudotime
+plot(reducedDims(sce.slingshot)$DiffusionMap, col = plotcol, pch=16, main = "Trajectories")
+lines(SlingshotDataSet(sce.slingshot), lwd=2, col='black')
+legend("topleft", as.character(seq(0,1,0.25)), cex = 1,
+        pch=15,
+        col=colors[c(1,25,50,75,100)], 
+       horiz=FALSE, title = "Pseudotime")  
+
+par(op)
+
+
+
+```
+
+
+Here, an arbitrary scale from 0 = start to 1 = end is used to represent pseudotime.  
+
+
+
+Plots with individual trajectories:  
+
+
+
+```{r pseudotime_lineages,  fig.align='center', fig.width=6, fig.height=18}
+
+
+
+op <- par(no.readonly = TRUE)
+par(mfrow = c(3,1))
+
+# extract pseudotime
+pt <- slingPseudotime(sce.slingshot)
+nms <- colnames(pt)
+
+# plot 1st curve
+plot(reducedDims(sce.slingshot)$DiffusionMap, 
+     col = colors[cut(pt[,nms[1]], breaks = 100)] , 
+     pch=16, main = "Lineage 1")
+lines(slingCurves(sce.slingshot)[[1]], lwd = 2, col = 'black')
+legend("topleft", as.character(seq(0,1,0.25)), cex = 1,
+        pch=15,
+        col=colors[c(1,25,50,75,100)], 
+       horiz=FALSE, title = "Pseudotime")  
+
+# plot 2nd curve
+plot(reducedDims(sce.slingshot)$DiffusionMap, 
+     col = colors[cut(pt[,nms[2]], breaks = 100)] ,  
+     pch=16, main = "Lineage 2")
+lines(slingCurves(sce.slingshot)[[2]], lwd = 2, col = 'black')
+legend("topleft", as.character(seq(0,1,0.25)), cex = 1,
+        pch=15,
+        col=colors[c(1,25,50,75,100)], 
+       horiz=FALSE, title = "Pseudotime")  
+
+
+
+# plot 3rd curve
+plot(reducedDims(sce.slingshot)$DiffusionMap, 
+     col = colors[cut(pt[,nms[3]], breaks = 100)] ,  
+     pch=16, main = "Lineage 3")
+lines(slingCurves(sce.slingshot)[[3]], lwd = 2, col = 'black')
+legend("topleft", as.character(seq(0,1,0.25)), cex = 1,
+        pch=15,
+        col=colors[c(1,25,50,75,100)], 
+       horiz=FALSE, title = "Pseudotime")  
+
+
+par(op)
+
+
+```
+
+
+
+Notice that pseudotime is recomputed relative to  each trajectory (0 = start, 1 = end).
+
+
+Finally, we plot the position of cells assigned to each cluster as a function of pseudotime: 
+
+
+```{r ppseudotime_vs_merged_clusters,  fig.align='center', fig.width=8, fig.height=18}
+
+
+my_data <- data.frame(cluster = sce.slingshot$merged_clusters,
+                  Pseudotime = slingPseudotime(sce.slingshot))
+
+
+# add lineage pseudotime
+my_data$Pseudotime.Lineage1 <- scale_values(my_data$Pseudotime.Lineage1)
+my_data$Pseudotime.Lineage2 <- scale_values(my_data$Pseudotime.Lineage2)
+my_data$Pseudotime.Lineage3 <- scale_values(my_data$Pseudotime.Lineage3)
+
+my_data$cluster <- factor(my_data$cluster, levels = rev(c("Naive","CD27+ CM","CD27+ EM", "CD103+ EM", "CD69+CD103- EM", "CD27- EM", "EMRA")))
+
+
+plot7 <- ggplot(my_data,
+       aes(x = Pseudotime.Lineage1, y = cluster,
+           colour = cluster)) +
+  ggbeeswarm::geom_quasirandom(groupOnX = FALSE) +
+  theme_classic() +
+  xlab("Pseudotime") + ylab("") +
+  ggtitle("Lineage 1") +
+  scale_color_manual(values = palette_clusters,name = "Cluster")
+
+
+plot8 <-ggplot(my_data,
+       aes(x = Pseudotime.Lineage2, y = cluster,
+           colour = cluster)) +
+  ggbeeswarm::geom_quasirandom(groupOnX = FALSE) +
+  theme_classic() +
+  xlab("Pseudotime") + ylab("") +
+  ggtitle("Lineage 2") +
+  scale_color_manual(values = palette_clusters,name = "Cluster")
+
+plot9 <- ggplot(my_data,
+       aes(x = Pseudotime.Lineage3, y = cluster,
+           colour = cluster)) +
+  ggbeeswarm::geom_quasirandom(groupOnX = FALSE) +
+  theme_classic() +
+  xlab("Pseudotime") + ylab("") +
+  ggtitle("Lineage 3") +
+  scale_color_manual(values = palette_clusters,name = "Cluster")
+
+
+
+grid.arrange(plot7, plot8, plot9, ncol=1, nrow=3)
+
+
+
+```
+
+
+
+
+# Information about R and package versions
+
+```{r, session-info, results='markup', warning=TRUE, message=TRUE}
+sessionInfo()
+```
