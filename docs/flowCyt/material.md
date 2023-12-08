@@ -18,7 +18,7 @@
 
 ### Day 5 
 
-[Download slides](assets/pdf/flowCyto_day5.pdf){: .md-button }
+[Download paper](assets/pdf/melsen 2020 workflow for applying single cell clustering and pseudotime analysis to flow cytometry data.pdf){: .md-button }
 
 ## Data for exercises
 

@@ -6,6 +6,14 @@ We found inspiration for this course in this publication
 
 [den Braanker et al, 2021, Frontiers in Immunology](https://doi.org/10.3389/fimmu.2021.768113)
 
+## The workflow presented in day 5 was inspired by Melsen et al, 2020
+
+[Melsen et al, 2020](https://journals.aai.org/jimmunol/article/205/3/864/60873/A-Comprehensive-Workflow-for-Applying-Single-Cell)
+
+## Another R workflow proposed for data analysis of CyTOF data
+
+[Nowicka et al, v4 from 2019](https://f1000research.com/articles/6-748)
+
 ## Comparative analysis of dimension reduction methods for cytometry by time-of-flight data
 
 From the abstract:
