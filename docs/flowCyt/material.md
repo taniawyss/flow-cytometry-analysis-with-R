@@ -24,7 +24,10 @@
 
 Please note that the data size is very big: 2.3GB. It may take a while to download.
 
-Find the link [here](https://flowcourse.s3.eu-central-1.amazonaws.com/course_datasets.zip). 
+Find the link [here](https://flowcourse.s3.eu-central-1.amazonaws.com/course_datasets.zip).
+
+For day 5, the data can be found [here](https://flowcourse.s3.eu-central-1.amazonaws.com/Data.zip).
+
 
 <!-- This is commented text -->
 <!-- [Download part 2](../assets/pdfs/EA_122021_TW.pdf){: .md-button } -->
