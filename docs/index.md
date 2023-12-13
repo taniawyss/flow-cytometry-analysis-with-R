@@ -4,7 +4,7 @@ Life scientists often use commercial software such as FlowJo or the OMIQ platfor
 
 The “Analysis of flow cytometry data with R” training that is proposed will focus on using R to analyze flow cytometry data. Flow cytometry data that can be analyzed with R includes classical multicolor flow cytometry, spectral flow cytometry, and CyTOF. This course will teach experts in flow cytometry how to run data analysis, develop pipelines and create reports using the open-source R software.
 
-This course is proposed by the [Translational Data Science Facility](https://agora-cancer.ch/scientific-platforms/translational-data-science-facility/) of the SIB Swiss Institute of Bioinformatics in Lausanne.
+This course is proposed by the [Translational Data Science Facility](https://agora-cancer.ch/scientific-platforms/translational-data-science-facility/) of the SIB Swiss Institute of Bioinformatics in Lausanne, and taught by João Lourenço and Tania Wyss.
 
 ## Prerequisite
 

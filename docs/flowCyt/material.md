@@ -20,6 +20,8 @@
 
 [Download paper](assets/pdf/melsen 2020 workflow for applying single cell clustering and pseudotime analysis to flow cytometry data.pdf){: .md-button }
 
+[Download slides](assets/pdf/flowCyto_day5.pdf){: .md-button }
+
 ## Data for exercises
 
 Please note that the data size is very big: 2.3GB. It may take a while to download.
@@ -30,5 +32,4 @@ For day 5, the data can be found [here](https://flowcourse.s3.eu-central-1.amazo
 
 
 <!-- This is commented text -->
-<!-- [Download part 2](../assets/pdfs/EA_122021_TW.pdf){: .md-button } -->
 

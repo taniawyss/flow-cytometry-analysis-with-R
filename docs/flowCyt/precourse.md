@@ -113,6 +113,10 @@ install.packages("Rtsne")
 BiocManager::install("scater")
 devtools::install_github("RGLab/scamp")
 devtools::install_github("RGLab/FAUST")
+BiocManager::install("flowStats")
+BiocManager::install("destiny")
+BiocManager::install("slingshot")
+devtools::install_github("JinmiaoChenLab/cytofkit2", dependencies=TRUE)
 
 
 ############################
@@ -235,6 +239,10 @@ library(Rtsne) # install.packages("Rtsne")
 library(scater) # BiocManager::install("scater")
 library(scamp) # devtools::install_github("RGLab/scamp")
 library(faust) # devtools::install_github("RGLab/FAUST")
+library(flowStats) # BiocManager::install("flowStats")
+library(destiny) # BiocManager::install("destiny")
+library(slingshot) # BiocManager::install("slingshot")
+library(cytofkit2) # devtools::install_github("JinmiaoChenLab/cytofkit2", dependencies=TRUE)
 
 
 ############################
