@@ -640,7 +640,7 @@ plotAbundances(sce, k="meta14", by="sample_id",group_by = "sample_id") +
 
 
 #######################################
-######## Phenograpg CLUSTERING ########
+######## Phenograph CLUSTERING ########
 #######################################
 
 
@@ -654,7 +654,7 @@ df <- t(assay(sce,"exprs"))[,type_markers(sce)]
 # run phenograph
 phenograph <- Rphenograph(df, k=50)
 
-# add phenograp clusters to sce object
+# add phenograph clusters to sce object
 sce$clusters_phenograph <- as.factor(phenograph$membership)
 
 
@@ -797,7 +797,7 @@ ridge_plot(my_sce = sce, features = type_markers(sce),cell_clustering = "cluster
 ###############################################
 
 
-cluster_abundances <- as.data.frame(table(sce$sample_id,sce$clusters_flowsom))
+cluster_abundances <- as.data.frame(table(sce$sample_id,sce$clusters_phenograph))
 colnames(cluster_abundances) <- c("sample_id","cluster","Freq")
 ggplot(cluster_abundances, aes(fill=cluster, y=Freq, x=sample_id)) + 
   geom_bar(position="fill", stat="identity") +
@@ -947,7 +947,7 @@ plotDR(sce,dr = "UMAP", color_by = type_markers(sce), ncol = 3) +
 
 ```{r DiffusionMap_expression,  fig.align='center', fig.width=9, fig.height=10}
 
-# UMAP 
+# Diffusion map 
 plotDR(sce,dr = "DiffusionMap", color_by = type_markers(sce), ncol = 3) + 
   theme_linedraw() +
   xlab("DC 1") +
@@ -1158,7 +1158,7 @@ ggplot(my_data,aes(x=CD45RA, y=CCR7, color=cluster)) +
 
 In *trajectory* or *pseudotime analyses*, we assume a continuum of cellular states exists and we aim to reveal cellular progression between these states by inferring trajectories (continuous paths of differentiation).
 
-We demonstrate how to infer cell trajectories and reveal transitional cellular states from flow cytometry using *Slingshot* <https://bioconductor.org/packages/release/bioc/html/slingshot.html>. Slingshot uses the clustering to build a minimum spanning tree and determine trajectories. It then fits smooth curves in the DR space that corresponds to identified trajectories. Finally, a pseudotime value is assigned to each cell according to its progression along trajectories, given a starting cluster (naive CD4+ T cells ). Diffusion map is more appropriate for pseudotime analysis because it naturally reorders cells along potential trajectories.
+We demonstrate how to infer cell trajectories and reveal transitional cellular states from flow cytometry using *Slingshot* <https://bioconductor.org/packages/release/bioc/html/slingshot.html>. Slingshot uses the clustering to build a minimum spanning tree and determine trajectories. It then fits smooth curves in the DR space that corresponds to identified trajectories. Finally, a pseudotime value is assigned to each cell according to its progression along trajectories, given a starting cluster (naive CD4+ T cells). Diffusion map is more appropriate for pseudotime analysis because it naturally reorders cells along potential trajectories.
 
 
 ```{r pseudotime,  fig.align='center', fig.width=6, fig.height=12}
